@@ -13,11 +13,11 @@ class ApplicationPolicy
   end
 
   def show?
-    false
+    record.user == user
   end
 
   def create?
-    false
+    record.user == user
   end
 
   def new?
@@ -25,7 +25,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false
+    record.user == user
   end
 
   def edit?
@@ -33,7 +33,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
+    record.user == user
   end
 
   class Scope
@@ -43,7 +43,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      raise NoMethodError, "You must define #resolve in #{self.class}"
+      scope.all
     end
 
     private
