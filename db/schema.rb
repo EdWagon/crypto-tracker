@@ -67,6 +67,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_25_002953) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -93,6 +95,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_25_002953) do
     t.index ["wallet_id"], name: "index_wallets_coins_on_wallet_id"
   end
 
+  create_table "watchlists", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_watchlists_on_user_id"
+  end
+
   add_foreign_key "prices", "coins"
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "users"
@@ -100,4 +110,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_25_002953) do
   add_foreign_key "wallets", "users"
   add_foreign_key "wallets_coins", "coins"
   add_foreign_key "wallets_coins", "wallets"
+  add_foreign_key "watchlists", "users"
 end
