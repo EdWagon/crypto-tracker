@@ -1,2 +1,0 @@
-class PricesController < ApplicationController
-end
