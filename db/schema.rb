@@ -10,9 +10,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_24_040542) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_25_002953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "coins", force: :cascade do |t|
+    t.string "name"
+    t.string "symbol"
+    t.string "api_id"
+    t.string "logo_url"
+    t.string "website_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "prices", force: :cascade do |t|
+    t.bigint "coin_id", null: false
+    t.decimal "price"
+    t.decimal "market_cap"
+    t.datetime "date"
+    t.decimal "price_change_24h"
+    t.decimal "price_change_percentage_24h"
+    t.decimal "volume_24h"
+    t.decimal "circulating_supply"
+    t.decimal "total_supply"
+    t.decimal "max_supply"
+    t.decimal "all_time_high"
+    t.datetime "all_time_high_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_prices_on_coin_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "wallet_id", null: false
+    t.bigint "coin_id", null: false
+    t.datetime "date"
+    t.string "transaction_type"
+    t.decimal "quantity"
+    t.decimal "price_per_coin"
+    t.decimal "total_value"
+    t.decimal "fee"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_transactions_on_coin_id"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+    t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +71,33 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_24_040542) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wallets", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.string "wallet_address"
+    t.string "wallet_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wallets_on_user_id"
+  end
+
+  create_table "wallets_coins", force: :cascade do |t|
+    t.bigint "wallet_id", null: false
+    t.bigint "coin_id", null: false
+    t.decimal "quantity"
+    t.decimal "average_buy_price"
+    t.decimal "total_invested"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_wallets_coins_on_coin_id"
+    t.index ["wallet_id"], name: "index_wallets_coins_on_wallet_id"
+  end
+
+  add_foreign_key "prices", "coins"
+  add_foreign_key "transactions", "coins"
+  add_foreign_key "transactions", "users"
+  add_foreign_key "transactions", "wallets"
+  add_foreign_key "wallets", "users"
+  add_foreign_key "wallets_coins", "coins"
+  add_foreign_key "wallets_coins", "wallets"
 end
