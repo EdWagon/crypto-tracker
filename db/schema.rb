@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_25_002953) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_25_061212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,6 +95,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_25_002953) do
     t.index ["wallet_id"], name: "index_wallets_coins_on_wallet_id"
   end
 
+  create_table "watchlist_coins", force: :cascade do |t|
+    t.bigint "watchlist_id", null: false
+    t.bigint "coin_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_watchlist_coins_on_coin_id"
+    t.index ["watchlist_id"], name: "index_watchlist_coins_on_watchlist_id"
+  end
+
   create_table "watchlists", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id", null: false
@@ -110,5 +119,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_25_002953) do
   add_foreign_key "wallets", "users"
   add_foreign_key "wallets_coins", "coins"
   add_foreign_key "wallets_coins", "wallets"
+  add_foreign_key "watchlist_coins", "coins"
+  add_foreign_key "watchlist_coins", "watchlists"
   add_foreign_key "watchlists", "users"
 end
