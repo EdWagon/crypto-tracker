@@ -1,11 +1,12 @@
-# db/seeds.rb
-
 require 'date'
 
 puts "Clearing database..."
-User.destroy_all
-Coin.destroy_all
+Transaction.destroy_all
+WalletsCoin.destroy_all
+Wallet.destroy_all
 Price.destroy_all
+Coin.destroy_all
+User.destroy_all
 
 puts "Creating users..."
 
@@ -49,6 +50,7 @@ puts "Created coin: #{ethereum.name} (#{ethereum.symbol})"
 
 puts "Seeding price history..."
 
+
 [bitcoin, ethereum].each do |coin|
   10.times do |i|
     date = DateTime.now - (i + 1)
@@ -65,7 +67,7 @@ puts "Seeding price history..."
     all_time_high_date = coin.symbol == "BTC" ? DateTime.new(2021, 11, 10) : DateTime.new(2021, 11, 10)
 
     Price.create!(
-      coin: coin,
+      coin_id: coin.id,
       price: price,
       market_cap: market_cap,
       date: date,
@@ -81,5 +83,81 @@ puts "Seeding price history..."
     puts "Added price for #{coin.name} on #{date.strftime('%Y-%m-%d')}: $#{price}"
   end
 end
+
+
+puts "Creating wallets..."
+
+alice_wallet_1 = Wallet.create!(
+  user_id: alice.id,
+  name: "Alice's Exchange Wallet",
+  wallet_address: "1A2B3C4D5E6F7G8H9I0J",
+  wallet_type: "exchange"
+)
+puts "Created wallet for Alice: #{alice_wallet_1.name}"
+
+bob_wallet_1 = Wallet.create!(
+  user_id: bob.id,
+  name: "Bob's Hardware Wallet",
+  wallet_address: "J0K1L2M3N4O5P6Q7R8S9T",
+  wallet_type: "hardware"
+)
+puts "Created wallet for Bob: #{bob_wallet_1.name}"
+
+puts "Adding coins to wallets..."
+
+WalletsCoin.create!(
+  wallet_id: alice_wallet_1.id,
+  coin_id: bitcoin.id,
+  quantity: 0.5,
+  average_buy_price: 45000,
+  total_invested: 22500
+)
+puts "Added Bitcoin to Alice's wallet"
+
+WalletsCoin.create!(
+  wallet_id: alice_wallet_1.id,
+  coin_id: ethereum.id,
+  quantity: 3.2,
+  average_buy_price: 3000,
+  total_invested: 9600
+)
+puts "Added Ethereum to Alice's wallet"
+
+WalletsCoin.create!(
+  wallet_id: bob_wallet_1.id,
+  coin_id: bitcoin.id,
+  quantity: 1.2,
+  average_buy_price: 50000,
+  total_invested: 60000
+)
+puts "Added Bitcoin to Bob's wallet"
+
+puts "Creating sample transactions..."
+
+Transaction.create!(
+  user_id: alice.id,
+  wallet_id: alice_wallet_1.id,
+  coin_id: bitcoin.id,
+  date: DateTime.now - 5,
+  transaction_type: "buy",
+  quantity: 0.5,
+  price_per_coin: 45000,
+  total_value: 22500,
+  fee: 50
+)
+puts "Created transaction for Alice"
+
+Transaction.create!(
+  user_id: bob.id,
+  wallet_id: bob_wallet_1.id,
+  coin_id: bitcoin.id,
+  date: DateTime.now - 10,
+  transaction_type: "buy",
+  quantity: 1.2,
+  price_per_coin: 50000,
+  total_value: 60000,
+  fee: 100
+)
+puts "Created transaction for Bob"
 
 puts "Seeding completed!"
