@@ -2,7 +2,7 @@ class WatchlistsController < ApplicationController
   before_action :set_watchlist, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @watchlists = Watchlist.all
+    @watchlists = policy_scope(Watchlist)
   end
 
   def show
@@ -12,6 +12,7 @@ class WatchlistsController < ApplicationController
   def create
     @watchlist = Watchlist.new(watchlist_params)
     @watchlist.user = current_user
+    authorize @watchlist
     if @watchlist.save
       redirect_to watchlists_path(@watchlist)
     else
@@ -20,14 +21,17 @@ class WatchlistsController < ApplicationController
   end
 
   def edit
+    authorize @watchlist
   end
 
   def update
+    authorize @watchlist
     @watchlist.update(watchlist_params)
     redirect_to watchlists_path(@watchlist)
   end
 
   def destroy
+    authorize @watchlist
     @watchlist.destroy
 
     redirect_to watchlists_path, status: :see_other
@@ -35,6 +39,8 @@ class WatchlistsController < ApplicationController
 
   def new
     @watchlist = Watchlist.new
+    @watchlist.user = current_user
+    authorize @watchlist
   end
 
   private
