@@ -1,0 +1,6 @@
+<h1>Watchlists#show</h1>
+<p>Find me in app/views/watchlists/show.html.erb</p>
+<%= link_to "Delete",
+  watchlists_path(@watchlist),
+  data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+%>
