@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   root to: "pages#home"
 
-  resources :watch_lists do
-    resources :watch_lists_coins, only: [:create, :update, :destroy]
+  resources :watchlists do
+    resources :watchlists_coins, only: [:create, :update, :destroy]
   end
 
   resources :wallets do
