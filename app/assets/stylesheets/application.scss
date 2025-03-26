@@ -19,4 +19,6 @@
   --highlight-blue-shadow: rgba(110, 172, 254, 0.4);
   --highlight-purple: #af53ff; // rgb(175, 83, 255)
   --highlight-purple-shadow: rgba(175, 83, 255, 0.4);
+  --gradient-primary: var(--highlight-purple);
+  --gradient-secondary: var(--highlight-blue);
 }

@@ -6,6 +6,11 @@
 <p>Find me in app/views/pages/home.html.erb</p>
 
 
+      <a href="#" class="btn btn-highlight active">Portfolio</a>
+      <a href="#" class="btn btn-highlight">Coin</a>
+      <a href="#" class="btn btn-nav">Wallet</a>
+      <a href="#" class="btn btn-nav">Transaction</a>
+
 
 
 <%= simple_form_for :search, url: "#", method: :get do |f| %>
@@ -21,7 +26,10 @@
   <%= f.input :password, label: "Password", hint: 'No special characters.', required: true %>
   <%= f.input :description, label: "Text Area", as: :text %>
   <%= f.button :submit, class:"btn btn-nav active"%>
+  <%= f.button :submit, class:"btn btn-hightlight"%>
+
   <%= f.submit "Save", class:"btn btn-nav active"%>
+
   <%= f.input :coin1Price, label: "Price", required: true %>
   <%= f.input :coin, collection: [['BTC','1'], ['ETH','2']], selected: '1', prompt: "Coin"%>
 
@@ -34,3 +42,6 @@
                         class: ''
                       } %>
 <% end %>
+
+
+btn-highlight
