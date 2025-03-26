@@ -1,0 +1,30 @@
+<div class="modal fade" id="newWalletModal" tabindex="-1" aria-labelledby="newWalletModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newWalletModalLabel">Create New Wallet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= form_with(model: @wallet || Wallet.new, url: wallets_path, local: true) do |f| %>
+        <div class="modal-body">
+          <div class="mb-3">
+            <%= f.label :name, "Wallet Name", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control", required: true %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :wallet_type, "Wallet Type", class: "form-label" %>
+            <%= f.select :wallet_type, ['exchange', 'hardware', 'software', 'paper'], {}, class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :wallet_address, "Wallet Address", class: "form-label" %>
+            <%= f.text_field :wallet_address, class: "form-control" %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <%= f.submit "Create Wallet", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

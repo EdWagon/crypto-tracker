@@ -16,12 +16,13 @@ class TransactionsController < ApplicationController
     if @transaction.save
       redirect_to transactions_path(@transaction)
     else
-      render :new, status: :unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
   end
 
   def edit
     authorize @transaction
+    render partial: "edit_modal", layout: false, locals:{transaction: @transaction}
   end
 
   def update
@@ -50,6 +51,15 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:name)
+    params.require(:transaction).permit(
+      :transaction_type,
+      :date,
+      :coin_id,
+      :wallet_id,
+      :quantity,
+      :price_per_coin,
+      :total_value,
+      :fee
+    )
   end
 end
