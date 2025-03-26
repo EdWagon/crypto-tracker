@@ -1,50 +1,63 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    <%= link_to "#", class: "navbar-brand" do %>
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon mt-2">
+  <div class="container-fluid " >
+    <%= link_to root_path, class: "navbar-brand" do %>
       <%= image_tag image_path("logo.png") %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="d-flex">
-      <a href="#" class="btn btn-nav active">Portfolio</a>
-      <a href="#" class="btn btn-nav">Coin</a>
-      <a href="#" class="btn btn-nav">Wallet</a>
-      <a href="#" class="btn btn-nav">Transaction</a>
-    </div>
 
-      <%= simple_form_for :search, url: "#", method: :get do |f| %>
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-          <%= f.input_field :search, placeholder: "Search" %>
-        </div>
-      <% end %>
-    <div>
-    <a href="#" class="btn btn-highlight">Add Transaction</a>
-    </div>
+
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav d-flex align-items-center">
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <%= link_to "Home", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
-          </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+            <div class="d-flex">
+              <%= link_to "Portfolio", "dashboard#portfolio", class: "btn btn-nav active" %>
+              <%= link_to "Coins", coins_path, class: "btn btn-nav" %>
+              <%= link_to "Wallets", wallets_path, class: "btn btn-nav" %>
+              <%= link_to "Transactions", transactions_path, class: "btn btn-nav" %>
             </div>
           </li>
+          <li class="nav-item active">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <%= simple_form_for :search, url: "#", method: :get do |f| %>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <%= f.input :search, class: "rounded-end" , placeholder: "Search", label_html: { class: 'd-none' }, id:"basic-addon1"%>
+              </div>
+            <% end %>
+          </li>
+          <li>
+            <div class="mx-2">
+              <%= link_to "Add Transaction", "#", class: "btn btn-highlight" %>
+            </div>
+          </li>
+          <li class="nav-item dropdown ms-auto">
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "Settings", "#", class: "dropdown-item" %>
+              <%= link_to "Light/Dark Mode", "#", class: "dropdown-item" %>
+              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+            </div>
+            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+            </a>
+          </li>
         <% else %>
+          <li class="nav-item d-flex justify-content-between">
+            <div class="d-flex">
+              <%= link_to "Palantir", "dashboard#portfolio", class: "btn btn-nav active" %>
+              <%= link_to "Features", coins_path, class: "btn btn-nav" %>
+              <%= link_to "Pricing", wallets_path, class: "btn btn-nav" %>
+            </div>
+          </li>
           <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+            <%= link_to "Login", new_user_session_path, class: "btn-highlight" %>
           </li>
         <% end %>
       </ul>

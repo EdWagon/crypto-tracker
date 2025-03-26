@@ -8,7 +8,12 @@ class ApplicationController < ActionController::Base
   private
 
   def skip_pundit?
-    devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)|(^coins$)/
+    devise_controller? ||
+    params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
+    # params[:controller] == 'pages' ||
+    # ||
+    # request.path == '/' ||
+    # request.path == root_path
   end
 
 end

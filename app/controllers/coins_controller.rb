@@ -2,10 +2,11 @@ class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   def index
-    @coins = Coin.all
+    @coins = policy_scope(Coin)
   end
 
   def show
+    authorize @transactions = @coin.transactions
   end
 
   private
