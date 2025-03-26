@@ -10,10 +10,7 @@ class ApplicationController < ActionController::Base
   def skip_pundit?
     devise_controller? ||
     params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
-    # params[:controller] == 'pages' ||
-    # ||
-    # request.path == '/' ||
-    # request.path == root_path
+    devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)|(^coins$)|(^search$)/
   end
 
 end

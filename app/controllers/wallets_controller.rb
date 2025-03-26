@@ -9,6 +9,12 @@ class WalletsController < ApplicationController
     authorize @wallet
   end
 
+  def new
+    @wallet = Wallet.new
+    @wallet.user = current_user
+    authorize @wallet
+  end
+
   def create
     @wallet = Wallet.new(wallet_params)
     @wallet.user = current_user
@@ -37,11 +43,7 @@ class WalletsController < ApplicationController
     redirect_to wallets_path, status: :see_other
   end
 
-  def new
-    @wallet = Wallet.new
-    @wallet.user = current_user
-    authorize @wallet
-  end
+
 
   private
 

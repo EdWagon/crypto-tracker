@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   root to: "pages#home"
+  get "search", to: "search#index", as: :search
 
 
   get 'form', to: 'pages#form' # TODO: To be removed onces all formatting is done
