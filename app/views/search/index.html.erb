@@ -1,0 +1,17 @@
+<h1>Search Results</h1>
+
+<% if @results.any? %>
+  <ul>
+    <% @results.each do |result| %>
+      <li>
+        <% if result.searchable_type == "Coin" %>
+          Coin: <%= link_to result.searchable.name, coin_path(result.searchable) %>
+        <% elsif result.searchable_type == "Wallet" %>
+          Wallet: <%= link_to result.searchable.name, wallet_path(result.searchable) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No results found.</p>
+<% end %>

@@ -6,6 +6,7 @@ WalletsCoin.destroy_all
 Wallet.destroy_all
 Price.destroy_all
 Coin.destroy_all
+Watchlist.destroy_all
 User.destroy_all
 
 puts "Creating users..."
@@ -158,6 +159,9 @@ Transaction.create!(
   total_value: 60000,
   fee: 100
 )
-puts "Created transaction for Bob"
 
+puts "Created transaction for Bob"
+puts "Rebuilding search index"
+PgSearch::Multisearch.rebuild(Coin)
+PgSearch::Multisearch.rebuild(Wallet)
 puts "Seeding completed!"
