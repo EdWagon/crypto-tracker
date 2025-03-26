@@ -1,0 +1,2 @@
+class WalletsCoinPolicy < ApplicationPolicy
+end
