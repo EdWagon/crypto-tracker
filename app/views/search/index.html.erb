@@ -1,5 +1,11 @@
 <h1>Search Results</h1>
 
+<%= form_with url: search_path, method: :get, local: true do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search for Coins or Wallets..." %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+
 <% if @results.any? %>
   <ul>
     <% @results.each do |result| %>
