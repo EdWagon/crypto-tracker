@@ -1,6 +1,6 @@
 require "test_helper"
 
-class WatchlistCoinTest < ActiveSupport::TestCase
+class WatchlistsCoinTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

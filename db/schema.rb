@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_25_061212) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_26_003715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,21 +95,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_25_061212) do
     t.index ["wallet_id"], name: "index_wallets_coins_on_wallet_id"
   end
 
-  create_table "watchlist_coins", force: :cascade do |t|
-    t.bigint "watchlist_id", null: false
-    t.bigint "coin_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["coin_id"], name: "index_watchlist_coins_on_coin_id"
-    t.index ["watchlist_id"], name: "index_watchlist_coins_on_watchlist_id"
-  end
-
   create_table "watchlists", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_watchlists_on_user_id"
+  end
+
+  create_table "watchlists_coins", force: :cascade do |t|
+    t.bigint "watchlist_id", null: false
+    t.bigint "coin_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_watchlists_coins_on_coin_id"
+    t.index ["watchlist_id"], name: "index_watchlists_coins_on_watchlist_id"
   end
 
   add_foreign_key "prices", "coins"
@@ -119,7 +119,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_25_061212) do
   add_foreign_key "wallets", "users"
   add_foreign_key "wallets_coins", "coins"
   add_foreign_key "wallets_coins", "wallets"
-  add_foreign_key "watchlist_coins", "coins"
-  add_foreign_key "watchlist_coins", "watchlists"
   add_foreign_key "watchlists", "users"
+  add_foreign_key "watchlists_coins", "coins"
+  add_foreign_key "watchlists_coins", "watchlists"
 end
