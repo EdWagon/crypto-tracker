@@ -1,7 +1,9 @@
-// Graphical variables
+// Graphical variables MUST BE IMPORTED Before Bootstrap
 @import "config/fonts";
 @import "config/colors";
 @import "config/bootstrap_variables";
+@import "config/darkmode_overide_variables";
+@import "config/bootstrap_forms";
 
 // External libraries
 @import "bootstrap";
@@ -10,3 +12,11 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+
+:root {
+  --highlight-blue: #6eacfe; // rgb(110, 172, 254)
+  --highlight-blue-shadow: rgba(110, 172, 254, 0.4);
+  --highlight-purple: #af53ff; // rgb(175, 83, 255)
+  --highlight-purple-shadow: rgba(175, 83, 255, 0.4);
+}

@@ -1,0 +1,55 @@
+
+
+
+$btn-white-space:             nowrap; // Set to `nowrap` to prevent text wrapping, `null` to allow wrapping
+$btn-border-width: 3px;
+
+// $bs-btn-active-border-color-dark:  #303241;
+.btn-nav {
+  @extend .btn;
+  // background-color: #171822; // Your custom background color
+
+  color: #A4A5AB;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-weight: 300;
+  background-image: linear-gradient(to bottom right, red, yellow);
+  // border-width: 1px;
+
+  &:hover {
+    color: #000;
+    // background-color: #FFF;
+    box-shadow: 0 0 3px 2px rgba(144, 143, 143, 0.2);
+  }
+
+  &:focus {
+    // background-color: darke  n(#171822, 100%);
+    // border-color: darken(#, 15%);
+    // border-color: #303241;
+    box-shadow: 0 0 3px 2px rgba(185, 184, 184, 0.3);
+  }
+
+  &:active, &.active {
+    background-color: darken(#171822, 100%);
+    // border-color: darken(#, 15%);
+    border-color: #303241;
+    // color: #FFF;
+    // box-shadow: 0 0 3px 1px rgba(185, 184, 184, 0.2);
+  }
+
+  &.active:hover {
+    // color: #000;
+    // background-color: var(--highlight-blue);
+    box-shadow: 0 0 3px 2px var(--highlight-blue-shadow);
+  }
+
+}
+
+.search-input {
+  @extend .form-control;
+  border-radius: 20px;
+  padding-left: 40px; // Space for the icon
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23A4A5AB' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+}

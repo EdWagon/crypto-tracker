@@ -1,12 +1,25 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <div class="container-fluid">
     <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
+      <%= image_tag image_path("logo.png") %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="d-flex">
+      <a href="#" class="btn btn-nav active">Portfolio</a>
+      <a href="#" class="btn btn-nav">Coin</a>
+      <a href="#" class="btn btn-nav">Wallet</a>
+      <a href="#" class="btn btn-nav">Transaction</a>
+    </div>
+
+      <%= simple_form_for :search, url: "#", method: :get do |f| %>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <%= f.input_field :search, placeholder: "Search" %>
+        </div>
+      <% end %>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
