@@ -1,38 +1,59 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
-    <% end %>
-
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon mt-2">
+  <div class="container-fluid" >
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
+    <div class="collapse navbar-collapse row w-100"  id="navbarSupportedContent">
+      <div class="col-12 d-flex align-items-center w-100 justify-content-between">
+
         <% if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "Home", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
-          </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+          <div class="d-flex flex-nowrap  align-items-center">
+            <%= link_to root_path, class: "navbar-brand" do %>
+              <%= image_tag image_path("logo.png") %>
+            <% end %>
+            <div class="d-flex flex-nowrap ms-1">
+              <%= link_to "Portfolio", "dashboard#portfolio", class: "btn btn-nav active" %>
+              <%= link_to "Coins", coins_path, class: "btn btn-nav" %>
+              <%= link_to "Wallets", wallets_path, class: "btn btn-nav" %>
+              <%= link_to "Transactions", transactions_path, class: "btn btn-nav" %>
             </div>
-          </li>
+          </div>
+          <div class="input-group d-flex flex-nowrap ms-2 me-4 "  style="max-width: 350px; min-width: 200px;">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="text" class="form-control" placeholder="Search Wallets & Coins" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="d-flex flex-nowrap">
+            <div>
+              <%= link_to "Add Transaction", "#", class: "btn btn-highlight text-nowrap ms-1  me-2" %>
+            </div>
+            <div>
+              <a href="#" class="avatar ms-2" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <%= link_to "Settings", "#", class: "dropdown-item" %>
+                <%= link_to "Light/Dark Mode", "#", class: "dropdown-item" %>
+                <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+              </div>
+            </div>
+          </div>
         <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
+          <div class="d-flex flex-nowrap  align-items-center">
+            <%= link_to root_path, class: "navbar-brand" do %>
+              <%= image_tag image_path("logo.png") %>
+            <% end %>
+            <div class="d-flex flex-nowrap ms-1 justify-content-between">
+              <%= link_to "Palantir", "dashboard#portfolio", class: "btn btn-nav active" %>
+              <%= link_to "Features", coins_path, class: "btn btn-nav" %>
+              <%= link_to "Pricing", wallets_path, class: "btn btn-nav" %>
+            </div>
+          </div>
+          <div>
+            <%= link_to "Login", new_user_session_path, class: "btn-highlight text-nowrap ms-1  me-2" %>
+          </div>
         <% end %>
-      </ul>
+      </div>
     </div>
   </div>
 </div>

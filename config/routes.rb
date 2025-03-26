@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   root to: "pages#home"
   get "search", to: "search#index", as: :search
 
+
+  get 'form', to: 'pages#form' # TODO: To be removed onces all formatting is done
+
   resources :watchlists do
     resources :watchlists_coins, only: [:create, :update, :destroy]
   end
