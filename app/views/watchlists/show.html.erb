@@ -45,8 +45,8 @@
                   </td>
                   <td>$<%= number_to_human(latest_price&.market_cap) if latest_price %></td>
                   <td>
-                    <%= button_to watchlist_watchlists_coin_path(@watchlist, coin),
-                                data: { turbo: false, authenticity_token: true, turbo_method: :delete, turbo_confirm: "Remove #{coin.name} from this watchlist?" },
+                    <%= link_to watchlist_watchlists_coin_path(@watchlist, coin),
+                                data: { turbo_method: :delete, turbo_confirm: "Remove #{coin.name} from this watchlist?" },
                                 class: "btn btn-sm btn-outline-danger" do %>
                       <i class="bi bi-trash"></i> Remove
                     <% end %>
