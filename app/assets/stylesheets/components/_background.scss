@@ -29,6 +29,7 @@
     // mix-blend-mode: multiply;
     filter: blur(100px);
   }
+
   .background-shape-middleoffset {
     position: fixed;
     top: 500px;
@@ -39,7 +40,6 @@
     border-radius: 100%;
     filter: blur(100px);
   }
-
 }
 
 @media (min-width: 800px) {
@@ -67,18 +67,6 @@
     border-radius: 100%;
     filter: blur(100px);
   }
-
-  // .background-shape-middleoffset {
-  //   position: fixed;
-  //   top: 500px;
-  //   right: 150px;
-  //   width: 274px;
-  //   height: 274px;
-  //   z-index: -1;
-  //   border-radius: 100%;
-  //   filter: blur(100px);
-  // }
-
 }
 
 .background-red {
