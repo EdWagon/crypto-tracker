@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'form', to: 'pages#form' # TODO: To be removed onces all formatting is done
 
   resources :watchlists do
-    resources :watchlists_coins, only: [:create, :update, :destroy]
+    resources :watchlists_coins, only: [:create, :destroy]
   end
 
   resources :wallets do
