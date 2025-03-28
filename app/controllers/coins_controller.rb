@@ -6,7 +6,8 @@ class CoinsController < ApplicationController
   end
 
   def show
-    authorize @transactions = @coin.transactions
+    @transactions = policy_scope(Transaction)
+    @transactions = @transactions.where(coin: @coin)
   end
 
   private
