@@ -1,0 +1,54 @@
+<div class="modal fade" id="newTransactionModal" tabindex="-1" aria-labelledby="newTransactionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newTransactionModalLabel">New Transaction</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= form_with(model: @transaction || Transaction.new, url: transactions_path, local: true) do |f| %>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <%= f.label :transaction_type, "Type", class: "form-label" %>
+              <%= f.select :transaction_type, Transaction.transaction_types.keys.map { |type| [type.capitalize, type] }, {}, class: "form-select" %>
+            </div>
+            <div class="col-md-6 mb-3">
+              <%= f.label :date, "Date", class: "form-label" %>
+              <%= f.datetime_local_field :date, class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <%= f.label :coin_id, "Coin", class: "form-label" %>
+              <%= f.collection_select :coin_id, Coin.all, :id, :name, {}, class: "form-select" %>
+            </div>
+            <div class="col-md-6 mb-3">
+              <%= f.label :wallet_id, "Wallet", class: "form-label" %>
+              <%= f.collection_select :wallet_id, current_user.wallets, :id, :name, {}, class: "form-select" %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <%= f.label :quantity, "Quantity", class: "form-label" %>
+              <%= f.number_field :quantity, step: :any, class: "form-control" %>
+            </div>
+            <div class="col-md-4 mb-3">
+              <%= f.label :price_per_coin, "Price per Coin", class: "form-label" %>
+              <%= f.number_field :price_per_coin, step: :any, class: "form-control" %>
+            </div>
+            <div class="col-md-4 mb-3">
+              <%= f.label :fee, "Fee", class: "form-label" %>
+              <%= f.number_field :fee, step: :any, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <%= f.submit "Create Transaction", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

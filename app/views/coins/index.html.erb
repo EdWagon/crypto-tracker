@@ -1,0 +1,82 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-4">Cryptocurrency Market</h1>
+    <div>
+      <%= link_to watchlists_path, class: "btn btn-outline-primary me-2" do %>
+        <i class="bi bi-star"></i> Watchlists
+      <% end %>
+      <%= link_to wallets_path, class: "btn btn-primary" do %>
+        <i class="bi bi-wallet2"></i> My Wallets
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Coin</th>
+              <th>Price</th>
+              <th>24h Change</th>
+              <th>Market Cap</th>
+              <th>Volume (24h)</th>
+              <th class="pe-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @coins.each do |coin| %>
+              <% latest_price = coin.prices.order(date: :desc).first %>
+              <tr>
+                <td class="ps-4">
+                  <div class="d-flex align-items-center">
+                    <%= image_tag coin.logo_url, alt: coin.name, class: "rounded-circle me-3", style: "width: 32px; height: 32px;" %>
+                    <div>
+                      <strong><%= link_to coin.name, coin_path(coin), class: "text-decoration-none text-dark" %></strong>
+                      <div class="text-muted small"><%= coin.symbol %></div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="fw-bold">
+                    $<%= number_with_precision(latest_price&.price, precision: 2, delimiter: ',') %>
+                  </span>
+                </td>
+                <td>
+                  <% if latest_price %>
+                    <span class="badge <%= latest_price.price_change_percentage_24h.positive? ? 'bg-success' : 'bg-danger' %>">
+                      <%= number_to_percentage(latest_price.price_change_percentage_24h, precision: 2) %>
+                    </span>
+                  <% else %>
+                    <span class="text-muted">N/A</span>
+                  <% end %>
+                </td>
+                <td>
+                  <span class="text-dark">
+                    $<%= number_to_human(latest_price&.market_cap, units: { billion: 'B', million: 'M' }) %>
+                  </span>
+                </td>
+                <td>
+                  <span class="text-dark">
+                    $<%= number_to_human(latest_price&.volume_24h, units: { billion: 'B', million: 'M' }) %>
+                  </span>
+                </td>
+                <td class="pe-4">
+                  <div class="btn-group" role="group">
+                    <%= link_to coin_path(coin), class: "btn btn-sm btn-outline-primary" do %>
+                      <i class="bi bi-eye"></i> View
+                    <% end %>
+                    <%= link_to new_transaction_path(coin_id: coin.id), class: "btn btn-sm btn-outline-success" do %>
+                      <i class="bi bi-arrow-up-circle"></i> Trade
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

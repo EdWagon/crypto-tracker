@@ -1,0 +1,136 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center">
+      <%= image_tag @coin.logo_url, alt: @coin.name, class: "rounded-circle me-3", style: "width: 48px; height: 48px;" %>
+      <div>
+        <h1 class="display-4 mb-0"><%= @coin.name %></h1>
+        <p class="text-muted mb-0"><%= @coin.symbol %></p>
+      </div>
+    </div>
+    <div>
+      <%= link_to coins_path, class: "btn btn-outline-secondary me-2" do %>
+        <i class="bi bi-arrow-left"></i> Back
+      <% end %>
+      <%= link_to new_transaction_path(coin_id: @coin.id), class: "btn btn-primary" do %>
+        <i class="bi bi-arrow-up-circle"></i> Trade
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8 mb-4">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0">Price Chart</h5>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">1D</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">1W</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary active">1M</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">1Y</button>
+            </div>
+          </div>
+          <div class="chart-placeholder" style="height: 300px;">
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <div class="text-center">
+                <p class="text-muted">Price chart would display here</p>
+                <small class="text-muted">(Integrate with Chart.js or TradingView)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" data-bs-toggle="tab" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" href="#history">Price History</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="about">
+              <p><%= @coin.name %> is a cryptocurrency that powers the <%= @coin.name %> network. For more information, visit the official website:</p>
+              <%= link_to @coin.website_url, @coin.website_url, class: "btn btn-outline-primary", target: "_blank" %>
+            </div>
+            <div class="tab-pane fade" id="history">
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Price</th>
+                      <th>Change (24h)</th>
+                      <th>Market Cap</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @coin.prices.order(date: :desc).limit(10).each do |price| %>
+                      <tr>
+                        <td><%= price.date.to_formatted_s(:short) %></td>
+                        <td>$<%= number_with_precision(price.price, precision: 2) %></td>
+                        <td class="<%= price.price_change_percentage_24h.positive? ? 'text-success' : 'text-danger' %>">
+                          <%= number_to_percentage(price.price_change_percentage_24h, precision: 2) %>
+                        </td>
+                        <td>$<%= number_to_human(price.market_cap) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Market Data</h5>
+        </div>
+        <div class="card-body">
+          <% latest_price = @coin.prices.order(date: :desc).first %>
+          <dl class="row mb-0">
+            <dt class="col-sm-6">Current Price</dt>
+            <dd class="col-sm-6 text-end">$<%= number_with_precision(latest_price&.price, precision: 2) %></dd>
+
+            <dt class="col-sm-6">Market Cap</dt>
+            <dd class="col-sm-6 text-end">$<%= number_to_human(latest_price&.market_cap) %></dd>
+
+            <dt class="col-sm-6">24h Trading Vol</dt>
+            <dd class="col-sm-6 text-end">$<%= number_to_human(latest_price&.volume_24h) %></dd>
+
+            <dt class="col-sm-6">Circulating Supply</dt>
+            <dd class="col-sm-6 text-end"><%= number_to_human(latest_price&.circulating_supply) %> <%= @coin.symbol %></dd>
+
+            <dt class="col-sm-6">All Time High</dt>
+            <dd class="col-sm-6 text-end">$<%= number_with_precision(latest_price&.all_time_high, precision: 2) %></dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h5 class="mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <%= link_to new_transaction_path(type: 'buy', coin_id: @coin.id), class: "btn btn-success w-100 mb-2" do %>
+            <i class="bi bi-arrow-up-circle"></i> Buy <%= @coin.symbol %>
+          <% end %>
+          <%= link_to new_transaction_path(type: 'sell', coin_id: @coin.id), class: "btn btn-danger w-100 mb-2" do %>
+            <i class="bi bi-arrow-down-circle"></i> Sell <%= @coin.symbol %>
+          <% end %>
+          <%= link_to watchlists_path, class: "btn btn-outline-primary w-100" do %>
+            <i class="bi bi-star"></i> Add to Watchlist
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
