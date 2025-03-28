@@ -149,6 +149,88 @@ Transaction.create!(
 puts "Created transaction for Alice"
 
 Transaction.create!(
+  user_id: alice.id,
+  wallet_id: alice_wallet_1.id,
+  coin_id: bitcoin.id,
+  date: DateTime.now - 6,
+  transaction_type: "buy",
+  quantity: 0.5,
+  price_per_coin: 46000,
+  total_value: 23000,
+  fee: 10
+)
+puts "Created transaction for Alice"
+
+Transaction.create!(
+  user_id: alice.id,
+  wallet_id: alice_wallet_1.id,
+  coin_id: bitcoin.id,
+  date: DateTime.now - 6,
+  transaction_type: "buy",
+  quantity: 0.25,
+  price_per_coin: 48000,
+  total_value: 12000,
+  fee: 200
+)
+puts "Created transaction for Alice"
+
+Transaction.create!(
+  user_id: alice.id,
+  wallet_id: alice_wallet_1.id,
+  coin_id: ethereum.id,
+  date: DateTime.now - 10,
+  transaction_type: "buy",
+  quantity: 0.5,
+  price_per_coin: 1900,
+  total_value: 850,
+  fee: 5
+)
+puts "Created transaction for Alice"
+
+Transaction.create!(
+  user_id: alice.id,
+  wallet_id: alice_wallet_1.id,
+  coin_id: ethereum.id,
+  date: DateTime.now - 11,
+  transaction_type: "buy",
+  quantity: 1,
+  price_per_coin: 1950,
+  total_value: 1950,
+  fee: 7.5
+)
+puts "Created transaction for Alice"
+
+
+
+Transaction.create!(
+  user_id: alice.id,
+  wallet_id: alice_wallet_1.id,
+  coin_id: ethereum.id,
+  date: DateTime.now - 15,
+  transaction_type: "buy",
+  quantity: 2,
+  price_per_coin: 2100,
+  total_value: 4200,
+  fee: 15
+)
+puts "Created transaction for Alice"
+
+Transaction.create!(
+  user_id: alice.id,
+  wallet_id: alice_wallet_1.id,
+  coin_id: ethereum.id,
+  date: DateTime.now - 15,
+  transaction_type: "buy",
+  quantity: 2,
+  price_per_coin: 2150,
+  total_value: 4300,
+  fee: 15
+)
+puts "Created transaction for Alice"
+
+
+
+Transaction.create!(
   user_id: bob.id,
   wallet_id: bob_wallet_1.id,
   coin_id: bitcoin.id,

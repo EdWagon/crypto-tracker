@@ -2,7 +2,7 @@
 
 
 
-<h1>Pages#forms</h1>
+<h1>Pages#elements</h1>
 <p>Used t demonstrate exmples of how to do Form Formatting in teh erb</p>
 
 
@@ -11,17 +11,12 @@
 <a href="#" class="btn btn-nav">Wallet</a>
 <a href="#" class="btn btn-nav">Transaction</a>
 
+          <div class="input-group d-flex flex-nowrap ms-2 me-4 mt-4"  style="max-width: 350px; min-width: 200px;">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="text" class="form-control" placeholder="Search Wallets & Coins" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
 
-
-<%= simple_form_for :search, url: "#", method: :get do |f| %>
-  <div class="input-group mb-3">
-    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-    <%= f.input_field :search, placeholder: "Search" %>
-  </div>
-<% end %>
-
-
-<%= simple_form_for :search do |f| %>
+<%= simple_form_for :search, html: { class: "search mt-4 " }  do |f| %>
   <%= f.input :username, label: "Email", placeholder: 'user@domain.com', required: true %>
   <%= f.input :password, label: "Password", hint: 'No special characters.', required: true %>
   <%= f.input :description, label: "Text Area", as: :text %>
@@ -46,6 +41,3 @@
                         class: ''
                       } %>
 <% end %>
-
-
-btn-highlight

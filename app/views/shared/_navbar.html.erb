@@ -13,10 +13,10 @@
               <%= image_tag image_path("logo.png") %>
             <% end %>
             <div class="d-flex flex-nowrap ms-1">
-              <%= link_to "Portfolio", "dashboard#portfolio", class: "btn btn-nav active" %>
-              <%= link_to "Coins", coins_path, class: "btn btn-nav" %>
-              <%= link_to "Wallets", wallets_path, class: "btn btn-nav" %>
-              <%= link_to "Transactions", transactions_path, class: "btn btn-nav" %>
+              <%= link_to "Portfolio", "dashboard#portfolio", class: "btn btn-nav #{request.path == '/dashboard/portfolio' ? 'active' : ''}" %>
+              <%= link_to "Coins", coins_path, class: "btn btn-nav #{request.path == coins_path ? 'active' : ''}" %>
+              <%= link_to "Wallets", wallets_path, class: "btn btn-nav #{request.path == wallets_path ? 'active' : ''}" %>
+              <%= link_to "Transactions", transactions_path, class: "btn btn-nav #{request.path == transactions_path ? 'active' : ''}" %>
             </div>
           </div>
           <div class="input-group d-flex flex-nowrap ms-2 me-4 "  style="max-width: 350px; min-width: 200px;">
@@ -50,7 +50,7 @@
             </div>
           </div>
           <div>
-            <%= link_to "Login", new_user_session_path, class: "btn-highlight text-nowrap ms-1  me-2" %>
+            <%= link_to "Login", new_user_session_path, class: "btn btn-highlight text-nowrap ms-1  me-2" %>
           </div>
         <% end %>
       </div>
