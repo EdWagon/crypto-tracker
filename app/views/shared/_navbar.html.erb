@@ -20,16 +20,21 @@
             </div>
           </div>
           <!-- Center - Functional Search Bar -->
+          <div class="search-container">
+            <%= form_with url: search_path, method: :get, local: true, class: "d-flex flex-nowrap ms-2 me-4", data: {action: "submit->search#search"} do %>
+              <div class="input-group" style="max-width: 1020px; min-width: 650px;">
+                <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Search Wallets & Coins", aria_label: "Search", aria_describedby: "search-button", data: { search_target: "input" , action: "keyup->search#search" }%>
+                <button type="submit" class="input-group-text" id="search-button">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </div>
+            <% end %>
+            <!-- Center - Search Bar engine-->
+            <ul data-search-target="results" class="list-group mt-3 search-results" style="display: none;"></ul>
+          </div>
 
-          <%= form_with url: search_path, method: :get, local: true, class: "d-flex flex-nowrap ms-2 me-4", data: {action: "submit->search#search"} do %>
-            <div class="input-group" style="max-width: 1020px; min-width: 650px;">
-              <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Search Wallets & Coins", aria_label: "Search", aria_describedby: "search-button", data: { search_target: "input" , action: "keyup->search#search" }%>
-              <button type="submit" class="input-group-text" id="search-button">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
-            </div>
-          <% end %>
 
+            <!-- Center - Transaction -->
           <div class="d-flex flex-nowrap">
             <div>
               <%= link_to "Add Transaction", "#", class: "btn btn-highlight text-nowrap ms-1  me-2" %>
