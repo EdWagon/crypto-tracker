@@ -1,6 +1,95 @@
-<h1>Watchlists#show</h1>
-<p>Find me in app/views/watchlists/show.html.erb</p>
-<%= link_to "Delete",
-  watchlists_path(@watchlist),
-  data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
-%>
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <%= link_to watchlists_path, class: "btn btn-outline-secondary me-2" do %>
+      <i class="bi bi-arrow-left"></i> Back to Watchlists
+    <% end %>
+    <h1 class="display-4 mb-0 d-inline-block"><%= @watchlist.name %></h1>
+    <div>
+      <button class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#editWatchlistModal<%= @watchlist.id %>">
+        <i class="bi bi-pencil"></i> Edit
+      </button>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCoinModal<%= @watchlist.id %>">
+        <i class="bi bi-plus-circle"></i> Add Coin
+      </button>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">Tracked Coins</h5>
+    </div>
+    <div class="card-body">
+      <% if @watchlist.coins.any? %>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Coin</th>
+                <th>Price</th>
+                <th>24h Change</th>
+                <th>Market Cap</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @watchlist.coins.each do |coin| %>
+                <% latest_price = coin.prices.last %>
+                <tr>
+                  <td>
+                    <%= image_tag coin.logo_url, class: "img-thumbnail rounded-circle me-1", style: "width: 24px; height: 24px;" %>
+                    <%= coin.name %> (<%= coin.symbol %>)
+                  </td>
+                  <td>$<%= number_with_precision(latest_price&.price, precision: 2) %></td>
+                  <td class="<%= latest_price&.price_change_percentage_24h&.positive? ? 'text-success' : 'text-danger' %>">
+                    <%= number_to_percentage(latest_price&.price_change_percentage_24h, precision: 2) if latest_price %>
+                  </td>
+                  <td>$<%= number_to_human(latest_price&.market_cap) if latest_price %></td>
+                  <td>
+                    <%= link_to watchlist_watchlists_coin_path(@watchlist, coin),
+                                data: { turbo_method: :delete, turbo_confirm: "Remove #{coin.name} from this watchlist?" },
+                                class: "btn btn-sm btn-outline-danger" do %>
+                      <i class="bi bi-trash"></i> Remove
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="text-center py-4">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCoinModal<%= @watchlist.id %>">
+            <i class="bi bi-plus-circle"></i> Add Coins
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Watchlist Modal -->
+<%= render 'edit_modal', watchlist: @watchlist %>
+
+<!-- Add Coin Modal -->
+<div class="modal fade" id="addCoinModal<%= @watchlist.id %>" tabindex="-1" aria-labelledby="addCoinModalLabel<%= @watchlist.id %>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCoinModalLabel<%= @watchlist.id %>">Add Coin to <%= @watchlist.name %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= form_with(url: watchlist_watchlists_coins_path(@watchlist), method: :post) do |f| %>
+        <div class="modal-body">
+          <div class="mb-3">
+            <%= label_tag :coin_id, "Select Coin", class: "form-label" %>
+            <%= select_tag :coin_id, options_from_collection_for_select(Coin.all, :id, :name), class: "form-select" %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <%= f.submit "Add Coin", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
