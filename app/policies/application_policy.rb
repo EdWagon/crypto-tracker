@@ -8,16 +8,39 @@ class ApplicationPolicy
     @record = record
   end
 
+  # DO NOT EDIT THESE METHODS
+  # These are used as application wide defaults and act as a catch all to
+  # prevent unauthorized access to any model.
+  # If you want to allow access to a specific action on a specific model,
+  # you can override the method in the specific policy class.
+  # For example, if you want to allow access to the index action on the Transaction model,
+  # you can create a TransactionPolicy class and override the index? method there.
+
   def index?
     false
   end
 
   def show?
-    record.user == user
+    false
   end
 
   def create?
-    record.user == user
+    false
+  end
+
+  def new?
+    create?
+  end
+  def index?
+    false
+  end
+
+  def show?
+    false
+  end
+
+  def create?
+    false
   end
 
   def new?
@@ -25,7 +48,7 @@ class ApplicationPolicy
   end
 
   def update?
-    record.user == user
+    false
   end
 
   def edit?
@@ -33,7 +56,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    record.user == user
+    false
   end
 
   class Scope

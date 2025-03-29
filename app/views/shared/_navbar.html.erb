@@ -25,7 +25,12 @@
           </div>
           <div class="d-flex flex-nowrap">
             <div>
-              <%= link_to "Add Transaction", "#", class: "btn btn-highlight text-nowrap ms-1  me-2" %>
+              <%= link_to "#",
+                class: "btn btn-highlight text-nowrap ms-1  me-2",
+                id: "newTransactionButton",
+                data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
+                Add Transaction
+              <% end %>
             </div>
             <div>
               <a href="#" class="avatar ms-2" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,3 +62,8 @@
     </div>
   </div>
 </div>
+
+<% if user_signed_in? %>
+  <!-- New Transaction Modal Hidden by Default-->
+  <%= render 'transactions/new_modal' %>
+<% end %>

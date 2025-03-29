@@ -8,7 +8,7 @@ class Transaction < ApplicationRecord
   validates :transaction_type, presence: true
   validates :quantity, numericality: { greater_than: 0 }
   validates :price_per_coin, numericality: { greater_than_or_equal_to: 0 }
-  validates :fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true, allow_blank: true
 
   before_create :calculate_total_value
   before_update :calculate_total_value
