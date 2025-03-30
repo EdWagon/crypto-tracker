@@ -87,13 +87,36 @@
           </div>
         </div>
       </div>
+
+
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h5 class="mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <%= link_to new_transaction_path(type: 'buy', coin_id: @coin.id), class: "btn btn-success w-100 mb-2" do %>
+            <i class="bi bi-arrow-up-circle"></i> Buy <%= @coin.symbol %>
+          <% end %>
+          <%= link_to new_transaction_path(type: 'sell', coin_id: @coin.id), class: "btn btn-danger w-100 mb-2" do %>
+            <i class="bi bi-arrow-down-circle"></i> Sell <%= @coin.symbol %>
+          <% end %>
+          <%= link_to watchlists_path, class: "btn btn-outline-primary w-100" do %>
+            <i class="bi bi-star"></i> Add to Watchlist
+          <% end %>
+        </div>
+      </div>
+
     </div>
 
     <div class="col-lg-4">
-      <div class="card shadow-sm mb-4">
-        <div class="card-header">
-          <h5 class="mb-0">Market Data</h5>
-        </div>
+
+
+
+      <%= render 'shared/panel', locals: {
+        title: "#{@coin.name} Statistics",
+        panel: "box-2"
+        } do %>
+
         <div class="card-body">
           <% latest_price = @coin.prices.order(date: :desc).first %>
           <dl class="row mb-0">
@@ -113,24 +136,34 @@
             <dd class="col-sm-6 text-end">$<%= number_with_precision(latest_price&.all_time_high, precision: 2) %></dd>
           </dl>
         </div>
-      </div>
+      <% end %>
 
-      <div class="card shadow-sm">
-        <div class="card-header">
-          <h5 class="mb-0">Quick Actions</h5>
-        </div>
-        <div class="card-body">
-          <%= link_to new_transaction_path(type: 'buy', coin_id: @coin.id), class: "btn btn-success w-100 mb-2" do %>
-            <i class="bi bi-arrow-up-circle"></i> Buy <%= @coin.symbol %>
-          <% end %>
-          <%= link_to new_transaction_path(type: 'sell', coin_id: @coin.id), class: "btn btn-danger w-100 mb-2" do %>
-            <i class="bi bi-arrow-down-circle"></i> Sell <%= @coin.symbol %>
-          <% end %>
-          <%= link_to watchlists_path, class: "btn btn-outline-primary w-100" do %>
-            <i class="bi bi-star"></i> Add to Watchlist
-          <% end %>
-        </div>
-      </div>
+      <%= render 'shared/panel', locals: {
+        title: "#{@coin.name} Chat",
+        subtitle: "Trade Ideas and Discussion",
+        panel: "box-4"
+        } do %>
+          <%= turbo_stream_from "coin_#{@coin.id}_messages" %>
+          <div id="messages" class="messages">
+            <% @coin.messages.each do |message| %>
+              <%= render partial: "messages/message", locals: { message: message } %>
+            <% end %>
+          </div>
+          <div class="chat-form">
+            <%= simple_form_for [@coin, @message],
+                  html: {class: "d-flex",
+                          data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }} do |f| %>
+              <%= f.input :content,
+                label: false,
+                placeholder: "Your Message",
+                wrapper_html: {class: "flex-grow-1"}
+              %>
+              <%= f.submit "Send", class: "btn btn-highlight mb-3" %>
+            <% end %>
+          </div>
+      <% end %>
+
+
     </div>
   </div>
 </div>
