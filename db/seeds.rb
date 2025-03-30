@@ -16,16 +16,18 @@ alice = User.create!(
   password: "password123",
   password_confirmation: "password123",
   first_name: "Alice",
-  last_name: "Johnson"
-)
+  last_name: "Johnson",
+  nickname: "Dora the Explorer"
+  )
 puts "Created user: #{alice.email}"
 
 bob = User.create!(
   email: "bob@example.com",
-  password: "securepass456",
-  password_confirmation: "securepass456",
+  password: "password123",
+  password_confirmation: "password123",
   first_name: "Bob",
-  last_name: "Smith"
+  last_name: "Smith",
+  nickname: "BuilderBob"
 )
 puts "Created user: #{bob.email}"
 

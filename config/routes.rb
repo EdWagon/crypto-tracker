@@ -16,5 +16,7 @@ Rails.application.routes.draw do
   end
 
   resources :transactions
-  resources :coins, only: [:index, :show]
+  resources :coins, only: [:index, :show] do
+    resources :messages, only: :create
+  end
 end
