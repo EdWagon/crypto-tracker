@@ -1,17 +1,31 @@
-<div class="container py-5">
-  <div class="panel">
-    <div class="panel-header">
-      <div>
-        <h2 class="panel-title">My Transactions</h2>
-        <div class="panel-subtitle">Manage your cryptocurrency transaction history</div>
-      </div>
-      <%= link_to "#", class: "btn btn-highlight",
-          data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
-        <i class="fa-solid fa-plus"></i>
-      <% end %>
-    </div>
 
-    <div class="panel-body">
+
+<%= render 'shared/panel', locals: {
+  title: "My Transactions",
+  subtitle: "Your transaction history",
+  header_actions: [
+    { html: -> { link_to "#", class: "btn btn-highlight",
+        data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do
+          content_tag(:i, "", class: "fa-solid fa-plus")
+        end }
+    }
+  ],
+  footer: true,
+  objects: { title: "transaction(s)", objects: @transactions } ,
+  footer_actions: [
+    { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
+        content_tag(:i, "", class: "fa-solid fa-file-pdf")
+      end }
+    },
+    { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
+        content_tag(:i, "", class: "fa-solid fa-file-csv")
+      end }
+    }
+  ]
+  } do %>
+
+
+  <div class="panel-body">
       <% if @transactions.blank? %>
         <div class="text-center py-5">
           <i class="bi bi-arrow-left-right text-muted" style="font-size: 3rem;"></i>
@@ -78,49 +92,5 @@
       <% end %>
     </div>
 
-    <% if @transactions.present? %>
-      <div class="panel-footer">
-        <span><%= @transactions.count %> transactions</span>
-        <div>
-          <%= link_to "#", class: "btn btn-nav me-2 active" do %>
-            <i class="fa-solid fa-file-csv" alt="Export Csv"></i>
-          <% end %>
-          <%= link_to "#", class: "btn btn-nav me-2 active" do %>
-            <i class="fa-solid fa-file-pdf"></i>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
 
-
-
-<%= render 'shared/panel', locals: {
-  title: "My Transactions - PANEL EXAMPLE TO BE REMOVED",
-  subtitle: "Your transaction history",
-  header_actions: [
-    { html: -> { link_to "#", class: "btn btn-highlight",
-        data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do
-          content_tag(:i, "", class: "fa-solid fa-plus")
-        end }
-    }
-  ],
-  footer: true,
-  objects: { title: "transaction(s)", objects: @transactions } ,
-  footer_actions: [
-    { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
-        content_tag(:i, "", class: "fa-solid fa-file-pdf")
-      end }
-    },
-    { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
-        content_tag(:i, "", class: "fa-solid fa-file-csv")
-      end }
-    }
-  ]
-  } do %>
-    Content Goes here
 <% end %>
-
-<!-- New Transaction Modal -->
-<%= render 'new_modal' %>
