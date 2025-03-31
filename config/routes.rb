@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   root to: "pages#home"
-  get "search", to: "search#index", as: :search
+  get "search", to: "search#index", as: :search, defaults: { format: :json }
 
 
   get 'elements', to: 'pages#elements' # TODO: To be removed onces all formatting is done

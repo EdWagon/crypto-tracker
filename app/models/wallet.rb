@@ -9,7 +9,7 @@ class Wallet < ApplicationRecord
   validates :wallet_type, presence: true, inclusion: { in: %w[exchange hardware software paper] }
 
   include PgSearch::Model
-  multisearchable against: [:name, :wallet_address]
+  multisearchable against: [ :name, :wallet_address, :coin_name, :coin_symbol ]
 
   after_create_commit :rebuild_search_index
   after_update_commit :rebuild_search_index
@@ -19,5 +19,13 @@ class Wallet < ApplicationRecord
 
   def rebuild_search_index
     PgSearch::Multisearch.rebuild(Wallet)
+  end
+
+  def coin_name
+    coins.pluck(:name).join(" ")
+  end
+
+  def coin_symbol
+    coins.pluck(:symbol).join(" ")
   end
 end
