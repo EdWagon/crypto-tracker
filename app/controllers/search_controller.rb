@@ -25,7 +25,7 @@ class SearchController < ApplicationController
 
       # Apply policy scope for Wallet and Coin to ensure we load only records the user is allowed to see, and then filter them by the found IDs
       wallets = policy_scope(Wallet).where(id: wallet_ids)
-      coins = policy_scope(Coin).where(id: coin_ids)
+      coins = Coin.where(id: coin_ids)
 
       @results = {
         wallets: wallets,
@@ -40,7 +40,6 @@ class SearchController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # Render the normal search page
       format.json { render json: @results.to_json }
     end
   end

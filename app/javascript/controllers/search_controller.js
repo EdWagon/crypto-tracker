@@ -19,8 +19,7 @@ export default class extends Controller {
                 console.log(coin);
 
                 const searchTag = `<li class="list-group-item">
-                  <strong>${coin.symbol}:</strong>
-                  <a href="/coins/${coin.id}" class="fw-bold text-decoration-none">${coin.name}</a>
+                  <strong>Coin:</strong> <a class="fw-bold text-decoration-none" href="/coins/${coin.id}">${coin.name} - ${coin.symbol}</a>
                 </li>`
                 this.resultsTarget.insertAdjacentHTML("beforeend", searchTag)
               })
@@ -31,9 +30,9 @@ export default class extends Controller {
                 console.log(wallet);
 
                 const searchTag = `<li class="list-group-item">
-                  <strong>${wallet.symbol}:</strong>
-                  <a href="/wallets/${wallet.id}" class="fw-bold text-decoration-none">${wallet.name}</a>
+                  <strong>Wallet:</strong> <a class= "fw-bold text-decoration-none" href="/wallets/${wallet.id}">${wallet.name} - ${wallet.wallet_type} - ${wallet.wallet_address}</a>
                 </li>`
+
                 this.resultsTarget.insertAdjacentHTML("beforeend", searchTag)
               })
             }
