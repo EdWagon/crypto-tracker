@@ -1,0 +1,80 @@
+.background-container {
+  position: relative;
+}
+
+.background-shape-topleft {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 274px;
+  height: 274px;
+  // background-color: var(--highlight-blue);
+  z-index: -1;
+  border-radius: 100%;
+  // mix-blend-mode: multiply;
+  filter: blur(100px);
+}
+
+@media (max-width: 800px) {
+
+  .background-shape-topright {
+    position: fixed;
+    top: -140px;
+    right: 80px;
+    width: 274px;
+    height: 274px;
+    // background-color: var(--highlight-blue);
+    z-index: -1;
+    border-radius: 100%;
+    // mix-blend-mode: multiply;
+    filter: blur(100px);
+  }
+
+  .background-shape-middleoffset {
+    position: fixed;
+    top: 500px;
+    right: 150px;
+    width: 274px;
+    height: 274px;
+    z-index: -1;
+    border-radius: 100%;
+    filter: blur(100px);
+  }
+}
+
+@media (min-width: 800px) {
+
+  .background-shape-topright {
+    position: fixed;
+    top: -140px;
+    right: 120px;
+    width: 274px;
+    height: 274px;
+    // background-color: var(--highlight-blue);
+    z-index: -1;
+    border-radius: 100%;
+    // mix-blend-mode: multiply;
+    filter: blur(100px);
+  }
+
+  .background-shape-middleoffset {
+    position: fixed;
+    top: 500px;
+    right: 250px;
+    width: 274px;
+    height: 274px;
+    z-index: -1;
+    border-radius: 100%;
+    filter: blur(100px);
+  }
+}
+
+.background-red {
+  background-color: rgba(247, 68, 64, .25);
+}
+.background-purple {
+  background-color: rgba(148, 125, 241, .2);
+}
+.background-green {
+  background-color: rgba(34, 212, 159, .2);
+}

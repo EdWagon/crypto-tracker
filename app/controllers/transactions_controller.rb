@@ -14,7 +14,7 @@ class TransactionsController < ApplicationController
     @transaction.user = current_user
     authorize @transaction
     if @transaction.save
-      redirect_to transactions_path(@transaction)
+      redirect_to transactions_path
     else
       render :index, status: :unprocessable_entity
     end

@@ -2,7 +2,7 @@ class Coin < ApplicationRecord
   has_many :prices, dependent: :destroy
   has_many :wallets, through: :wallets_coins
   has_many :transactions, dependent: :destroy
-
+  has_many :messages, dependent: :destroy
   include PgSearch::Model
   multisearchable against: [:name, :symbol]
 

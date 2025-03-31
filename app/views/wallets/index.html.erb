@@ -70,7 +70,13 @@
                   <% end %>
                 </div>
               <% else %>
-                <%= link_to "Add Transaction", new_transaction_path(wallet_id: wallet.id), class: "btn btn-sm btn-primary" %>
+
+                <%= link_to "#",
+                  class: "btn btn-highlight text-nowrap ms-1  me-2",
+                  id: "newTransactionButton",
+                  data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
+                Add Transaction
+              <% end %>
               <% end %>
             </div>
           </div>

@@ -59,7 +59,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
 
   # Auto reload server when changes are made on files
-  gem "hotwire-livereload"
+  # gem "hotwire-livereload"
 end
 
 group :development do
@@ -78,3 +78,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# Action Cable used to send broadcast messages to the client
+gem "solid_cable"

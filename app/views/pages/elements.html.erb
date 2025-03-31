@@ -1,31 +1,65 @@
 
 
-<%= render 'shared/panel', locals: {
-  title: "My Transactions",
-  subtitle: "Your transaction history",
-  header_actions: [
-    { html: -> { link_to "#", class: "btn btn-highlight",
-        data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do
-          content_tag(:i, "", class: "fa-solid fa-plus")
-        end }
-    }
-  ],
-  footer: true,
-  objects: { title: "transaction(s)", objects: @transactions } ,
-  footer_actions: [
-    { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
-        content_tag(:i, "", class: "fa-solid fa-file-pdf")
-      end }
-    },
-    { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
-        content_tag(:i, "", class: "fa-solid fa-file-csv")
-      end }
-    }
-  ]
-  } do %>
 
 
-  <div class="panel-body">
+<h1>Pages#elements</h1>
+<p>Used t demonstrate exmples of how to do Form Formatting in teh erb</p>
+
+
+<a href="#" class="btn btn-highlight">Portfolio</a>
+<a href="#" class="btn btn-highlight">Add Transaction</a>
+<a href="#" class="btn btn-nav">Wallet</a>
+<a href="#" class="btn btn-nav">Transaction</a>
+
+          <div class="input-group d-flex flex-nowrap ms-2 me-4 mt-4"  style="max-width: 350px; min-width: 200px;">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="text" class="form-control" placeholder="Search Wallets & Coins" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+
+<%= simple_form_for :search, html: { class: "search mt-4 " }  do |f| %>
+  <%= f.input :username, label: "Email", placeholder: 'user@domain.com', required: true %>
+  <%= f.input :password, label: "Password", hint: 'No special characters.', required: true %>
+  <%= f.input :description, label: "Text Area", as: :text %>
+  <%= f.button :submit, class:"btn btn-nav active"%>
+  <%= f.button :submit, class:"btn btn-hightlight"%>
+
+  <%= f.submit "Save", class:"btn btn-nav active"%>
+
+  <%= f.input :coin1Price, label: "Price", required: true %>
+  <%= f.input :coin, collection: [['BTC','1'], ['ETH','2']], selected: '1', prompt: "Coin"%>
+
+  <%= f.input :remember_me, label: "Text Area", as: :boolean %>
+
+  <p>Example of Input with no Label, with placeholder</p>
+  <%= f.input :search, placeholder: "Search", label_html: { class: 'd-none' } %>
+
+  <%= f.input :remember_me,
+            label: "Disabled",
+            as: :boolean,
+            input_html: {
+                        disabled: true,
+                        class: ''
+                      } %>
+<% end %>
+
+
+
+
+
+<div class="container py-5">
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h2 class="panel-title">My Transactions</h2>
+        <div class="panel-subtitle">Manage your cryptocurrency transaction history</div>
+      </div>
+      <%= link_to "#", class: "btn btn-highlight",
+          data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
+        <i class="fa-solid fa-plus"></i>
+      <% end %>
+    </div>
+
+    <div class="panel-body">
       <% if @transactions.blank? %>
         <div class="text-center py-5">
           <i class="bi bi-arrow-left-right text-muted" style="font-size: 3rem;"></i>
@@ -92,5 +126,18 @@
       <% end %>
     </div>
 
-
-<% end %>
+    <% if @transactions.present? %>
+      <div class="panel-footer">
+        <span><%= @transactions.count %> transactions</span>
+        <div>
+          <%= link_to "#", class: "btn btn-nav me-2 active" do %>
+            <i class="fa-solid fa-file-csv" alt="Export Csv"></i>
+          <% end %>
+          <%= link_to "#", class: "btn btn-nav me-2 active" do %>
+            <i class="fa-solid fa-file-pdf"></i>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

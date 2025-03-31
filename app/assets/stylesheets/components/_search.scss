@@ -1,11 +1,11 @@
-.search-results {
-  position: absolute;
-  // left: 45%;
-  // top: 50px;
-  width: 100%;
-  // max-width: 500px;
+
+.search{
+  width: max-content;
+  display: flex;
+  align-items: center;
+  padding: 14px;
 }
 
-.search-container {
-  position: relative;
+.search-input{
+
 }

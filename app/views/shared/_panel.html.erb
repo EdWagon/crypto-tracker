@@ -1,0 +1,45 @@
+<div class="container py-5">
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <% if locals[:title] %>
+          <h2 class="panel-title"><%= locals[:title] %></h2>
+        <% end %>
+        <% if locals[:subtitle] %>
+          <div class="panel-subtitle"><%= locals[:subtitle]%></div>
+        <% end %>
+      </div>
+      <% if locals[:header_actions] %>
+        <% locals[:header_actions].each do |action| %>
+          <% if action[:html].respond_to?(:call) %>
+            <%= action[:html].call %>
+          <% else %>
+            <%= action[:html] %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="panel-body">
+      <%= yield %>
+    </div>
+
+    <% if locals[:objects].present? %>
+      <div class="panel-footer">
+        <span><%= locals[:objects][:objects].count %> <%= locals[:objects][:title] %> </span>
+        <% if locals[:footer_actions] %>
+          <div class="panel-footer-actions">
+            <% locals[:footer_actions].each do |action| %>
+              <% if action[:html].respond_to?(:call) %>
+                <%= action[:html].call %>
+              <% else %>
+                <%= action[:html] %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

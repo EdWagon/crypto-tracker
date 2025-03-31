@@ -2,11 +2,14 @@ class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   def index
-    @coins = policy_scope(Coin)
+    @coins = Coin.all
   end
 
   def show
-    authorize @transactions = @coin.transactions
+    @transactions = @coin.transactions #_by_user(user: current_user) # TODO: Check with Ben if this is correct
+    @transactions = policy_scope(@transactions) # This will filter the transactions to only those that belong to the current user
+    # authorize @transactions = @coin.transactions
+    authorize @message = Message.new
   end
 
   private

@@ -13,10 +13,10 @@
               <%= image_tag image_path("logo.png") %>
             <% end %>
             <div class="d-flex flex-nowrap ms-1">
-              <%= link_to "Portfolio", "dashboard#portfolio", class: "btn btn-nav active" %>
-              <%= link_to "Coins", coins_path, class: "btn btn-nav" %>
-              <%= link_to "Wallets", wallets_path, class: "btn btn-nav" %>
-              <%= link_to "Transactions", transactions_path, class: "btn btn-nav" %>
+              <%= link_to "Portfolio", "dashboard#portfolio", class: "btn btn-nav #{request.path == '/dashboard/portfolio' ? 'active' : ''}" %>
+              <%= link_to "Coins", coins_path, class: "btn btn-nav #{request.path == coins_path ? 'active' : ''}" %>
+              <%= link_to "Wallets", wallets_path, class: "btn btn-nav #{request.path == wallets_path ? 'active' : ''}" %>
+              <%= link_to "Transactions", transactions_path, class: "btn btn-nav #{request.path == transactions_path ? 'active' : ''}" %>
             </div>
           </div>
           <!-- Center - Functional Search Bar -->
@@ -37,7 +37,12 @@
             <!-- Center - Transaction -->
           <div class="d-flex flex-nowrap">
             <div>
-              <%= link_to "Add Transaction", "#", class: "btn btn-highlight text-nowrap ms-1  me-2" %>
+              <%= link_to "#",
+                class: "btn btn-highlight text-nowrap ms-1  me-2",
+                id: "newTransactionButton",
+                data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
+                Add Transaction
+              <% end %>
             </div>
             <div>
               <a href="#" class="avatar ms-2" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,10 +67,15 @@
             </div>
           </div>
           <div>
-            <%= link_to "Login", new_user_session_path, class: "btn-highlight text-nowrap ms-1  me-2" %>
+            <%= link_to "Login", new_user_session_path, class: "btn btn-highlight text-nowrap ms-1  me-2" %>
           </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<% if user_signed_in? %>
+  <!-- New Transaction Modal Hidden by Default-->
+  <%= render 'transactions/new_modal' %>
+<% end %>
