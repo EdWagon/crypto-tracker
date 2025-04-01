@@ -3,8 +3,6 @@ Rails.application.routes.draw do
 
   root to: "pages#home"
   get "search", to: "search#index", as: :search
-
-
   get 'elements', to: 'pages#elements' # TODO: To be removed onces all formatting is done
 
   resources :watchlists do
@@ -15,7 +13,8 @@ Rails.application.routes.draw do
     resources :wallets_coins, only: [:index, :show]
   end
 
-  resources :transactions
+  resources :transactions, except: [:edit, :update]
+
   resources :coins, only: [:index, :show] do
     resources :messages, only: :create
   end
