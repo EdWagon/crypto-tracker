@@ -52,6 +52,7 @@ puts "Creating coins..."
 
 
 
+
 # Get the top 10 coins by market Cap from CoinGecko
 # You can increase this number to get more coins if needed (Note this only makes 1 call but is limited to 250 in one go)
 coin_number = 10
@@ -123,20 +124,17 @@ response.each do |coinhash|
 end
 
 
-
-
-
-
-
-# binding.break
-
-
-
-
 bitcoin = Coin.find_by(api_id: "bitcoin")
 ethereum = Coin.find_by(api_id: "ethereum")
 
-# binding.break
+australian_dollar = Coin.create!(
+  name: "Australian Dollar",
+  symbol: "AUD",
+  api_id: nil,
+  logo_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+  website_url: "https://bitcoin.org"
+)
+puts "Created coin: #{australian_dollar.name} (#{australian_dollar.symbol})"
 
 puts "Seeding price history..."
 

@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_31_211233) do
+
+ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -84,6 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_211233) do
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
+
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.bigint "job_id", null: false
@@ -204,6 +207,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_211233) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
+  end 
+  
+  create_table "trade_transactions", force: :cascade do |t|
+    t.string "transaction_type"
+    t.bigint "first_transaction_id", null: false
+    t.bigint "second_transaction_id"
+    t.bigint "third_transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["first_transaction_id"], name: "index_trade_transactions_on_first_transaction_id"
+    t.index ["second_transaction_id"], name: "index_trade_transactions_on_second_transaction_id"
+    t.index ["third_transaction_id"], name: "index_trade_transactions_on_third_transaction_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -218,6 +233,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_211233) do
     t.decimal "fee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "debit_credit", default: false
     t.index ["coin_id"], name: "index_transactions_on_coin_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
@@ -281,12 +297,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_211233) do
   add_foreign_key "messages", "coins"
   add_foreign_key "messages", "users"
   add_foreign_key "prices", "coins"
+
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+
+  add_foreign_key "trade_transactions", "transactions", column: "first_transaction_id"
+  add_foreign_key "trade_transactions", "transactions", column: "second_transaction_id"
+  add_foreign_key "trade_transactions", "transactions", column: "third_transaction_id"
+
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "users"
   add_foreign_key "transactions", "wallets"
