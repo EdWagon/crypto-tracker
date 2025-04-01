@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_01_051308) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -42,6 +42,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
+  end
+
+  create_table "portfolio_compositions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date", null: false
+    t.bigint "coin_id", null: false
+    t.decimal "cumulative_amount", precision: 18, scale: 8
+    t.decimal "total_value", precision: 18, scale: 2
+    t.decimal "amount_invested", precision: 18, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_portfolio_compositions_on_coin_id"
+    t.index ["date"], name: "index_portfolio_compositions_on_date"
+    t.index ["user_id", "coin_id", "date"], name: "index_portfolio_compositions_on_user_id_and_coin_id_and_date", unique: true
+    t.index ["user_id"], name: "index_portfolio_compositions_on_user_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -157,6 +172,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
 
   add_foreign_key "messages", "coins"
   add_foreign_key "messages", "users"
+  add_foreign_key "portfolio_compositions", "coins"
+  add_foreign_key "portfolio_compositions", "users"
   add_foreign_key "prices", "coins"
   add_foreign_key "trade_transactions", "transactions", column: "first_transaction_id"
   add_foreign_key "trade_transactions", "transactions", column: "second_transaction_id"

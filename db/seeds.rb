@@ -155,7 +155,6 @@ Transaction.create!(
   quantity: 0.5,
   price_per_coin: 45000,
   total_value: 22500,
-  fee: 50
 )
 puts "Created transaction for Alice"
 
@@ -168,7 +167,6 @@ Transaction.create!(
   quantity: 0.5,
   price_per_coin: 46000,
   total_value: 23000,
-  fee: 10
 )
 puts "Created transaction for Alice"
 
@@ -181,7 +179,6 @@ Transaction.create!(
   quantity: 0.25,
   price_per_coin: 48000,
   total_value: 12000,
-  fee: 200
 )
 puts "Created transaction for Alice"
 
@@ -194,7 +191,6 @@ Transaction.create!(
   quantity: 0.5,
   price_per_coin: 1900,
   total_value: 850,
-  fee: 5
 )
 puts "Created transaction for Alice"
 
@@ -207,7 +203,6 @@ Transaction.create!(
   quantity: 1,
   price_per_coin: 1950,
   total_value: 1950,
-  fee: 7.5
 )
 puts "Created transaction for Alice"
 
@@ -222,7 +217,6 @@ Transaction.create!(
   quantity: 2,
   price_per_coin: 2100,
   total_value: 4200,
-  fee: 15
 )
 puts "Created transaction for Alice"
 
@@ -235,7 +229,6 @@ Transaction.create!(
   quantity: 2,
   price_per_coin: 2150,
   total_value: 4300,
-  fee: 15
 )
 puts "Created transaction for Alice"
 
@@ -250,7 +243,6 @@ Transaction.create!(
   quantity: 1.2,
   price_per_coin: 50000,
   total_value: 60000,
-  fee: 100
 )
 
 puts "Created transaction for Bob"

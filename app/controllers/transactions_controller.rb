@@ -51,7 +51,6 @@ class TransactionsController < ApplicationController
       :quantity,
       :to_quantity,
       :total_value,
-      :fee
     )
   end
 
