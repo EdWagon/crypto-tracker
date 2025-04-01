@@ -27,7 +27,13 @@
           </thead>
           <tbody>
             <% @coins.each do |coin| %>
-              <% latest_price = coin.prices.order(date: :desc).first %>
+              <%
+                latest_price = coin.prices
+                  .where.not(price_change_percentage_24h: nil)
+                  .order(date: :desc)
+                  .first
+
+              %>
               <tr>
                 <td class="ps-4">
                   <div class="d-flex align-items-center">

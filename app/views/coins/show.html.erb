@@ -1,3 +1,9 @@
+
+<%
+  # Fetch the latest price for the coin
+  latest_price = @coin.prices.order(date: :desc).first
+%>
+
 <div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div class="d-flex align-items-center">
@@ -20,21 +26,26 @@
   <div class="row">
     <div class="col-lg-8 mb-4">
       <div class="card shadow-sm mb-4">
-        <div class="card-body">
+        <div class="card-body" data-controller="line-graph-chart"
+                      data-action="resize@window->line-graph-chart#resize"
+                      data-line-graph-chart-coinid-value="<%= @coin.id %>"
+                      data-line-graph-chart-range-value="1y">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="card-title mb-0">Price Chart</h5>
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">1D</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">1W</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary active">1M</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">1Y</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-line-graph-chart-target="oneDayBtn" data-action="click->line-graph-chart#setRange" data-range="1d">1D</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-line-graph-chart-target="oneWeekBtn" data-action="click->line-graph-chart#setRange" data-range="1w">1W</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-line-graph-chart-target="oneMonthBtn" data-action="click->line-graph-chart#setRange" data-range="1m">1M</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary active" data-line-graph-chart-target="oneYearBtn" data-action="click->line-graph-chart#setRange" data-range="1d">1Y</button>
             </div>
           </div>
           <div class="chart-placeholder" style="height: 300px;">
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <div class="text-center">
-                <p class="text-muted">Price chart would display here</p>
-                <small class="text-muted">(Integrate with Chart.js or TradingView)</small>
+            <div class="d-flex justify-content-center align-items-center h-100 w-100">
+              <div class="text-center chart" data-line-graph-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
+                <canvas data-line-graph-chart-target="chart">
+                  <p class="text-muted" >Price chart would display here</p>
+                </canvas>
+
               </div>
             </div>
           </div>
@@ -70,11 +81,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% @coin.prices.order(date: :desc).limit(10).each do |price| %>
+                    <% @final_daily_prices.order(date: :desc).limit(365).each do |price| %>
                       <tr>
                         <td><%= price.date.to_formatted_s(:short) %></td>
                         <td>$<%= number_with_precision(price.price, precision: 2) %></td>
-                        <td class="<%= price.price_change_percentage_24h.positive? ? 'text-success' : 'text-danger' %>">
+                        <td class="<%= price&.price_change_percentage_24h.nil? ? 'text-muted' : (price.price_change_percentage_24h.positive? ? 'text-success' : 'text-danger') %>">
                           <%= number_to_percentage(price.price_change_percentage_24h, precision: 2) %>
                         </td>
                         <td>$<%= number_to_human(price.market_cap) %></td>
@@ -118,7 +129,7 @@
         } do %>
 
         <div class="card-body">
-          <% latest_price = @coin.prices.order(date: :desc).first %>
+
           <dl class="row mb-0">
             <dt class="col-sm-6">Current Price</dt>
             <dd class="col-sm-6 text-end">$<%= number_with_precision(latest_price&.price, precision: 2) %></dd>
