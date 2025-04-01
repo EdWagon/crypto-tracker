@@ -52,8 +52,10 @@ puts "Creating coins..."
 
 
 
-
-url = URI("https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&order=market_cap_desc&per_page=10&price_change_percentage=1y%2C30d%2C7d%2C24h%2C1h&locale=en&precision=full")
+# Get the top 10 coins by market Cap from CoinGecko
+# You can increase this number to get more coins if needed (Note this only makes 1 call but is limited to 250 in one go)
+coin_number = 10
+url =  URI("https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&order=market_cap_desc&per_page=#{coin_number}&price_change_percentage=1y%2C30d%2C7d%2C24h%2C1h&locale=en&precision=full")
 
 http = Net::HTTP.new(url.host, url.port)
 http.use_ssl = true
@@ -64,8 +66,6 @@ request["x-cg-demo-api-key"] = ENV['COINGEKO_API_KEY']
 
 response = http.request(request)
 # puts response.read_body
-
-
 
 response = JSON.parse(response.read_body)
 response = response.map! { |coin| coin.deep_symbolize_keys!}
@@ -140,7 +140,11 @@ ethereum = Coin.find_by(api_id: "ethereum")
 
 puts "Seeding price history..."
 
+# Uncomment this to get the price history for all coins - note this is a call per coin
+# Coin.all.each do |coin|
 
+# if you uncomment the above line, comment this out
+# Get the price history for Bitcoin and Ethereum only
 [bitcoin, ethereum].each do |coin|
 
 
@@ -180,7 +184,6 @@ puts "Seeding price history..."
     else
       puts "Failed to create price for #{coin.name} (#{coin.symbol}) on #{datetime.strftime('%Y-%m-%d')}"
     end
-    # binding.break
   end
 
 end
