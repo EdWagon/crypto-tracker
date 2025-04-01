@@ -42,6 +42,15 @@ bitcoin = Coin.create!(
 )
 puts "Created coin: #{bitcoin.name} (#{bitcoin.symbol})"
 
+australian_dollar = Coin.create!(
+  name: "Australian Dollar",
+  symbol: "AUD",
+  api_id: nil,
+  logo_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+  website_url: "https://bitcoin.org"
+)
+puts "Created coin: #{australian_dollar.name} (#{australian_dollar.symbol})"
+
 ethereum = Coin.create!(
   name: "Ethereum",
   symbol: "ETH",
