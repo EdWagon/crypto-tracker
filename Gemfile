@@ -81,3 +81,9 @@ end
 
 # Action Cable used to send broadcast messages to the client
 gem "solid_cable"
+
+# Use solid_queue for background jobs
+gem "solid_queue"
+
+# Job Tracking with Mission Control
+gem "mission_control-jobs"

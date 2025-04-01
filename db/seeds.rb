@@ -1,5 +1,20 @@
 require 'date'
 
+require 'uri'
+require 'net/http'
+
+
+puts "Seeding database..."
+
+# Clear existing data
+# This is a destructive operation and should be used with caution in production environments.
+# In a real-world scenario, you might want to use a more sophisticated approach to avoid data loss.
+# For example, you could use a seed file to create test data without clearing the entire database.
+
+# WARNING: This will delete all data in the specified tables!
+# Use with caution in production environments!
+
+
 puts "Clearing database..."
 Transaction.destroy_all
 WalletsCoin.destroy_all
@@ -17,7 +32,8 @@ alice = User.create!(
   password_confirmation: "password123",
   first_name: "Alice",
   last_name: "Johnson",
-  nickname: "Dora the Explorer"
+  nickname: "Dora the Explorer",
+  admin: true
   )
 puts "Created user: #{alice.email}"
 
@@ -33,58 +49,140 @@ puts "Created user: #{bob.email}"
 
 puts "Creating coins..."
 
-bitcoin = Coin.create!(
-  name: "Bitcoin",
-  symbol: "BTC",
-  api_id: "bitcoin",
-  logo_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-  website_url: "https://bitcoin.org"
-)
-puts "Created coin: #{bitcoin.name} (#{bitcoin.symbol})"
 
-ethereum = Coin.create!(
-  name: "Ethereum",
-  symbol: "ETH",
-  api_id: "ethereum",
-  logo_url: "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
-  website_url: "https://ethereum.org"
-)
-puts "Created coin: #{ethereum.name} (#{ethereum.symbol})"
+
+
+
+url = URI("https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&order=market_cap_desc&per_page=10&price_change_percentage=1y%2C30d%2C7d%2C24h%2C1h&locale=en&precision=full")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+request["x-cg-demo-api-key"] = ENV['COINGEKO_API_KEY']
+
+response = http.request(request)
+# puts response.read_body
+
+
+
+response = JSON.parse(response.read_body)
+response = response.map! { |coin| coin.deep_symbolize_keys!}
+
+# binding.break
+
+response.each do |coinhash|
+  coin = Coin.new(
+    name: coinhash[:name],
+    symbol: coinhash[:symbol].upcase,
+    api_id: coinhash[:id],
+    logo_url: coinhash[:image])
+
+
+  if coin.save!
+    puts "Coin created: #{coin.name} (#{coin.symbol})"
+  else
+    puts "Failed to create coin: #{coin.name} (#{coin.symbol})"
+  end
+
+  price = Price.new(
+    coin_id: coin.id,
+    price: coinhash[:current_price],
+    market_cap: coinhash[:market_cap],
+    date: coinhash[:last_updated].to_datetime,
+    price_change_24h: coinhash[:price_change_24h],
+    price_change_percentage_24h: coinhash[:price_change_percentage_24h],
+    volume_24h: coinhash[:total_volume],
+    circulating_supply: coinhash[:circulating_supply],
+    total_supply: coinhash[:total_supply],
+    max_supply: coinhash[:max_supply],
+    all_time_high: coinhash[:ath],
+    all_time_high_date: coinhash[:ath_date].to_datetime,
+    market_cap_rank: coinhash[:market_cap_rank],
+    high_24h: coinhash[:high_24h],
+    low_24h: coinhash[:low_24h],
+    market_cap_change_24h: coinhash[:market_cap_change_24h],
+    market_cap_change_percentage_24h: coinhash[:market_cap_change_percentage_24h],
+    all_time_high_change_percentage: coinhash[:ath_change_percentage],
+    all_time_low: coinhash[:atl],
+    all_time_low_change_percentage: coinhash[:atl_change_percentage],
+    all_time_low_date: coinhash[:atl_date].to_datetime,
+    price_change_percentage_1h_aud: coinhash[:price_change_percentage_1h_in_currency],
+    price_change_percentage_24h_aud: coinhash[:price_change_percentage_24h_in_currency],
+    price_change_percentage_7d_aud: coinhash[:price_change_percentage_7d_in_currency],
+    price_change_percentage_30d_aud: coinhash[:price_change_percentage_30d_in_currency],
+    price_change_percentage_1y_aud: coinhash[:price_change_percentage_1y_in_currency]
+  )
+  if price.save!
+    puts "Price created for #{coin.name} (#{coin.symbol})"
+  else
+    puts "Failed to create price for #{coin.name} (#{coin.symbol})"
+  end
+
+end
+
+
+
+
+
+
+
+# binding.break
+
+
+
+
+bitcoin = Coin.find_by(api_id: "bitcoin")
+ethereum = Coin.find_by(api_id: "ethereum")
+
+# binding.break
 
 puts "Seeding price history..."
 
 
 [bitcoin, ethereum].each do |coin|
-  10.times do |i|
-    date = DateTime.now - (i + 1)
 
-    price = rand(coin.symbol == "BTC" ? 40000..70000 : 2500..5000)
-    market_cap = price * rand(19000000..21000000)
-    price_change_24h = rand(-500..500)
-    price_change_percentage_24h = (price_change_24h / price * 100).round(2)
-    volume_24h = rand(1_000_000_000..100_000_000_000)
-    circulating_supply = rand(19000000..21000000)
-    total_supply = circulating_supply + rand(0..100000)
-    max_supply = 21000000
-    all_time_high = coin.symbol == "BTC" ? 69000 : 4800
-    all_time_high_date = coin.symbol == "BTC" ? DateTime.new(2021, 11, 10) : DateTime.new(2021, 11, 10)
 
-    Price.create!(
+  url = URI("https://api.coingecko.com/api/v3/coins/#{coin.api_id}/market_chart?vs_currency=aud&days=365&interval=daily&precision=full")
+
+  http = Net::HTTP.new(url.host, url.port)
+  http.use_ssl = true
+
+  request = Net::HTTP::Get.new(url)
+  request["accept"] = 'application/json'
+  request["x-cg-demo-api-key"] = ENV['COINGEKO_API_KEY']
+
+  response = http.request(request)
+  response = JSON.parse(response.read_body)
+  # puts response.read_body
+
+  # binding.break
+
+  # response = response.deep_symbolize_keys!
+
+  response["prices"].each_with_index do |pricearray, index|
+    # binding.break
+    datetime = Time.at(pricearray[0] / 1000.0).to_datetime
+    price = pricearray[1]
+    volume = response["total_volumes"][index][1]
+    market_cap = response["market_caps"][index][1]
+
+    price = Price.new(
       coin_id: coin.id,
       price: price,
       market_cap: market_cap,
-      date: date,
-      price_change_24h: price_change_24h,
-      price_change_percentage_24h: price_change_percentage_24h,
-      volume_24h: volume_24h,
-      circulating_supply: circulating_supply,
-      total_supply: total_supply,
-      max_supply: max_supply,
-      all_time_high: all_time_high,
-      all_time_high_date: all_time_high_date
+      date: datetime,
+      volume_24h: volume
     )
-    puts "Added price for #{coin.name} on #{date.strftime('%Y-%m-%d')}: $#{price}"
+    if price.save!
+      puts "Price created for #{coin.name} (#{coin.symbol}) on #{datetime.strftime('%Y-%m-%d')}"
+    else
+      puts "Failed to create price for #{coin.name} (#{coin.symbol}) on #{datetime.strftime('%Y-%m-%d')}"
+    end
+    # binding.break
   end
+
 end
 
 

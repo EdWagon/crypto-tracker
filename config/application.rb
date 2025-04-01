@@ -29,5 +29,11 @@ module CryptoTracker
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Solid Queue Application Adapter for processing Jobs
+    config.active_job.queue_adapter = :solid_queue
+
+    # Set up for Jobs Mission Control
+    config.mission_control.jobs.http_basic_auth_enabled = false
   end
 end
