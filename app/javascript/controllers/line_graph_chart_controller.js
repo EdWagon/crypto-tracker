@@ -59,6 +59,7 @@ export default class extends Controller {
   }
 
   setRange(event) {
+    event.preventDefault();
     const range = event.currentTarget.dataset.range;
     this.rangeValue = range;
     this.loadChart();
