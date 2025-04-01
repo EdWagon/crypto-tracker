@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'prices/index'
   devise_for :users
 
   root to: "pages#home"
@@ -19,5 +20,13 @@ Rails.application.routes.draw do
 
   resources :coins, only: [:index, :show] do
     resources :messages, only: :create
+    resources :prices, only: :index
   end
+
+  # This is the route for the admin dashboard
+  # It is mounted at /jobs and is only accessible to admin users
+  authenticate :user, ->(u) { u.admin? } do
+    mount MissionControl::Jobs::Engine, at: "/jobs"
+  end
+
 end
