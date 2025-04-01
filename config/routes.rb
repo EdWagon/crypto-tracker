@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   root to: "pages#home"
   get "search", to: "search#index", as: :search, defaults: { format: :json }
 
-
   get 'elements', to: 'pages#elements' # TODO: To be removed onces all formatting is done
 
   resources :watchlists do
