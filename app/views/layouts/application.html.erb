@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="border">
+  <body class="border" data-controller="search">
 
   <div class="container vh-100">
     <div class="background-container">
@@ -21,6 +21,7 @@
       <div class="background-shape-middleoffset background-purple">
       </div>
     </div>
+
     <%= render "shared/navbar" %>
     <%= render "shared/flashes" %>
     <%= yield %>

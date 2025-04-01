@@ -1,9 +1,11 @@
-.search{
-  width: max-content;
-  display: flex;
-  align-items: center;
-  padding: 14px;
+.search-results {
+  position: absolute;
+  // left: 45%;
+  // top: 50px;
+  width: 90%;
+  // max-width: 500px;
 }
 
-.search-input{
+.search-container {
+  position: relative;
 }
