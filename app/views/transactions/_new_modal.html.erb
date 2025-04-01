@@ -21,17 +21,39 @@
           </div>
 
           <!-- Independent Fields -->
-          <div class="row">
+          <div class="row" data-controller="dropdown-search">
             <!-- Coin In Field -->
             <div class="col-md-6 mb-3 d-none" data-transaction-form-target="coinInField">
               <%= f.label :coin_id, "Coin In", class: "form-label" %>
-              <%= f.collection_select :coin_id, Coin.all, :id, :name, {}, class: "form-select" %>
+              <%= f.search_field :coin_id,
+                  class: "form-select",
+                  list: "coin-in",
+                  autocomplete: "off",
+                  data: {
+                          dropdown_search_target: "searchField",
+                          action: "keyup->dropdown-search#search"
+                        }
+              %>
+              <datalist id="coin-in" data-dropdown-search-target="list">
+                <option value="Please search for a coin..."></option>
+              </datalist>
             </div>
 
             <!-- Coin Out Field -->
             <div class="col-md-6 mb-3 d-none" data-transaction-form-target="coinOutField">
               <%= f.label :to_coin_id, "Coin Out", class: "form-label" %>
-              <%= f.collection_select :to_coin_id, Coin.all, :id, :name, { include_blank: true }, class: "form-select" %>
+              <%= f.search_field :to_coin_id,
+                  class: "form-select",
+                  list: "coin-out",
+                  autocomplete: "off",
+                  data: {
+                          dropdown_search_target: "searchField",
+                          action: "keyup->dropdown-search#search"
+                        }
+              %>
+              <datalist id="coin-out" data-dropdown-search-target="list">
+                <option value="Please search for a coin..."></option>
+              </datalist>
             </div>
 
             <!-- Receiving Wallet Field -->
