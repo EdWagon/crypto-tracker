@@ -1,8 +1,149 @@
+<body>
+    <div class="text-container" style="padding: 40px;">
+        <h1 class="headline" outline: none; display: flex; flex-direction: column; justify-content: flex-start; flex-shrink: 0; transform: none;>Your All-in-One Crypto Command Center.</h1>
+        <p class="subtext" outline: none; display: flex; flex-direction: column; justify-content: flex-start; flex-shrink: 0; transform: none;>Automate your financial operations, gain real-time insights, and focus on growth in Crypto.</p>
+
+        <div class="email-input">
+            <input type="text" placeholder="Enter your email...">
+            <button class="get-started">Get Started</button>
+        </div>
+
+        <div class="features">
+            <div>No credit card required</div>
+            <div>7-days free trial</div>
+        </div>
+
+        <div class="testimonial">
+            <div class="avatars">
+              <%= image_tag "landing-page/protrait_1.png", alt: "A profile photo", class: "avatar" %>
+              <%= image_tag "landing-page/protrait_2.png", alt: "A profile photo", class: "avatar" %>
+              <%= image_tag "landing-page/protrait_3.png", alt: "A profile photo", class: "avatar" %>
+              <%= image_tag "landing-page/protrait_4.png", alt: "A profile photo", class: "avatar" %>
+            </div>
+
+              <div class="stars">
+                <% 5.times do %>
+                  <i class="fa-solid fa-star"></i>
+                <% end %>
+              </div>
+              <p>Loved by 30k+ happy customers</p>
+
+        </div>
+        <div class="image-container">
+            <!-- <img src="https://placehold.co/382x375" alt="Feature Image"> -->
+           <%= image_tag "landing-page/portfolio.png", alt: "Portfolio image", class: "head-image" %>
+        </div>
+      </div>
+
+
+    <!-- Card Section -->
+  <section id="features" class="cards my-5">
+    <div class="container" style="padding: 40px; max-width: 1200px;">
+        <h3 class="headline-h3">Our Feature.</h3>
+         <p class="subtext" outline: none; display: flex; flex-direction: column; justify-content: flex-start; flex-shrink: 0; transform: none;>Automate your financial operations, gain real-time insights, and focus on growth in Crypto.</p>
+        <div class="row">
+            <!-- Card 1 -->
+            <div class="card-outer-box shadow-sm">
+              <div style="min-width: 320px; flex-direction: column; align-items: center;">
+                <div style="min-height: 320px; padding-block: 24px; padding-inline: 24px; display: flex;  flex-direction: column; justify-content: space-between;">
+                  <h5 class="">Card Title</h5>
+                  <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <p class=""><small class="text-muted">Last updated 3 mins ago</small></p>
+                  <button class="pricing-get-started-recommended">Explore More</button>
+                </div>
+              </div>
+              <div class="card-img-wrapper" style="width: 100%; height: 100%;">
+                <%= image_tag "landing-page/Feature-card.png", alt: "Feature-card image", class: "card-img" %>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card-outer-box shadow-sm" style="display: flex; flex-direction: row-reverse;">
+                    <div style="min-width: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <div style="min-height: 320px; padding-block: 40px; padding-inline: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <h5>Card Title</h5>
+                            <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p><small class="text-muted">Last updated 3 mins ago</small></p>
+                            <button class="pricing-get-started-recommended">Explore More</button>
+                        </div>
+                    </div>
+                    <div class="card-img-wrapper" style="width: 100%; height: 100%;">
+                        <%= image_tag "landing-page/Feature-card.png", alt: "Feature-card image", class: "card-img" %>
+                    </div>
+                </div>
+        </div>
+    </div>
+  </section>
+
+             <!-- G -->
+            <div class="card text-center" style="margin: 80px;">
+              <div class="card-header">
+                Featured
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <button class="pricing-get-started">Get Demo</button>
+              </div>
+              <div class="card-footer text-body-secondary">
+                Get Demo
+              </div>
+            </div>
+
+          <!-- Pricing -->
+         <div id="pricing" class="container text-center" style="padding: 40px; max-width: 1200px;">
+          <h3 class="headline-h3">Pricing</h3>
+          <div class="row" style="display: flex; justify-content: center;">
+              <div class="col-md-4">
+                  <div class="pricing-card-list bg-dark text-white" style="max-width: 320px; height: 360px; border-radius: 16px; padding: 20px;">
+                      <div class="card-body">
+                          <h5 class="card-title">Starter</h5>
+                          <p class="card-text">$4.95 / One-time</p>
+                          <ul class="list-unstyled">
+                              <li>✔ Unlimited updates</li>
+                              <li>✔ Custom permissions</li>
+                              <li>✔ Custom infrastructure</li>
+                          </ul>
+                          <button class="pricing-get-started">Get Started</button>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="pricing-card-list text-white" style="max-width: 320px; height: 360px; border: 0.5px solid #AF53FF; border-radius: 16px; padding: 20px;">
+                      <div class="card-footer bg-transparent text-body-secondary">Recommended</div>
+                      <div class="card-body">
+                          <h5 class="card-title">Core</h5>
+                          <p class="card-text">$9.95 / Month</p>
+                          <ul class="list-unstyled">
+                              <li>✔ Unlimited updates</li>
+                              <li>✔ Custom permissions</li>
+                              <li>✔ Custom infrastructure</li>
+                          </ul>
+                          <button class="pricing-get-started-recommended">Get Started</button>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="pricing-card-list bg-dark text-white" style="max-width: 320px; height: 360px; border-radius: 16px; padding: 20px;">
+                      <div class="card-body">
+                          <h5 class="card-title">Enterprise</h5>
+                          <p class="card-text">$30.5 / Month</p>
+                          <ul class="list-unstyled">
+                              <li>✔ Unlimited updates</li>
+                              <li>✔ Custom permissions</li>
+                              <li>✔ Custom infrastructure</li>
+                              <li>✔ Unlimited products</li>
+                          </ul>
+                          <button class="pricing-get-started">Get Started</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
 
 
-
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+    <!-- Footer -->
 
 
+</body>

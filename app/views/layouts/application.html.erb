@@ -11,21 +11,23 @@
   </head>
 
   <body class="border" data-controller="search">
+    <div class="container">
+      <div class="background-container">
+        <div class="background-shape-topleft background-green">
+        </div>
+        <div class="background-shape-topright background-red">
+        </div>
+        <div class="background-shape-middleoffset background-purple">
+        </div>
+      </div>
 
-  <div class="container vh-100">
-    <div class="background-container">
-      <div class="background-shape-topleft background-green">
-      </div>
-      <div class="background-shape-topright background-red">
-      </div>
-      <div class="background-shape-middleoffset background-purple">
-      </div>
+      <%= render "shared/navbar" %>
+      <%= render "shared/flashes" %>
+      <%= yield %>
     </div>
-
-    <%= render "shared/navbar" %>
-    <%= render "shared/flashes" %>
-    <%= yield %>
-  </div>
+    <% if current_page?(root_path) %>
+      <%= render "shared/footer" %>
+    <% end %>
   </body>
 </html>
  

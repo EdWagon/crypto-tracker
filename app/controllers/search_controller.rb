@@ -43,4 +43,11 @@ class SearchController < ApplicationController
       format.json { render json: @results.to_json }
     end
   end
+
+  def coins
+    query = params[:query]
+    @coins = Coin.where("name ILIKE ? OR symbol ILIKE ?", "%#{query}%", "%#{query}%").limit(10)
+
+    render json: @coins.to_json
+  end
 end

@@ -87,7 +87,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
-
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.bigint "job_id", null: false
     t.string "queue_name", null: false
@@ -207,8 +206,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
-  end 
-  
+  end
+
   create_table "trade_transactions", force: :cascade do |t|
     t.string "transaction_type"
     t.bigint "first_transaction_id", null: false
