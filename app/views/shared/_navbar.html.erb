@@ -35,16 +35,14 @@
 
 
             <!-- Center - Transaction -->
-          <div class="d-flex flex-nowrap">
-            <div>
-              <%= link_to "#",
-                class: "btn btn-highlight text-nowrap ms-1  me-2",
-                id: "newTransactionButton",
-                data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
-                Add Transaction
-              <% end %>
-            </div>
-            <div>
+          <div class="d-flex flex-nowrap gap-2">
+            <%= link_to "#",
+              class: "btn btn-highlight text-nowrap ms-1  me-2",
+              id: "newTransactionButton",
+              data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
+              Add Transaction
+            <% end %>
+            <div style="width: 100%">
               <a href="#" class="avatar ms-2" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
               </a>

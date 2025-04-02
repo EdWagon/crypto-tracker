@@ -103,8 +103,8 @@ class TransactionsController < ApplicationController
     params.require(:transaction).permit(
       :transaction_type,
       :date,
-      :coin_id,
-      :to_coin_id,
+      :coin_name,
+      :to_coin_name,
       :wallet_id,
       :to_wallet_id,
       :quantity,
@@ -117,13 +117,16 @@ class TransactionsController < ApplicationController
     data = params.to_h.symbolize_keys
 
     secondary_params = {
-      to_coin_id: data.delete(:to_coin_id),
       to_wallet_id: data.delete(:to_wallet_id),
-      to_quantity: data.delete(:to_quantity).to_f
+      to_quantity: data.delete(:to_quantity).to_f,
+      to_coin_id: Coin.find_by(name: data[:to_coin_name])&.id,
+      to_coin_name: data.delete(:to_coin_name)
     }
 
     data[:quantity] = data[:quantity].to_f
     data[:total_value] = data[:total_value].to_f if data[:total_value].present?
+    data[:coin_id] = Coin.find_by(name: data[:coin_name]).id
+    data.delete(:coin_name)
 
     data[:user] = current_user
 
@@ -257,7 +260,7 @@ class TransactionsController < ApplicationController
         user: current_user,
         date: buy_transaction.date,
         wallet: Wallet.find(data[:secondary][:to_wallet_id]),
-        coin: Coin.find(data[:secondary][:to_coin_id]),
+        coin: Coin.find_by(name: data[:secondary][:to_coin_name]),
         transaction_type: 'sell',
         quantity: data[:secondary][:to_quantity],
         total_value: buy_transaction.total_value,

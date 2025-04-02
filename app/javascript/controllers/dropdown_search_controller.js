@@ -16,7 +16,7 @@ export default class extends Controller {
             data.forEach((coin) => {
               const option = document.createElement("option");
               option.value = coin.name; // Set the value of the option
-              option.textContent = `${coin.name} (${coin.symbol})`; // Set the display text
+              option.textContent = `${coin.symbol}`; // Set the display text
               this.list1Target.appendChild(option);
             })
           } else {

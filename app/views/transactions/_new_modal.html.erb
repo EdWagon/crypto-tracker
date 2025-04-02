@@ -24,8 +24,8 @@
           <div class="row" data-controller="dropdown-search">
             <!-- Coin In Field -->
             <div class="col-md-6 mb-3 d-none" data-transaction-form-target="coinInField">
-              <%= f.label :coin_id, "Coin In", class: "form-label" %>
-              <%= f.search_field :coin_id,
+              <%= f.label :coin_name, "Coin In", class: "form-label" %>
+              <%= f.search_field :coin_name,
                   class: "form-select",
                   list: "coin-in",
                   autocomplete: "off",
@@ -41,8 +41,8 @@
 
             <!-- Coin Out Field -->
             <div class="col-md-6 mb-3 d-none" data-transaction-form-target="coinOutField">
-              <%= f.label :to_coin_id, "Coin Out", class: "form-label" %>
-              <%= f.search_field :to_coin_id,
+              <%= f.label :to_coin_name, "Coin Out", class: "form-label" %>
+              <%= f.search_field :to_coin_name,
                   class: "form-select",
                   list: "coin-out",
                   autocomplete: "off",
