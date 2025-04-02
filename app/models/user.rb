@@ -8,4 +8,6 @@ class User < ApplicationRecord
   has_many :wallets_coins, through: :wallets
   has_many :coins, through: :wallets_coins
   has_many :transactions
+  has_many :portfolio_compositions
+
 end

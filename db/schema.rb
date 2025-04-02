@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
-
+ActiveRecord::Schema[7.1].define(version: 2025_04_02_004841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -44,6 +42,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
+  end
+
+  create_table "portfolio_compositions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date", null: false
+    t.bigint "coin_id", null: false
+    t.decimal "cumulative_amount", precision: 18, scale: 8
+    t.decimal "total_value", precision: 18, scale: 2
+    t.decimal "amount_invested", precision: 18, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_portfolio_compositions_on_coin_id"
+    t.index ["date"], name: "index_portfolio_compositions_on_date"
+    t.index ["user_id", "coin_id", "date"], name: "index_portfolio_compositions_on_user_id_and_coin_id_and_date", unique: true
+    t.index ["user_id"], name: "index_portfolio_compositions_on_user_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -229,10 +242,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
     t.decimal "quantity"
     t.decimal "price_per_coin"
     t.decimal "total_value", default: "0.0"
-    t.decimal "fee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "debit_credit", default: false
+    t.boolean "debit", default: false
+    t.decimal "realised_profit"
     t.index ["coin_id"], name: "index_transactions_on_coin_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
@@ -295,19 +308,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
 
   add_foreign_key "messages", "coins"
   add_foreign_key "messages", "users"
+  add_foreign_key "portfolio_compositions", "coins"
+  add_foreign_key "portfolio_compositions", "users"
   add_foreign_key "prices", "coins"
-
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
-
   add_foreign_key "trade_transactions", "transactions", column: "first_transaction_id"
   add_foreign_key "trade_transactions", "transactions", column: "second_transaction_id"
   add_foreign_key "trade_transactions", "transactions", column: "third_transaction_id"
-
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "users"
   add_foreign_key "transactions", "wallets"

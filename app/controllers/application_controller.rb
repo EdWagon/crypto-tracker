@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
     # devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)|(^coins$)|(^search$)|(^jobs$)/
 
     return true if params[:controller] =~ /(^(rails_)?admin)|(^pages$)|(^coins$)|(^search$)|(^prices$)|(^jobs$)/
-    return true if mission_control_controller?
     return true if devise_controller?
+    return true if mission_control_controller?
     return false
 
 
