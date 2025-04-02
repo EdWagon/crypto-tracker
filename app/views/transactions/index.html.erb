@@ -1,15 +1,7 @@
-
-
 <%= render 'shared/panel', locals: {
   title: "My Transactions",
   subtitle: "Your transaction history",
-  header_actions: [
-    { html: -> { link_to "#", class: "btn btn-highlight",
-        data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do
-          content_tag(:i, "", class: "fa-solid fa-plus")
-        end }
-    }
-  ],
+  header_actions: [],
   footer: true,
   objects: { title: "transaction(s)", objects: @transactions } ,
   footer_actions: [
@@ -23,9 +15,7 @@
     }
   ]
   } do %>
-
-
-  <div class="panel-body">
+    <div class="panel-body">
       <% if @transactions.blank? %>
         <div class="text-center py-5">
           <i class="bi bi-arrow-left-right text-muted" style="font-size: 3rem;"></i>
@@ -71,10 +61,6 @@
                   <td>$<%= number_with_precision(tx.total_value, precision: 2) %></td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group">
-                      <%= link_to "#", class: "btn btn-outline-secondary",
-                          data: { bs_toggle: "modal", bs_target: "#editTransactionModal#{tx.id}" } do %>
-                        <i class="bi bi-pencil"></i>
-                      <% end %>
                       <%= button_to transaction_path(tx), method: :delete,
                                    form: { class: "d-inline" },
                                    data: { turbo_confirm: "Are you sure you want to delete this transaction?" },
@@ -84,7 +70,6 @@
                     </div>
                   </td>
                 </tr>
-                <%= render 'edit_modal', transaction: tx %>
               <% end %>
             </tbody>
           </table>
