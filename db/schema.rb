@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_02_004841) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_02_231645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -317,9 +317,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_02_004841) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
-  add_foreign_key "trade_transactions", "transactions", column: "first_transaction_id"
-  add_foreign_key "trade_transactions", "transactions", column: "second_transaction_id"
-  add_foreign_key "trade_transactions", "transactions", column: "third_transaction_id"
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "users"
   add_foreign_key "transactions", "wallets"
