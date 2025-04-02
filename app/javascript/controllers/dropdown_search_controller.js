@@ -32,7 +32,9 @@ export default class extends Controller {
       fetch(`/search-coins?query=${encodeURIComponent(query)}`, { headers: { "Accept" : "application/json" }})
         .then(response => response.json())
         .then(data => {
+
           this.list2Target.innerHTML = ""; // Clear previous results
+
           if (data.length > 0) {
             data.forEach((coin) => {
               const option = document.createElement("option");
