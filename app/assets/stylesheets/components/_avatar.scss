@@ -1,20 +1,101 @@
-.avatar {
-  width: 40px;
-  border-radius: 50%;
+/* ====================== */
+/* === Pricing Cards === */
+/* ====================== */
+.pricing-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
-.avatar-large {
-  width: 56px;
-  border-radius: 50%;
+
+.pricing-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 12px;
 }
-.avatar-bordered {
-  width: 40px;
-  border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
+
+.pricing-card-list {
+  background: #222;
+  width: 100%;
+  min-width: 280px;
+  max-width: 360px;
+  height: 360px;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  animation: fadeIn 1.5s ease-in-out;
+  border: 0.5px solid #AF53FF;
+  color: white;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin: 0 auto;
 }
-.avatar-square {
-  width: 40px;
-  border-radius: 0px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
+
+.pricing-card-list.recommended {
+  border: 0.5px solid #AF53FF;
+  box-shadow: 0 0 20px rgba(175, 83, 255, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-card-list.recommended::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg,
+    rgba(175, 83, 255, 0.7),
+    rgba(110, 172, 254, 0.7),
+    rgba(175, 83, 255, 0.7));
+  background-size: 200% 200%;
+  z-index: -1;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 3s ease;
+}
+
+.pricing-card-list.recommended:hover::before {
+  opacity: 1;
+  animation: gradientPulse 3s ease infinite;
+}
+
+.pricing-card-list:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(175, 83, 255, 0.3);
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.pricing-card-list h3 {
+  color: #9b59b6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pricing-card-list {
+    min-width: 100%;
+    height: auto;
+    min-height: 360px;
+    max-width: 400px;
+  }
+
+  .pricing-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-card-list {
+    padding: 15px;
+  }
 }

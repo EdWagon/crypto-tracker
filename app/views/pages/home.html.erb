@@ -38,47 +38,72 @@
 
     <!-- Card Section -->
 
-  <section id="features" class="cards my-5">
-    <div class="container" style="padding: 40px; max-width: 1200px;">
-        <h3 class="headline-h3">Our Feature.</h3>
-         <p class="subtext" outline: none; display: flex; flex-direction: column; justify-content: center; flex-shrink: 0; transform: none;>Automate your financial operations, gain real-time insights, and focus on growth in Crypto.</p>
-        <div class="row">
-            <!-- Card 1 -->
-            <div class="card-outer-box shadow-sm">
-              <div style="min-width: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <div style="min-height: 320px; padding-block: 40px; padding-inline: 24px; display: flex; flex-direction: column; justify-content: space-between;">
-                            <div class="card-tag">Exclusive Feature</div>
-                            <h5 class="headline-h5">Powerful Tools to Grow Your Business</h5>
-                            <p class="description">Create dynamic budgets with predictive insights and scenario planning to help you manage future cash flows to help businesses optimize their financial health. </p>
-                            <p><small class="text-muted">Establish a Clear Revenue Model</small></p>
-                            <p><small class="text-muted">Diversify Income Streams</small></p>
-                            <button class="pricing-get-started-recommended">Explore More</button>
-                        </div>
-                    </div>
-                    <div class="card-img-wrapper" style="width: 100%; height: 100%;">
-                        <%= image_tag "landing-page/Feature-card.png", alt: "Feature-card image", class: "card-img" %>
-                    </div>
-                </div>
-
-            <!-- Card 2 -->
-            <div class="card-outer-box shadow-sm" style="display: flex; flex-direction: row-reverse;">
-                    <div style="min-width: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <div style="min-height: 320px; padding-block: 40px; padding-inline: 24px; display: flex; flex-direction: column; justify-content: space-between;">
-                            <div class="card-tag">Exclusive Feature</div>
-                            <h5 class="headline-h5">Make Strategies for Financial Growth</h5>
-                            <p class="description">Create dynamic budgets with predictive insights and scenario planning to help you manage future cash flows to help businesses optimize their financial health. </p>
-                            <p><small class="text-muted">Establish a Clear Revenue Model</small></p>
-                            <p><small class="text-muted">Diversify Income Streams</small></p>
-                            <button class="pricing-get-started-recommended">Explore More</button>
-                        </div>
-                    </div>
-                    <div class="card-img-wrapper" style="width: 100%; height: 100%;">
-                        <%= image_tag "landing-page/feature-card-2.png", alt: "Feature-card image", class: "card-img" %>
-                    </div>
-                </div>
-        </div>
+ <section id="features" class="feature-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h3 class="headline-h3">Our Features</h3>
+      <p class="subtext">Automate your financial operations, gain real-time insights, and focus on growth in Crypto.</p>
     </div>
-  </section>
+
+    <div class="feature-cards">
+      <!-- Card 1 -->
+      <div class="card-outer-box">
+        <div class="card-content">
+          <div class="card-inner">
+            <div class="card-tag">Exclusive Feature</div>
+            <h5 class="headline-h5">Powerful Tools to Grow Your Business</h5>
+            <p class="description">Create dynamic budgets with predictive insights and scenario planning to help you manage future cash flows.</p>
+
+            <div class="feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span class="feature-text">Establish a Clear Revenue Model</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span class="feature-text">Diversify Income Streams</span>
+              </div>
+            </div>
+
+            <button class="pricing-get-started-recommended">Explore More</button>
+          </div>
+        </div>
+
+        <div class="card-img-wrapper">
+          <%= image_tag "landing-page/Feature-card.png", alt: "Feature-card image", class: "card-img" %>
+        </div>
+      </div>
+
+      <!-- Card 2 (Reversed) -->
+      <div class="card-outer-box reverse">
+        <div class="card-content">
+          <div class="card-inner">
+            <div class="card-tag">Exclusive Feature</div>
+            <h5 class="headline-h5">Make Strategies for Financial Growth</h5>
+            <p class="description">Create dynamic budgets with predictive insights and scenario planning to optimize financial health.</p>
+
+            <div class="feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span class="feature-text">Establish a Clear Revenue Model</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span class="feature-text">Diversify Income Streams</span>
+              </div>
+            </div>
+
+            <button class="pricing-get-started-recommended">Explore More</button>
+          </div>
+        </div>
+
+        <div class="card-img-wrapper">
+          <%= image_tag "landing-page/feature-card-2.png", alt: "Feature-card image", class: "card-img" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
              <!-- G -->
             <div class="card text-center" style="margin: 80px;">
@@ -103,7 +128,7 @@ our AI assistant. Take your content to next level!</p>
 
     <div class="pricing-cards row justify-content-center">
         <div class="col-md-4 d-flex justify-content-center">
-            <div class="pricing-card-list bg-dark text-white" style="min-width: 360px; height: 360px; border-radius: 16px; padding: 20px;">
+             <div class="pricing-card-list text-white" style="min-width: 360px; height: 360px; border: 0.5px solid rgb(149, 145, 151); border-radius: 16px; padding: 20px;">
                 <div class="card-body">
                     <h5 class="card-title">Starter</h5>
                     <p class="card-text">$4.95 / One-time</p>
@@ -117,7 +142,7 @@ our AI assistant. Take your content to next level!</p>
             </div>
         </div>
         <div class="col-md-4 d-flex justify-content-center">
-            <div class="pricing-card-list text-white" style="min-width: 360px; height: 360px; border: 0.5px solid #AF53FF; border-radius: 16px; padding: 20px;">
+             <div class="pricing-card-list text-white" style="min-width: 360px; height: 360px; border: 1px solid #AF53FF; border-radius: 16px; padding: 20px; background-color:rgba(175, 83, 255, 0.06);">
                 <div class="card-footer bg-transparent text-body-secondary">Recommended</div>
                 <div class="card-body">
                     <h5 class="card-title">Core</h5>
@@ -132,7 +157,7 @@ our AI assistant. Take your content to next level!</p>
             </div>
         </div>
         <div class="col-md-4 d-flex justify-content-center">
-            <div class="pricing-card-list bg-dark text-white" style="min-width: 360px; height: 360px; border-radius: 16px; padding: 20px;">
+             <div class="pricing-card-list text-white" style="min-width: 360px; height: 360px; border: 0.5px solid rgb(149, 145, 151); border-radius: 16px; padding: 20px;">
                 <div class="card-body">
                     <h5 class="card-title">Enterprise</h5>
                     <p class="card-text">$30.5 / Month</p>
@@ -153,77 +178,6 @@ our AI assistant. Take your content to next level!</p>
 
 
     <!-- Footer -->
-    <footer class="footer-container">
-        <div class="footer-content">
-            <!-- Footer Columns -->
-            <div class="footer-columns">
-                <!-- Column 1 -->
-                <div>
-                    <h4 class="footer-logo">CryptoCommand</h4>
-                    <p class="footer-description">
-                        Your all-in-one platform for crypto portfolio management and financial automation.
-                    </p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-discord"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                    </div>
-                </div>
-
-                <!-- Column 2 -->
-                <div>
-                    <h5 class="footer-heading">Product</h5>
-                    <ul class="footer-links">
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">API</a></li>
-                        <li><a href="#">Integrations</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3 -->
-                <div>
-                    <h5 class="footer-heading">Resources</h5>
-                    <ul class="footer-links">
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Guides</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Support</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 4 -->
-                <div>
-                    <h5 class="footer-heading">Company</h5>
-                    <ul class="footer-links">
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 5 - Newsletter -->
-                <div>
-                    <h5 class="footer-heading">Stay Updated</h5>
-                    <div>
-                        <input type="email" placeholder="Your email address" class="newsletter-input">
-                        <button class="footer-button">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Bottom -->
-            <div class="footer-bottom">
-                <div>© 2023 CryptoCommand. All rights reserved.</div>
-                <div class="footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookies</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
 
 
