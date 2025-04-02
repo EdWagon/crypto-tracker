@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -208,18 +206,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
-  create_table "trade_transactions", force: :cascade do |t|
-    t.string "transaction_type"
-    t.bigint "first_transaction_id", null: false
-    t.bigint "second_transaction_id"
-    t.bigint "third_transaction_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["first_transaction_id"], name: "index_trade_transactions_on_first_transaction_id"
-    t.index ["second_transaction_id"], name: "index_trade_transactions_on_second_transaction_id"
-    t.index ["third_transaction_id"], name: "index_trade_transactions_on_third_transaction_id"
-  end
-
   create_table "transactions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "wallet_id", null: false
@@ -296,18 +282,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
   add_foreign_key "messages", "coins"
   add_foreign_key "messages", "users"
   add_foreign_key "prices", "coins"
-
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
-
-  add_foreign_key "trade_transactions", "transactions", column: "first_transaction_id"
-  add_foreign_key "trade_transactions", "transactions", column: "second_transaction_id"
-  add_foreign_key "trade_transactions", "transactions", column: "third_transaction_id"
-
   add_foreign_key "transactions", "coins"
   add_foreign_key "transactions", "users"
   add_foreign_key "transactions", "wallets"
