@@ -20,3 +20,15 @@ production:
     class: UpdateMarketDataJob
     queue: default
     schedule: every hour at minute 1
+
+development:
+  portfolio_composition:
+    class: UpdateAllPortfolioCompositionJob
+    queue: default
+    schedule: every 4 hours
+
+production:
+  portfolio_composition:
+    class: UpdateAllPortfolioCompositionJob
+    queue: default
+    schedule: every 4 hours
