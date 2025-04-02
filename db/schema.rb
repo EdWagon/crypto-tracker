@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_02_231645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -219,6 +219,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_31_222448) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
+  end
+
+  create_table "trade_transactions", force: :cascade do |t|
+    t.string "transaction_type"
+    t.bigint "first_transaction_id", null: false
+    t.bigint "second_transaction_id"
+    t.bigint "third_transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["first_transaction_id"], name: "index_trade_transactions_on_first_transaction_id"
+    t.index ["second_transaction_id"], name: "index_trade_transactions_on_second_transaction_id"
+    t.index ["third_transaction_id"], name: "index_trade_transactions_on_third_transaction_id"
   end
 
   create_table "transactions", force: :cascade do |t|
