@@ -1,6 +1,6 @@
-<div class="container py-5">
-  <div class="panel">
-    <div class="panel-header">
+<div class="pb-4">
+  <div class="panel" <%= locals[:panel_meta] %> >
+    <div class="panel-header d-flex justify-content-between">
       <div>
         <% if locals[:title] %>
           <h2 class="panel-title"><%= locals[:title] %></h2>
@@ -9,6 +9,7 @@
           <div class="panel-subtitle"><%= locals[:subtitle]%></div>
         <% end %>
       </div>
+      <div>
       <% if locals[:header_actions] %>
         <% locals[:header_actions].each do |action| %>
           <% if action[:html].respond_to?(:call) %>
@@ -18,6 +19,7 @@
           <% end %>
         <% end %>
       <% end %>
+      </div>
     </div>
 
     <div class="panel-body">
@@ -26,7 +28,8 @@
 
     <% if locals[:objects].present? %>
       <div class="panel-footer">
-        <span><%= locals[:objects][:objects].count %> <%= locals[:objects][:title] %> </span>
+
+        <span><%= locals[:objects][:objects].to_a.size %> <%= locals[:objects][:objects].to_a.size> 1 ? "#{locals[:objects][:title]}s": locals[:objects][:title] %> </span>
         <% if locals[:footer_actions] %>
           <div class="panel-footer-actions">
             <% locals[:footer_actions].each do |action| %>

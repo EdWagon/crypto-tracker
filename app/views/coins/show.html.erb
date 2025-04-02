@@ -24,33 +24,55 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-8 mb-4">
-      <div class="card shadow-sm mb-4">
-        <div class="card-body" data-controller="line-graph-chart"
-                      data-action="resize@window->line-graph-chart#resize"
-                      data-line-graph-chart-coinid-value="<%= @coin.id %>"
-                      data-line-graph-chart-range-value="1y">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="card-title mb-0">Price Chart</h5>
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-sm btn-outline-secondary" data-line-graph-chart-target="oneDayBtn" data-action="click->line-graph-chart#setRange" data-range="1d">1D</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary" data-line-graph-chart-target="oneWeekBtn" data-action="click->line-graph-chart#setRange" data-range="1w">1W</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary" data-line-graph-chart-target="oneMonthBtn" data-action="click->line-graph-chart#setRange" data-range="1m">1M</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary active" data-line-graph-chart-target="oneYearBtn" data-action="click->line-graph-chart#setRange" data-range="1d">1Y</button>
-            </div>
-          </div>
-          <div class="chart-placeholder" style="height: 300px;">
-            <div class="d-flex justify-content-center align-items-center h-100 w-100">
-              <div class="text-center chart" data-line-graph-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
-                <canvas data-line-graph-chart-target="chart">
-                  <p class="text-muted" >Price chart would display here</p>
-                </canvas>
+    <div class="col-lg-8">
 
+
+      <%= render 'shared/panel', locals: {
+          title: "#{@coin.name} Price Chart",
+          panel_meta: "data-controller=line-graph-chart data-action=resize@window->line-graph-chart#resize
+                data-line-graph-chart-coinid-value=#{ @coin.id }
+                data-line-graph-chart-range-value=1y",
+          divider_top:  false,
+          header_actions: [
+            { html: -> {
+                link_to "1d", "#", class: "btn btn-nav m-0",
+                  data: { line_graph_chart_target: "oneDayBtn", action: "click->line-graph-chart#setRange", range: "1d" }
+              }
+            },
+            { html: -> {
+                link_to "1w", "#", class: "btn btn-nav",
+                  data: { line_graph_chart_target: "oneWeekBtn", action: "click->line-graph-chart#setRange", range: "1w" }
+              }
+            },
+            { html: -> {
+                link_to "1m", "#", class: "btn btn-nav",
+                  data: { line_graph_chart_target: "oneMonthBtn", action: "click->line-graph-chart#setRange", range: "1m" }
+              }
+            },
+            { html: -> {
+                link_to "1y", "#", class: "btn btn-nav active",
+                  data: { line_graph_chart_target: "oneYearBtn", action: "click->line-graph-chart#setRange", range: "1y" }
+              }
+            }
+        ]
+        } do %>
+          <div class="card-body" >
+            <div class="chart-placeholder" style="height: 300px;">
+              <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                <div class="text-center chart" data-line-graph-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
+                  <canvas data-line-graph-chart-target="chart">
+                    <p class="text-muted" >Price chart would display here</p>
+                  </canvas>
+
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+      <% end %>
+
+      <%# Render the Transactions Panel %>
+      <%= render 'transactions/transactions_index', transactions: @transaactions %>
+
 
       <div class="card shadow-sm">
         <div class="card-header">
@@ -117,6 +139,10 @@
         </div>
       </div>
 
+
+
+
+
     </div>
 
     <div class="col-lg-4">
@@ -124,7 +150,7 @@
 
 
       <%= render 'shared/panel', locals: {
-        title: "#{@coin.name} Statistics",
+        title: "Statistics",
         panel: "box-2"
         } do %>
 
@@ -151,7 +177,7 @@
 
 
       <%= render 'shared/panel', locals: {
-        title: "#{@coin.name} Chat",
+        title: "#{@coin.symbol} Chat",
         subtitle: "Trade Ideas and Discussion",
         panel: "box-4"
         } do %>
