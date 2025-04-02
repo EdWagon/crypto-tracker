@@ -3,3 +3,6 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "@popperjs/core"
 import "bootstrap"
+import "chart.js"
+
+// import LineGraphChartController from "./controllers/line_graph_chart_controller.js";
