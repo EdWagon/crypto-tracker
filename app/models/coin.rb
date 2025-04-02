@@ -5,6 +5,8 @@ class Coin < ApplicationRecord
   has_many :messages, dependent: :destroy
   include PgSearch::Model
   multisearchable against: [:name, :symbol]
+  has_many :portfolio_compositions
+
 
   after_create_commit :rebuild_search_index
   after_update_commit :rebuild_search_index

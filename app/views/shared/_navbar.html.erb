@@ -22,7 +22,7 @@
           <!-- Center - Functional Search Bar -->
           <div class="search-container">
             <%= form_with url: search_path, method: :get, local: true, class: "d-flex flex-nowrap ms-2 me-4", data: {action: "submit->search#search"}, html: { autocomplete: "off" } do %>
-              <div class="input-group" style="max-width: 1020px; min-width: 650px;">
+              <div class="input-group" style="min-width: 550px;">
                 <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Search Wallets & Coins", aria_label: "Search", aria_describedby: "search-button", data: { search_target: "input" , action: "keyup->search#search" }%>
                 <button type="submit" class="input-group-text" id="search-button">
                   <i class="fa-solid fa-magnifying-glass"></i>
@@ -61,9 +61,9 @@
               <%= image_tag image_path("logo.png") %>
             <% end %>
             <div class="d-flex flex-nowrap ms-1 justify-content-between">
-              <%= link_to "Palantir", "dashboard#portfolio", class: "btn btn-nav active" %>
-              <%= link_to "Features", coins_path, class: "btn btn-nav" %>
-              <%= link_to "Pricing", wallets_path, class: "btn btn-nav" %>
+              <%= link_to "Palantir", root_path, class: "btn btn-nav active" %>
+              <%= link_to "Features", "#features", class: "btn btn-nav" %>
+              <%= link_to "Pricing", "#pricing", class: "btn btn-nav" %>
             </div>
           </div>
           <div>
