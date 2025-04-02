@@ -32,29 +32,32 @@ export default class extends Controller {
 
   // Highlight the active button based on current range
   highlightActiveButton() {
-
-    const targetMapping = {
-      '1d': 'oneDayBtn',
-      '1w': 'oneWeekBtn',
-      '1m': 'oneMonthBtn',
-      '1y': 'oneYearBtn'
-    };
-
+    // Get all the button targets
+    const buttonTargets = [
+      'oneDayBtnTarget',
+      'oneWeekBtnTarget',
+      'oneMonthBtnTarget',
+      'oneYearBtnTarget'
+    ];
 
     // Remove active class from all buttons
-    console.log("highlightActiveButton");
-    Object.values(targetMapping).forEach(period => {
-
-      if (this.hasDayTarget) {
-        this[`${targetName}Target`].classList.remove('active');
+    buttonTargets.forEach(targetName => {
+      if (this[targetName]) {
+        this[targetName].classList.remove('active');
       }
     });
 
-    // Add active class to current range button
-    const currentRange = this.rangeValue;
-    const targetName = targetMapping[currentRange];
-    if (targetName && this[`has${targetName.charAt(0).toUpperCase() + targetName.slice(1)}Target`]) {
-      this[`${targetName}Target`].classList.add('active');
+    // Add active class to the current range button
+    const rangeToTargetMap = {
+      '1d': 'oneDayBtnTarget',
+      '1w': 'oneWeekBtnTarget',
+      '1m': 'oneMonthBtnTarget',
+      '1y': 'oneYearBtnTarget'
+    };
+
+    const targetName = rangeToTargetMap[this.rangeValue];
+    if (targetName && this[targetName]) {
+      this[targetName].classList.add('active');
     }
   }
 
@@ -68,6 +71,7 @@ export default class extends Controller {
 
   loadChart() {
     const url = `/coins/${this.coinidValue}/prices.json?range=${this.rangeValue}`;
+    console.log("Fetching price data from:", url);
 
     fetch(url, {
       method: "GET",
@@ -135,7 +139,8 @@ export default class extends Controller {
     const data = {
       labels: dates,
       datasets: [{
-        label: "Price (AUD)",
+        label: "AUD",
+        legend: false,
         data: prices,
         fill: false,
         borderColor: '#8EF27E',
@@ -176,6 +181,11 @@ export default class extends Controller {
         interaction: {
           mode: 'index',
           intersect: false,
+        },
+        plugins: {
+          legend: {
+            display: false  // This will hide the legend
+          }
         },
         scales: {
           x: {

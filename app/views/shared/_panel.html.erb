@@ -1,4 +1,4 @@
-<div class="container pb-5">
+<div class="pb-4">
   <div class="panel" <%= locals[:panel_meta] %> >
     <div class="panel-header d-flex justify-content-between">
       <div>
@@ -28,7 +28,8 @@
 
     <% if locals[:objects].present? %>
       <div class="panel-footer">
-        <span><%= locals[:objects][:objects].count %> <%= locals[:objects][:title] %> </span>
+
+        <span><%= locals[:objects][:objects].to_a.size %> <%= locals[:objects][:objects].to_a.size> 1 ? "#{locals[:objects][:title]}s": locals[:objects][:title] %> </span>
         <% if locals[:footer_actions] %>
           <div class="panel-footer-actions">
             <% locals[:footer_actions].each do |action| %>

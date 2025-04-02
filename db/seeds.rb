@@ -145,44 +145,7 @@ puts "Seeding price history..."
 # Get the price history for Bitcoin and Ethereum only
 [bitcoin, ethereum].each do |coin|
 
-
-  url = URI("https://api.coingecko.com/api/v3/coins/#{coin.api_id}/market_chart?vs_currency=aud&days=365&interval=daily&precision=full")
-
-  http = Net::HTTP.new(url.host, url.port)
-  http.use_ssl = true
-
-  request = Net::HTTP::Get.new(url)
-  request["accept"] = 'application/json'
-  request["x-cg-demo-api-key"] = ENV['COINGEKO_API_KEY']
-
-  response = http.request(request)
-  response = JSON.parse(response.read_body)
-  # puts response.read_body
-
-  # binding.break
-
-  # response = response.deep_symbolize_keys!
-
-  response["prices"].each_with_index do |pricearray, index|
-    # binding.break
-    datetime = Time.at(pricearray[0] / 1000.0).to_datetime
-    price = pricearray[1]
-    volume = response["total_volumes"][index][1]
-    market_cap = response["market_caps"][index][1]
-
-    price = Price.new(
-      coin_id: coin.id,
-      price: price,
-      market_cap: market_cap,
-      date: datetime,
-      volume_24h: volume
-    )
-    if price.save!
-      puts "Price created for #{coin.name} (#{coin.symbol}) on #{datetime.strftime('%Y-%m-%d')}"
-    else
-      puts "Failed to create price for #{coin.name} (#{coin.symbol}) on #{datetime.strftime('%Y-%m-%d')}"
-    end
-  end
+  GetPriceHistoryJob.perform_later(coin_id: coin.id, days: 365)
 
 end
 
