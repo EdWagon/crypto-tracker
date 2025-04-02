@@ -13,10 +13,18 @@ development:
   market_data:
     class: UpdateMarketDataJob
     queue: default
-    schedule: every day at 11:01
+    schedule: "every hour at minute 1"
+  portfolio_composition:
+    class: UpdateAllPortfolioCompositionJob
+    queue: default
+    schedule: every 4 hours
 
 production:
   market_data:
     class: UpdateMarketDataJob
     queue: default
     schedule: every hour at minute 1
+  portfolio_composition:
+    class: UpdateAllPortfolioCompositionJob
+    queue: default
+    schedule: every 4 hours

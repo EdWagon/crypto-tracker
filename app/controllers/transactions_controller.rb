@@ -178,6 +178,9 @@ class TransactionsController < ApplicationController
         second_transaction: sell_transaction,
         third_transaction: nil
       )
+
+      UpdatePortfolioCompositionForTransactionJob.perform_later(buy_transaction.id)
+      UpdatePortfolioCompositionForTransactionJob.perform_later(sell_transaction.id)
     end
   end
 
@@ -205,6 +208,10 @@ class TransactionsController < ApplicationController
 
       # Calculate and store realized profit
       calculate_realized_profit(sell_transaction)
+
+      UpdatePortfolioCompositionForTransactionJob.perform_later(buy_transaction.id)
+      UpdatePortfolioCompositionForTransactionJob.perform_later(sell_transaction.id)
+
     end
   end
 
@@ -219,6 +226,8 @@ class TransactionsController < ApplicationController
         third_transaction: nil
       )
     end
+
+    UpdatePortfolioCompositionForTransactionJob.perform_later(deposit_transaction.id)
   end
 
   def process_withdrawal_transaction(data)
@@ -234,6 +243,9 @@ class TransactionsController < ApplicationController
 
       # Calculate and store realized profit
       calculate_realized_profit(withdrawal_transaction)
+
+      UpdatePortfolioCompositionForTransactionJob.perform_later(withdrawal_transaction.id)
+
     end
   end
 
@@ -264,6 +276,11 @@ class TransactionsController < ApplicationController
 
       # Calculate and store realized profit for the sell side of the swap
       calculate_realized_profit(sell_transaction)
+
+      UpdatePortfolioCompositionForTransactionJob.perform_later(buy_transaction.id)
+      unless sell_transaction.coin_id == buy_transaction.coin_id
+        UpdatePortfolioCompositionForTransactionJob.perform_later(sell_transaction.id)
+      end
     end
   end
 
@@ -287,6 +304,9 @@ class TransactionsController < ApplicationController
         second_transaction: receiving_transaction,
         third_transaction: nil
       )
+      # To prevent a race condition we only call this once as the coins are the same
+      UpdatePortfolioCompositionForTransactionJob.perform_later(sending_transaction.id)
+
     end
   end
 end

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'prices/index'
+
+
   devise_for :users
 
   root to: "pages#home"
@@ -8,6 +9,10 @@ Rails.application.routes.draw do
   get "search-coins", to: "search#coins", as: :search_coins, defaults: { format: :json }
 
   get 'elements', to: 'pages#elements' # TODO: To be removed onces all formatting is done
+
+
+  get 'portfolio', to: 'portfolio_compositions#index', as: :portfolio
+  # get 'prices/index'
 
   resources :watchlists do
     resources :watchlists_coins, only: [:create, :update, :destroy]
