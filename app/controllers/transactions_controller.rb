@@ -36,6 +36,65 @@ class TransactionsController < ApplicationController
 
   private
 
+  def calculate_realized_profit(transaction)
+    return unless ['sell', 'withdrawal'].include?(transaction.transaction_type) ||
+                  (transaction.transaction_type == 'swap' && transaction.debit)
+
+    # Get all previous transactions for this coin for this user, ordered by date
+    previous_transactions = Transaction.where(
+      user_id: transaction.user_id,
+      coin_id: transaction.coin_id
+    ).where('date <= ?', transaction.date)
+      .order(:date, :created_at)
+
+    # Calculate cumulative amount of coin before this transaction
+    cumulative_amount_before = 0
+    cumulative_investment_before = 0
+
+    previous_transactions.each do |prev_tx|
+      next if prev_tx.id == transaction.id # Skip the current transaction
+
+      if prev_tx.debit
+        cumulative_amount_before -= prev_tx.quantity
+      else
+        cumulative_amount_before += prev_tx.quantity
+      end
+
+      # Track cumulative investment amount
+      if prev_tx.transaction_type == 'buy' ||
+         (prev_tx.transaction_type == 'swap' && !prev_tx.debit) ||
+         prev_tx.transaction_type == 'deposit'
+        cumulative_investment_before += (prev_tx.total_value || 0)
+      elsif prev_tx.transaction_type == 'sell' ||
+            (prev_tx.transaction_type == 'swap' && prev_tx.debit) ||
+            prev_tx.transaction_type == 'withdrawal'
+        # Adjust investment based on portion of holdings sold
+        if cumulative_amount_before + prev_tx.quantity > 0
+          portion_sold = prev_tx.quantity / (cumulative_amount_before + prev_tx.quantity)
+          cumulative_investment_before -= (cumulative_investment_before * portion_sold)
+        end
+      end
+    end
+
+    # Calculate cumulative investment after this transaction
+    cumulative_investment_after = cumulative_investment_before
+
+    if cumulative_amount_before > 0
+      # If we're selling/withdrawing, adjust the investment proportionally
+      portion_sold = transaction.quantity / cumulative_amount_before
+      investment_reduction = cumulative_investment_before * portion_sold
+      cumulative_investment_after -= investment_reduction
+    end
+
+    # Calculate realized profit
+    # Value of the order + difference in cumulative investment
+    realized_profit = transaction.total_value -
+                      (cumulative_investment_before - cumulative_investment_after)
+
+    transaction.update(realised_profit: realized_profit)
+  end
+
+
   def set_transaction
     @transaction = Transaction.find(params[:id])
   end
@@ -51,7 +110,6 @@ class TransactionsController < ApplicationController
       :quantity,
       :to_quantity,
       :total_value,
-      :fee
     )
   end
 
@@ -101,7 +159,7 @@ class TransactionsController < ApplicationController
 
   def process_buy_transaction(data)
     ActiveRecord::Base.transaction do
-      buy_transaction = Transaction.create!(data[:primary])
+      buy_transaction = Transaction.create!(data[:primary].merge(debit: false))
 
       sell_transaction = Transaction.create!(
         user: current_user,
@@ -110,7 +168,8 @@ class TransactionsController < ApplicationController
         coin: Coin.find_by(symbol: 'AUD'),
         transaction_type: 'sell',
         quantity: buy_transaction.total_value,
-        total_value: buy_transaction.total_value
+        total_value: buy_transaction.total_value,
+        debit: true
       )
 
       TradeTransaction.create!(
@@ -124,7 +183,7 @@ class TransactionsController < ApplicationController
 
   def process_sell_transaction(data)
     ActiveRecord::Base.transaction do
-      sell_transaction = Transaction.create!(data[:primary])
+      sell_transaction = Transaction.create!(data[:primary].merge(debit: true))
 
       buy_transaction = Transaction.create!(
         user: current_user,
@@ -133,7 +192,8 @@ class TransactionsController < ApplicationController
         coin: Coin.find_by(symbol: 'AUD'),
         transaction_type: 'buy',
         quantity: sell_transaction.total_value,
-        total_value: sell_transaction.total_value
+        total_value: sell_transaction.total_value,
+        debit: false
       )
 
       TradeTransaction.create!(
@@ -142,12 +202,15 @@ class TransactionsController < ApplicationController
         second_transaction: buy_transaction,
         third_transaction: nil
       )
+
+      # Calculate and store realized profit
+      calculate_realized_profit(sell_transaction)
     end
   end
 
   def process_deposit_transaction(data)
     ActiveRecord::Base.transaction do
-      deposit_transaction = Transaction.create!(data[:primary])
+      deposit_transaction = Transaction.create!(data[:primary].merge(debit: false))
 
       TradeTransaction.create!(
         transaction_type: "deposit",
@@ -160,7 +223,7 @@ class TransactionsController < ApplicationController
 
   def process_withdrawal_transaction(data)
     ActiveRecord::Base.transaction do
-      withdrawal_transaction = Transaction.create!(data[:primary])
+      withdrawal_transaction = Transaction.create!(data[:primary].merge(debit: true))
 
       TradeTransaction.create!(
         transaction_type: "withdrawal",
@@ -168,12 +231,16 @@ class TransactionsController < ApplicationController
         second_transaction: nil,
         third_transaction: nil
       )
+
+      # Calculate and store realized profit
+      calculate_realized_profit(withdrawal_transaction)
     end
   end
 
   def process_swap_transaction(data)
     ActiveRecord::Base.transaction do
       buy_params = data[:primary].dup
+      buy_params.merge(debit: false)
       buy_params[:transaction_type] = "buy"
       buy_transaction = Transaction.create!(buy_params)
 
@@ -184,7 +251,8 @@ class TransactionsController < ApplicationController
         coin: Coin.find_by(name: data[:secondary][:to_coin_name]),
         transaction_type: 'sell',
         quantity: data[:secondary][:to_quantity],
-        total_value: buy_transaction.total_value
+        total_value: buy_transaction.total_value,
+        debit: true
       )
 
       TradeTransaction.create!(
@@ -193,12 +261,15 @@ class TransactionsController < ApplicationController
         second_transaction: sell_transaction,
         third_transaction: nil
       )
+
+      # Calculate and store realized profit for the sell side of the swap
+      calculate_realized_profit(sell_transaction)
     end
   end
 
   def process_transfer_transaction(data)
     ActiveRecord::Base.transaction do
-      sending_transaction = Transaction.create!(data[:primary])
+      sending_transaction = Transaction.create!(data[:primary].merge(debit: true))
 
       receiving_transaction = Transaction.create!(
         user: current_user,
@@ -206,7 +277,8 @@ class TransactionsController < ApplicationController
         wallet: Wallet.find(data[:secondary][:to_wallet_id]),
         coin: sending_transaction.coin,
         transaction_type: 'transfer',
-        quantity: data[:secondary][:to_quantity]
+        quantity: data[:secondary][:to_quantity],
+        debit: false
       )
 
       TradeTransaction.create!(

@@ -115,23 +115,23 @@ export default class extends Controller {
         coinIn: "Coin Sold"
       },
       deposit: {
-        quantityIn: "Amount Deposited",
+        quantityIn: "Quantity Deposited",
         coinIn: "Coin Deposited"
       },
       withdrawal: {
-        quantityIn: "Amount Withdrawn",
+        quantityIn: "Quantity Withdrawn",
         coinIn: "Coin Withdrawn"
       },
       swap: {
-        quantityIn: "Quantity Bought",
+        quantityIn: "Quantity Purchased",
         quantityOut: "Quantity Sold",
-        coinIn: "Coin In",
-        coinOut: "Coin Out"
+        coinIn: "Coin Purchased",
+        coinOut: "Coin Sold"
       },
       transfer: {
         coinIn: "Coin Transfer",
-        quantityIn: "Amount Received",
-        quantityOut: "Amount Sent"
+        quantityIn: "Quantity Received",
+        quantityOut: "Quantity Sent"
       }
     }
 

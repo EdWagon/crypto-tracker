@@ -24,8 +24,31 @@
   --chart-color-3: rgb(255, 110, 110); // rgb(255, 110, 110)
   --gradient-primary: var(--highlight-purple);
   --gradient-secondary: var(--highlight-blue);
-  --color-main-background: #181A25;
+  --color-main-background: rgb(24, 26, 37);
   --color-window-border-main: #565656;
   --color-window-border-secondary: #565656;
   // --form-label-color: #616480;
+
+  --dark-bg: #121212;                       /* Main background color */
+  --surface-1: rgba(24, 26, 37, 0.05);   /* Row background */
+  --surface-2: rgba(24, 26, 37, 0.834);   /* Alternate row background */
+  --surface-hover: hwb(0 100% 0% / 0.054); /* Hover state */
+
+  /* Border colors */
+  --border-light: rgba(255, 255, 255, 0.1); /* Default border */
+  --border-hover: rgba(255, 255, 255, 0.2); /* Hover border */
+
+  /* Text colors */
+  --text-primary: rgba(255, 255, 255, 0.9); /* Main text */
+  --text-secondary: rgba(255, 255, 255, 0.7); /* Secondary text */
+
+  /* Action colors */
+  --buy-color: rgba(25, 135, 84, 0.7);      /* Buy indicator */
+  --sell-color: rgba(220, 53, 69, 0.7);     /* Sell indicator */
+  --buy-glow: rgba(25, 135, 84, 0.2);       /* Buy indicator glow */
+  --sell-glow: rgba(220, 53, 69, 0.2);      /* Sell indicator glow */
+
+  /* Shadow */
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.2);   /* Subtle shadow */
+
 }
