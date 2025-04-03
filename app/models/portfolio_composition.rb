@@ -1,31 +1,40 @@
 class PortfolioComposition < ApplicationRecord
   belongs_to :user
   belongs_to :coin
+  # has_many :wallets through: :wallets_coins
 
   validates :user_id, :coin_id, :date, presence: true
   validates :date, uniqueness: { scope: [:user_id, :coin_id] }
 
-  # Updates portfolio composition for a given transaction
-  def self.update_for_transaction(transaction)
-    return unless transaction.persisted?
 
-    # Update for the transaction date and all previous dates back to the earliest transaction
-    update_from_date_backward(transaction.user_id, transaction.coin_id, transaction.date.to_date)
-  end
 
-  # Updates portfolio composition from a specific date backward to earliest transaction
-  def self.update_from_date_backward(user_id, coin_id, end_date)
+
+
+
+  # Class Methdods Used to Caclulate Portfolio Composition
+
+  # Updates portfolio composition for a transaction
+  # This method is used by the background job when a transaction is created or updated.
+  # A Job is created using the Transaction model's after_create and after_update callbacks.
+  # It updates the portfolio composition for the user and coin associated with the transaction
+  # It also updates the portfolio composition for all dates between the Transction up to the current date
+  def self.update_portfolio_for_transaction(transaction)
     # Get start date (earliest transaction date for this user and coin)
-    start_date = Transaction.where(user_id: user_id, coin_id: coin_id)
-                            .minimum('date')&.to_date
+    start_date = transaction.date.to_date
+    user_id = transaction.user_id
+    coin_id = transaction.coin_id
 
     return unless start_date
 
-    # Process each date in range from start_date to end_date
-    (start_date..end_date).each do |date|
+    # Process each date in range from start_date till Toda
+    (start_date..Date.current).each do |date|
       update_for_date(user_id, coin_id, date)
     end
   end
+
+
+
+
 
   # Updates portfolio composition for a specific user, coin, and date
   def self.update_for_date(user_id, coin_id, date)
@@ -44,6 +53,9 @@ class PortfolioComposition < ApplicationRecord
       total_value: total_value
     )
   end
+
+
+
 
   # Calculates how much of a coin the user owns at end of specified date
   def self.calculate_cumulative_amount(user_id, coin_id, date)
@@ -115,6 +127,21 @@ class PortfolioComposition < ApplicationRecord
     end
   end
 
+  # Recalculates portfolio for a specific user for today
+  def self.calculate_todays_user_portfolio(user)
+    Coin.find_each do |coin|
+      earliest_date = Transaction.where(user_id: user.id, coin_id: coin.id)
+          .minimum('date')&.to_date
+      latest_date = Transaction.where(user_id: user.id, coin_id: coin.id)
+          .maximum('date')&.to_date
+      # binding.break
+      # Skip if no transactions exist
+      next unless earliest_date && latest_date
+        update_for_date(user.id, coin.id, Date.current)
+      end
+  end
+
+
   # Recalculates portfolio for all users, coins, and dates
   def self.recalculate_all
     User.find_each do |user|
@@ -124,12 +151,12 @@ class PortfolioComposition < ApplicationRecord
                                  .minimum('date')&.to_date
         latest_date = Transaction.where(user_id: user.id, coin_id: coin.id)
                                .maximum('date')&.to_date
-
+        # binding.break
         # Skip if no transactions exist
         next unless earliest_date && latest_date
 
         # Update from earliest date to latest date
-        (earliest_date..latest_date).each do |date|
+        (earliest_date..Date.current).each do |date|
           update_for_date(user.id, coin.id, date)
         end
       end

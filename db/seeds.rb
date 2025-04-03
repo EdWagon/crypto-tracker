@@ -28,7 +28,7 @@ puts "Creating users..."
 
 alice = User.create!(
   email: "alice@example.com",
-  password: "password123",
+  password: "alice@example.com",
   password_confirmation: "password123",
   first_name: "Alice",
   last_name: "Johnson",
@@ -39,7 +39,7 @@ puts "Created user: #{alice.email}"
 
 bob = User.create!(
   email: "bob@example.com",
-  password: "password123",
+  password: "bob@example.com",
   password_confirmation: "password123",
   first_name: "Bob",
   last_name: "Smith",
@@ -168,137 +168,7 @@ bob_wallet_1 = Wallet.create!(
 )
 puts "Created wallet for Bob: #{bob_wallet_1.name}"
 
-puts "Adding coins to wallets..."
 
-WalletsCoin.create!(
-  wallet_id: alice_wallet_1.id,
-  coin_id: bitcoin.id,
-  quantity: 0.5,
-  average_buy_price: 45000,
-  total_invested: 22500
-)
-puts "Added Bitcoin to Alice's wallet"
-
-WalletsCoin.create!(
-  wallet_id: alice_wallet_1.id,
-  coin_id: ethereum.id,
-  quantity: 3.2,
-  average_buy_price: 3000,
-  total_invested: 9600
-)
-puts "Added Ethereum to Alice's wallet"
-
-WalletsCoin.create!(
-  wallet_id: bob_wallet_1.id,
-  coin_id: bitcoin.id,
-  quantity: 1.2,
-  average_buy_price: 50000,
-  total_invested: 60000
-)
-puts "Added Bitcoin to Bob's wallet"
-
-puts "Creating sample transactions..."
-
-Transaction.create!(
-  user_id: alice.id,
-  wallet_id: alice_wallet_1.id,
-  coin_id: bitcoin.id,
-  date: DateTime.now - 5,
-  transaction_type: "buy",
-  quantity: 0.5,
-  price_per_coin: 45000,
-  total_value: 22500,
-)
-puts "Created transaction for Alice"
-
-Transaction.create!(
-  user_id: alice.id,
-  wallet_id: alice_wallet_1.id,
-  coin_id: bitcoin.id,
-  date: DateTime.now - 6,
-  transaction_type: "buy",
-  quantity: 0.5,
-  price_per_coin: 46000,
-  total_value: 23000,
-)
-puts "Created transaction for Alice"
-
-Transaction.create!(
-  user_id: alice.id,
-  wallet_id: alice_wallet_1.id,
-  coin_id: bitcoin.id,
-  date: DateTime.now - 6,
-  transaction_type: "buy",
-  quantity: 0.25,
-  price_per_coin: 48000,
-  total_value: 12000,
-)
-puts "Created transaction for Alice"
-
-Transaction.create!(
-  user_id: alice.id,
-  wallet_id: alice_wallet_1.id,
-  coin_id: ethereum.id,
-  date: DateTime.now - 10,
-  transaction_type: "buy",
-  quantity: 0.5,
-  price_per_coin: 1900,
-  total_value: 850,
-)
-puts "Created transaction for Alice"
-
-Transaction.create!(
-  user_id: alice.id,
-  wallet_id: alice_wallet_1.id,
-  coin_id: ethereum.id,
-  date: DateTime.now - 11,
-  transaction_type: "buy",
-  quantity: 1,
-  price_per_coin: 1950,
-  total_value: 1950,
-)
-puts "Created transaction for Alice"
-
-
-
-Transaction.create!(
-  user_id: alice.id,
-  wallet_id: alice_wallet_1.id,
-  coin_id: ethereum.id,
-  date: DateTime.now - 15,
-  transaction_type: "buy",
-  quantity: 2,
-  price_per_coin: 2100,
-  total_value: 4200,
-)
-puts "Created transaction for Alice"
-
-Transaction.create!(
-  user_id: alice.id,
-  wallet_id: alice_wallet_1.id,
-  coin_id: ethereum.id,
-  date: DateTime.now - 15,
-  transaction_type: "buy",
-  quantity: 2,
-  price_per_coin: 2150,
-  total_value: 4300,
-)
-puts "Created transaction for Alice"
-
-
-
-Transaction.create!(
-  user_id: bob.id,
-  wallet_id: bob_wallet_1.id,
-  coin_id: bitcoin.id,
-  date: DateTime.now - 10,
-  transaction_type: "buy",
-  quantity: 1.2,
-  price_per_coin: 50000,
-  total_value: 60000,
-)
-
-puts "Created transaction for Bob"
 puts "Rebuilding search index"
 PgSearch::Multisearch.rebuild(Coin)
 PgSearch::Multisearch.rebuild(Wallet)

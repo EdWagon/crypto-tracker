@@ -1,18 +1,29 @@
-/* Dark theme transaction list styling */
-.compact-transactions {
-  /* Container styles */
+/* Custom dark theme class - add this to your container element */
+.dark-theme {
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+}
 
+/* Transaction list styling */
+.compact-transactions {
   /* Row styling */
   .tx-row {
-    background-color: rgba(255, 255, 255, 0.05); /* Very subtle white background */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle white border */
+    background-color: var(--surface-1);
+    border: 1px solid var(--border-light);
+    color: var(--text-primary);
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1); /* Slightly brighter on hover */
+      background-color: var(--surface-hover);
+      border-color: var(--border-hover);
       transform: translateY(-1px);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow);
     }
+  }
+
+  /* Alternating row colors */
+  .tx-row:nth-child(even) {
+    background-color: var(--surface-2);
   }
 
   /* Badge styling */
@@ -23,34 +34,31 @@
 
   /* Buy/Sell badge colors */
   .badge.bg-success {
-    background-color: rgba(25, 135, 84, 0.7) !important; /* Semi-transparent green */
+    background-color: var(--buy-color) !important;
+    box-shadow: 0 0 8px var(--buy-glow);
   }
 
   .badge.bg-danger {
-    background-color: rgba(220, 53, 69, 0.7) !important; /* Semi-transparent red */
-  }
-
-  /* Text colors */
-  .tx-row {
-    color: rgba(255, 255, 255, 0.9); /* Slightly off-white text for better readability */
+    background-color: var(--sell-color) !important;
+    box-shadow: 0 0 8px var(--sell-glow);
   }
 
   /* Delete button styling */
   .btn-action {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.7);
+    border-color: var(--border-light);
+    color: var(--text-secondary);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
-      color: rgba(255, 255, 255, 0.9);
+      background-color: var(--surface-hover);
+      border-color: var(--border-hover);
+      color: var(--text-primary);
     }
   }
-}
 
-/* Alternating row colors for better readability */
-.compact-transactions .tx-row:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.03); /* Very subtle alternate row color */
+  /* Column padding */
+  [class^="col-"] {
+    padding: 0.35rem 0.5rem;
+  }
 }
 
 
