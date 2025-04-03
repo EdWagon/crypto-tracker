@@ -6,32 +6,12 @@ class PortfolioComposition < ApplicationRecord
   validates :user_id, :coin_id, :date, presence: true
   validates :date, uniqueness: { scope: [:user_id, :coin_id] }
 
-  # Updates portfolio composition for a given transaction
-  # def self.update_for_transaction(transaction)
-  #   return unless transaction.persisted?
-
-  #   # Update for the transaction date and all previous dates back to the earliest transaction
-  #   update_from_date_backward(transaction.user_id, transaction.coin_id, transaction.date.to_date)
-  # end
-
-  # # Updates portfolio composition from a specific date backward to earliest transaction
-  # def self.update_from_date_backward(user_id, coin_id, end_date)
-  #   # Get start date (earliest transaction date for this user and coin)
-  #   start_date = Transaction.where(user_id: user_id, coin_id: coin_id)
-  #                           .minimum('date')&.to_date
-
-  #   return unless start_date
-
-  #   # Process each date in range from start_date to end_date
-  #   #
-  #   (start_date..end_date).each do |date|
-  #     update_for_date(user_id, coin_id, date)
-  #   end
-  # end
 
 
 
 
+
+  # Class Methdods Used to Caclulate Portfolio Composition
 
   # Updates portfolio composition for a transaction
   # This method is used by the background job when a transaction is created or updated.

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
 
   get 'portfolio', to: 'portfolio_compositions#index', as: :portfolio
+  get 'portfolio/timeseries', to: 'portfolio_compositions#time_series', as: :portfolio_timeseries
   # get 'prices/index'
 
   resources :watchlists do

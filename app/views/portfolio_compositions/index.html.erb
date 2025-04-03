@@ -1,3 +1,31 @@
+
+
+<%= render 'shared/panel', locals: {
+    title: "Portfolio Chart",
+    panel_meta: "",
+    divider_top:  false
+  } do %>
+    <div class="card-body" >
+      <div class="chart-placeholder" style="height: 300px;"
+          data-controller="portfolio-performance-chart" data-action="resize@window->portfolio-performance-chart#resize"
+          data-portfolio-performance-chart-userid-value='"<%= @current_user.id %>"'
+          data-portfolio-performance-chart-range-value="1y">
+        <div class="d-flex justify-content-center align-items-center h-100 w-100">
+          <div class="text-center chart" data-portfolio-performance-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
+            <canvas data-portfolio-performance-chart-target="chart">
+              <p class="text-muted" >Price chart would display here</p>
+            </canvas>
+
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+
+
+
+
 <%= render 'shared/panel', locals: {
   title: "My Portfolio",
   subtitle: "Your portfolio composition",
@@ -83,4 +111,8 @@
     </div>
 
 
+
   <% end %>
+
+
+  <%= @perf %>

@@ -8,4 +8,7 @@ class PortfolioCompositionPolicy < ApplicationPolicy
     end
   end
 
+  def time_series?
+    true
+  end
 end
