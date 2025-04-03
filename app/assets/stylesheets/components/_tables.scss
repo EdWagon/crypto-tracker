@@ -58,6 +58,11 @@ td {
   padding-block: 16px !important;
 }
 
-.pb-4 {
-  padding-block: 60px;
+
+.bg-success-light {
+  background-color: rgba(25, 135, 84, 0.53) !important;  /* Light green */
+}
+
+.bg-danger-light {
+  background-color: rgba(220, 53, 70, 0.497) !important;  /* Light red */
 }

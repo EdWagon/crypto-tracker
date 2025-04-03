@@ -49,22 +49,27 @@
                     $<%= number_with_precision(latest_price&.price, precision: 2, delimiter: ',') %>
                   </span>
                 </td>
+               <td>
+                <% if latest_price %>
+                  <span class="badge <%= latest_price.price_change_percentage_24h.positive? ? 'bg-success-light' : 'bg-danger-light' %>">
+                    <%= number_to_percentage(latest_price.price_change_percentage_24h, precision: 2) %>
+                    <i class="fa-solid <%= latest_price.price_change_percentage_24h.positive? ? 'fa-caret-up' : 'fa-caret-down' %> ms-2"></i>
+                  </span>
+                <% else %>
+                  <span class="text-muted">
+                    N/A <i class="fa-solid fa-caret-up ms-2"></i>
+                  </span>
+                <% end %>
+              </td>
+
+
                 <td>
-                  <% if latest_price %>
-                    <span class="badge <%= latest_price.price_change_percentage_24h.positive? ? 'bg-success' : 'bg-danger' %>">
-                      <%= number_to_percentage(latest_price.price_change_percentage_24h, precision: 2) %>
-                    </span>
-                  <% else %>
-                    <span class="text-muted">N/A</span>
-                  <% end %>
-                </td>
-                <td>
-                  <span class="text-secondary">
+                  <span class="text-white text-sm font-thin">
                     $<%= number_to_human(latest_price&.market_cap, units: { billion: 'B', million: 'M' }) %>
                   </span>
                 </td>
                 <td>
-                  <span class="text-secondary">
+                  <span class="text-white text-sm font-thin">
                     $<%= number_to_human(latest_price&.volume_24h, units: { billion: 'B', million: 'M' }) %>
                   </span>
                 </td>
