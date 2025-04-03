@@ -5,7 +5,7 @@
     </button>
 
     <div class="collapse navbar-collapse row w-100"  id="navbarSupportedContent">
-      <div class="col-12 d-flex align-items-center w-100 justify-content-between">
+      <div class="col-12 d-flex align-items-center justify-content-between">
 
         <% if user_signed_in? %>
           <div class="d-flex flex-nowrap  align-items-center">
@@ -22,7 +22,7 @@
           <!-- Center - Functional Search Bar -->
           <div class="search-container">
             <%= form_with url: search_path, method: :get, local: true, class: "d-flex flex-nowrap ms-2 me-4", data: {action: "submit->search#search"}, html: { autocomplete: "off" } do %>
-              <div class="input-group" style="min-width: 550px;">
+              <div class="input-group">
                 <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Search Wallets & Coins", aria_label: "Search", aria_describedby: "search-button", data: { search_target: "input" , action: "keyup->search#search" }%>
                 <button type="submit" class="input-group-text" id="search-button">
                   <i class="fa-solid fa-magnifying-glass"></i>
@@ -35,15 +35,14 @@
 
 
             <!-- Center - Transaction -->
-          <div class="d-flex flex-nowrap">
-            <div>
+          <div class="d-flex gap-4 align-items-center">
               <%= link_to "#",
-                class: "btn btn-highlight text-nowrap ms-1  me-2",
+                class: "btn btn-highlight text-nowrap",
                 id: "newTransactionButton",
                 data: { bs_toggle: "modal", bs_target: "#newTransactionModal" } do %>
                 Add Transaction
               <% end %>
-            </div>
+
             <div>
               <a href="#" class="avatar ms-2" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>

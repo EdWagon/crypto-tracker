@@ -1,40 +1,22 @@
 class PortfolioCompositionsController < ApplicationController
   def index
-
     # get the portfolio composition for the user today using the policy scope
     # @portfolio_compositions = PortfolioComposition.where(user: current_user).where(date: Date.current)
-
     @portfolio_compositions = policy_scope(PortfolioComposition).where(date: Date.current)
     if @portfolio_compositions.empty?
       PortfolioComposition.calculate_todays_user_portfolio(current_user)
-      # binding.break
       @portfolio_compositions = policy_scope(PortfolioComposition).where(date: Date.current)
     end
 
-    total_portfolio = policy_scope(PortfolioComposition)
-    start_date = total_portfolio.minimum(:date)
-    end_date = Date.current
-
-    @portfolio_performance_timeseries = []
-
-    (start_date..end_date).each do |date|
-      date = {date: date}
-      # binding.break
-
-      date[:amount_invested] = total_portfolio.where(date: date).sum(:amount_invested)
-      puts date[:amount_invested]
-      # binding.break
-      @portfolio_performance_timeseries << date
-    end
-
-
+    @portfolio_total = @portfolio_compositions.sum(:total_value)
+    @portfolio_invested = @portfolio_compositions.sum(:amount_invested)
+    @total_pnl = @portfolio_total - @portfolio_invested
   end
 
-  def time_series
+  def timeseries
     # Get the user's portfolio compositions
     @portfolio_compositions = policy_scope(PortfolioComposition).order(date: :asc)
     authorize @portfolio_compositions
-    # @portfolio_compositions = current_user.portfolio_compositions.order(date: :asc)
 
     # Group and sum by date
     @investment_by_date = @portfolio_compositions
@@ -49,11 +31,28 @@ class PortfolioCompositionsController < ApplicationController
         total_value: record.total_value.to_f
       }
     end
-    # authorise @time_series
 
     respond_to do |format|
       format.html
       format.json { render json: @time_series }
+    end
+  end
+
+
+  def composition
+    @portfolio_compositions = policy_scope(PortfolioComposition).where(date: Date.current)
+    authorize @portfolio_compositions
+
+    @composition = @portfolio_compositions.to_a.map do |composition|
+      {
+        coin: composition.coin.name,
+        total_value: composition.total_value
+      }
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @composition }
     end
   end
 
