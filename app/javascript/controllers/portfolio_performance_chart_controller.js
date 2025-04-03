@@ -25,7 +25,7 @@ export default class extends Controller {
 
 
   loadChart() {
-    const url = `portfolio/timeseries.json?range=${this.rangeValue}`;
+    const url = `portfolio/timeseries.json`;
     console.log("Fetching price data from:", url);
 
     fetch(url, {

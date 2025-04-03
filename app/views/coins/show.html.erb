@@ -13,10 +13,10 @@
       </div>
     </div>
     <div>
-      <%= link_to coins_path, class: "btn btn-outline-secondary me-2" do %>
-        <i class="bi bi-arrow-left"></i> Back
+      <%= link_to coins_path, class: "btn btn-nav me-2" do %>
+        <i class="bi bi-arrow-left"></i> All Coins
       <% end %>
-      <%= link_to new_transaction_path(coin_id: @coin.id), class: "btn btn-primary" do %>
+      <%= link_to new_transaction_path(coin_id: @coin.id), class: "btn btn-highlight" do %>
         <i class="bi bi-arrow-up-circle"></i> Trade
       <% end %>
     </div>
