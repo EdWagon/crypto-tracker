@@ -65,7 +65,9 @@
 td {
   padding-block: 16px !important;
 }
-
+td.maxwidth {
+  max-width: 180px;
+}
 
 .bg-success-light {
   background-color: rgba(25, 135, 84, 0.53) !important;  /* Light green */

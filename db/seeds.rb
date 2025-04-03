@@ -29,7 +29,7 @@ puts "Creating users..."
 alice = User.create!(
   email: "alice@example.com",
   password: "alice@example.com",
-  password_confirmation: "password123",
+  password_confirmation: "alice@example.com",
   first_name: "Alice",
   last_name: "Johnson",
   nickname: "Dora the Explorer",
@@ -40,7 +40,7 @@ puts "Created user: #{alice.email}"
 bob = User.create!(
   email: "bob@example.com",
   password: "bob@example.com",
-  password_confirmation: "password123",
+  password_confirmation: "bob@example.com",
   first_name: "Bob",
   last_name: "Smith",
   nickname: "BuilderBob"
@@ -55,7 +55,7 @@ puts "Creating coins..."
 
 # Get the top 10 coins by market Cap from CoinGecko
 # You can increase this number to get more coins if needed (Note this only makes 1 call but is limited to 250 in one go)
-coin_number = 10
+coin_number = 100
 url =  URI("https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&order=market_cap_desc&per_page=#{coin_number}&price_change_percentage=1y%2C30d%2C7d%2C24h%2C1h&locale=en&precision=full")
 
 http = Net::HTTP.new(url.host, url.port)
