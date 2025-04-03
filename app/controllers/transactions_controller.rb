@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [ :show, :destroy ]
   before_action :skip_authorization, only: [ :create ]
+  before_action :validate_sufficient_balance, only: [ :create ], unless: -> { transaction_params[:transaction_type] == 'deposit' }
 
   def index
     @transactions = policy_scope(Transaction)
@@ -35,6 +36,71 @@ class TransactionsController < ApplicationController
   end
 
   private
+
+  def validate_sufficient_balance
+    transaction_type = transaction_params[:transaction_type]
+    coin_name = transaction_params[:coin_name]
+    quantity = transaction_params[:quantity].to_f
+    total_value = transaction_params[:total_value].to_f
+    wallet_id = transaction_params[:wallet_id]
+    to_coin_name = transaction_params[:to_coin_name]
+
+    case transaction_type
+    when 'buy'
+      # Check if user has enough AUD
+      aud_coin = Coin.find_by(symbol: 'AUD')
+      unless has_sufficient_balance?(aud_coin.id, wallet_id, total_value)
+        flash[:alert] = "Insufficient AUD balance for this purchase"
+        redirect_to transactions_path, status: :unprocessable_entity and return
+      end
+    when 'sell', 'withdrawal'
+      # Check if user has enough of the coin to sell or withdraw
+      coin_id = Coin.find_by(name: coin_name)&.id
+      unless has_sufficient_balance?(coin_id, wallet_id, quantity)
+        flash[:alert] = "Insufficient #{coin_name} balance for this transaction"
+        redirect_to transactions_path, status: :unprocessable_entity and return
+      end
+    when 'swap'
+      # Check if user has enough of the source coin to swap
+      coin_id = Coin.find_by(name: to_coin_name)&.id
+      to_wallet_id = transaction_params[:to_wallet_id]
+      to_quantity = transaction_params[:to_quantity].to_f
+
+      unless has_sufficient_balance?(coin_id, to_wallet_id, to_quantity)
+        flash[:alert] = "Insufficient #{to_coin_name} balance for this swap"
+        redirect_to transactions_path, status: :unprocessable_entity and return
+      end
+    when 'transfer'
+      # Check if user has enough of the coin to transfer
+      coin_id = Coin.find_by(name: coin_name)&.id
+      unless has_sufficient_balance?(coin_id, wallet_id, quantity)
+        flash[:alert] = "Insufficient #{coin_name} balance for this transfer"
+        redirect_to transactions_path, status: :unprocessable_entity and return
+      end
+    end
+  end
+
+  def has_sufficient_balance?(coin_id, wallet_id, required_quantity)
+    # Get all transactions for this coin in this wallet for this user
+    transactions = Transaction.where(
+      user_id: current_user.id,
+      coin_id: coin_id,
+      wallet_id: wallet_id
+    )
+
+    # Calculate current balance
+    current_balance = 0
+    transactions.each do |tx|
+      if tx.debit
+        current_balance -= tx.quantity
+      else
+        current_balance += tx.quantity
+      end
+    end
+
+    # Return true if balance is sufficient
+    current_balance >= required_quantity
+  end
 
   def calculate_realized_profit(transaction)
     return unless ['sell', 'withdrawal'].include?(transaction.transaction_type) ||
@@ -251,7 +317,7 @@ class TransactionsController < ApplicationController
   def process_swap_transaction(data)
     ActiveRecord::Base.transaction do
       buy_params = data[:primary].dup
-      buy_params.merge(debit: false)
+      buy_params[:debit] = false # Fixed: Correctly setting debit flag
       buy_params[:transaction_type] = "buy"
       buy_transaction = Transaction.create!(buy_params)
 
