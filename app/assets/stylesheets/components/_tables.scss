@@ -52,3 +52,12 @@
 .compact-transactions .tx-row:nth-child(even) {
   background-color: rgba(255, 255, 255, 0.03); /* Very subtle alternate row color */
 }
+
+
+td {
+  padding-block: 16px !important;
+}
+
+.pb-4 {
+  padding-block: 60px;
+}
