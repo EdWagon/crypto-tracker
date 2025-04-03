@@ -23,9 +23,9 @@ class TransactionsController < ApplicationController
       process_transaction(transaction_data)
       redirect_to transactions_path, notice: "Transaction successfully created"
     rescue => e
-      flash[:alert] = "Transaction creation failed: #{e.message}"
-      redirect_to transactions_path, status: :unprocessable_entity
-    end
+          flash[:alert] = "Transaction creation failed: #{e.message}"
+          redirect_to transactions_path, status: :unprocessable_entity
+      end
   end
 
   def destroy
@@ -125,7 +125,7 @@ class TransactionsController < ApplicationController
 
     data[:quantity] = data[:quantity].to_f
     data[:total_value] = data[:total_value].to_f if data[:total_value].present?
-    data[:coin_id] = Coin.find_by(name: data[:coin_name]).id
+    data[:coin_id] = Coin.find_by(name: data[:coin_name])&.id
     data.delete(:coin_name)
 
     data[:user] = current_user
@@ -225,9 +225,9 @@ class TransactionsController < ApplicationController
         second_transaction: nil,
         third_transaction: nil
       )
-    end
 
-    UpdatePortfolioCompositionForTransactionJob.perform_later(deposit_transaction.id)
+      UpdatePortfolioCompositionForTransactionJob.perform_later(deposit_transaction.id)
+    end
   end
 
   def process_withdrawal_transaction(data)
@@ -245,7 +245,6 @@ class TransactionsController < ApplicationController
       calculate_realized_profit(withdrawal_transaction)
 
       UpdatePortfolioCompositionForTransactionJob.perform_later(withdrawal_transaction.id)
-
     end
   end
 
@@ -306,7 +305,6 @@ class TransactionsController < ApplicationController
       )
       # To prevent a race condition we only call this once as the coins are the same
       UpdatePortfolioCompositionForTransactionJob.perform_later(sending_transaction.id)
-
     end
   end
 end
