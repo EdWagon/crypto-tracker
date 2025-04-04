@@ -10,20 +10,44 @@
   <div class="row">
     <div class="col-lg-8">
       <%= render 'shared/panel', locals: {
-          title: "Portfolio Chart",
+          title: "Performance Overview",
           panel_meta: "",
           divider_top:  false
         } do %>
-        <div class="card-body">
-          <div class="chart-placeholder" style="height: 300px;"
-              data-controller="portfolio-performance-chart" data-action="resize@window->portfolio-performance-chart#resize"
-              data-portfolio-performance-chart-userid-value='"<%= @current_user.id %>"'
-              data-portfolio-performance-chart-range-value="1y">
-            <div class="d-flex justify-content-center align-items-center h-100 w-100">
-              <div class="text-center chart" data-portfolio-performance-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
-                <canvas data-portfolio-performance-chart-target="chart">
-                  <p class="text-muted">Price chart would display here</p>
-                </canvas>
+
+        <div class="overview-portfolio d-flex gap-3 justify-content-start align-items-center mb-4">
+          <% [
+              { title: "Portfolio Value", value: number_with_precision(@portfolio_total, precision: 2, delimiter: ','), color: "text-green-400", icon: "fa-comments-dollar" },
+              { title: "Invested Amount", value: number_with_precision(@portfolio_invested, precision: 2, delimiter: ','), color: "text-blue-400", icon: "fa-arrow-up-right-dots" },
+              { title: "Total P&L", value: number_with_precision(@total_pnl, precision: 2, delimiter: ','), color: @total_pnl.to_f >= 0 ? "text-green-400" : "text-red-400",
+                icon: @total_pnl.to_f >= 0 ? "fa-chart-simple" : "fa-arrow-down-wide-short" }
+            ].each do |item| %>
+
+              <div class="portfolio-box-wrapper">
+                <div class="flex items-center justify-between">
+                  <i class="fa-solid <%= item[:icon] %> text-lg text-gray-400"></i>
+                  <span class="portfolio-text"><%= item[:title] %></span>
+                </div>
+                <div class="portfolio-amount mt-2 text-5xl font-bold <%= item[:color] %>">
+                  $<%= item[:value] %>
+                </div>
+              </div>
+
+          <% end %>
+        </div>
+
+          <div class="card-body" >
+            <div class="chart-placeholder" style="height: 300px;"
+                data-controller="portfolio-performance-chart" data-action="resize@window->portfolio-performance-chart#resize"
+                data-portfolio-performance-chart-userid-value='"<%= @current_user.id %>"'
+                data-portfolio-performance-chart-range-value="1y">
+              <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                <div class="text-center chart" data-portfolio-performance-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
+                  <canvas data-portfolio-performance-chart-target="chart">
+                    <p class="text-muted" >Price chart would display here</p>
+                  </canvas>
+
+                </div>
               </div>
             </div>
           </div>
@@ -117,30 +141,16 @@
       <% end %>
 
 
-    </div>
-    <div class="col-lg-4">
-
+   <div class="col-lg-4 space-y-6">
+      <!-- Portfolio Composition Panel (Chart) -->
       <%= render 'shared/panel', locals: {
-          title: "Portfolio Value",
-          panel_meta: "",
-          divider_top:  false
-        } do %>
-
-        <%= @portfolio_total %><br>
-        <%= @portfolio_invested %><br>
-        <%= @total_pnl %><br>
-
-      <% end %>
-
-      <%= render 'shared/panel', locals: {
-          title: "Portfolio Composition",
-          panel_meta: "",
-          divider_top:  false
-        } do %>
-        <canvas data-controller="portfolio-composition-chart">
-          <p class="text-muted">Price chart would display here</p>
+        title: "Portfolio Composition",
+        panel_meta: "",
+        divider_top: false
+      } do %>
+        <canvas data-controller="portfolio-composition-chart" class="w-full h-64">
+          <p class="text-muted text-center">Price chart would display here</p>
         </canvas>
       <% end %>
 
     </div>
-</div>

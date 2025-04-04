@@ -118,7 +118,7 @@
                     <% end %>
 
                     <%# Add total row %>
-                    <tr class="table-secondary">
+                    <tr class="table-box table-secondary">
                       <td colspan="2"><strong>Total</strong></td>
                       <td><strong><%= number_with_precision(total_quantity, precision: 6) %></strong></td>
                       <td><strong>$<%= number_with_precision(total_quantity > 0 ? total_invested / total_quantity : 0, precision: 2) %></strong></td>
