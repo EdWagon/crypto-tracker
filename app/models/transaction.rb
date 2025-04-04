@@ -13,7 +13,7 @@ class Transaction < ApplicationRecord
   validates :transaction_type, presence: true
   validates :date, presence: true
   validates :quantity, numericality: { greater_than: 0 }
-  validates :total_value, numericality: { greater_than_or_equal_to: 0 }
+  validates :total_value, numericality: { greater_than_or_equal_to: 0 }, unless: -> { transaction_type == "transfer" }
 
   before_create :calculate_price_per_coin
   before_update :calculate_price_per_coin
