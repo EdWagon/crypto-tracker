@@ -13,16 +13,9 @@ class CoinsController < ApplicationController
     current_time = Time.current
 
     @final_daily_prices = @coin.prices.select("DISTINCT ON (DATE(date)) *").order("DATE(date) DESC, date DESC")
-    @hourly_prices = @coin.prices.where("date >= ?", current_time - 7.days)
-      .select("DISTINCT ON (DATE(date), EXTRACT(HOUR FROM date)) *")
-      .order(Arel.sql("DATE(date) DESC, EXTRACT(HOUR FROM date) DESC, date DESC"))
-    @five_min_prices = @coin.prices.where("date >= ?", current_time - 24.hours)
-      .select("DISTINCT ON (DATE(date), EXTRACT(HOUR FROM date), FLOOR(EXTRACT(MINUTE FROM date)/5)) *")
-      .order(Arel.sql("DATE(date) DESC, EXTRACT(HOUR FROM date) DESC, FLOOR(EXTRACT(MINUTE FROM date)/5) DESC, date DESC"))
-
 
     if @final_daily_prices.size <= 365
-      GetPriceHistoryJob.perform_later(@coin)
+      GetPriceHistoryJob.perform_later(coin_id: @coin.id)
     end
 
     @transactions = policy_scope(Transaction) # This will filter the transactions to only those that belong to the current user

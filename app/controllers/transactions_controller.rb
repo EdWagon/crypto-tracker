@@ -196,6 +196,16 @@ class TransactionsController < ApplicationController
 
     data[:user] = current_user
 
+    # Check if has Price History for both coins
+    # if sufficient history doesnt exist trigger Price History Job for coin
+    if !data[:coin_id].nil?
+      GetPriceHistoryJob.perform_later(coin_id: data[:coin_id]) unless Price.daily_history_exists?(data[:coin_id])
+    end
+
+    if !secondary_params[:to_coin_id].nil?
+      GetPriceHistoryJob.perform_later(coin_id: secondary_params[:to_coin_id]) unless Price.daily_history_exists?(secondary_params[:to_coin_id])
+    end
+
     {
       primary: data,
       secondary: secondary_params
@@ -224,6 +234,8 @@ class TransactionsController < ApplicationController
   end
 
   def process_buy_transaction(data)
+
+
     ActiveRecord::Base.transaction do
       buy_transaction = Transaction.create!(data[:primary].merge(debit: false))
 
