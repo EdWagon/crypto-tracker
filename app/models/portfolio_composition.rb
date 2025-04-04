@@ -28,10 +28,22 @@ class PortfolioComposition < ApplicationRecord
 
     # Process each date in range from start_date till Toda
     (start_date..Date.current).each do |date|
+      PortfolioComposition.where(user_id: user_id, coin_id: coin_id, date: date).destroy_all
       update_for_date(user_id, coin_id, date)
     end
   end
 
+
+  def self.update_portfolio_for_coin_date(user_id, coin_id, date)
+    # Get start date (earliest transaction date for this user and coin)
+
+
+    # Process each date in range from start_date till Toda
+    (date..Date.current).each do |date|
+      PortfolioComposition.where(user_id: user_id, coin_id: coin_id, date: date).destroy_all
+      update_for_date(user_id, coin_id, date)
+    end
+  end
 
 
 
@@ -159,6 +171,7 @@ class PortfolioComposition < ApplicationRecord
 
   # Recalculates portfolio for all users, coins, and dates
   def self.recalculate_all
+    PortfolioComposition.destroy_all
     User.find_each do |user|
       Coin.find_each do |coin|
         # Find the earliest and latest transaction dates for this user and coin
