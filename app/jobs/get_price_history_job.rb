@@ -38,10 +38,25 @@ class GetPriceHistoryJob < ApplicationJob
       volume = response["total_volumes"][index][1]
       market_cap = response["market_caps"][index][1]
 
+
+
       price = Price.find_or_initialize_by(
         coin_id: coin.id,
         date: datetime
       )
+
+      audcoin = Coin.find_by(symbol: "AUD")
+
+      audprice = Price.find_or_initialize_by(
+        coin_id: audcoin.id,
+        date: datetime,
+        price: 1
+      )
+
+      if audprice.new_record?
+        audprice.save
+        puts "Created AUD price for #{audcoin.name} (#{audcoin.symbol}) on #{datetime.strftime('%Y-%m-%d')}"
+      end
 
       price.price = price_value
       price.market_cap = market_cap

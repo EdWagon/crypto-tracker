@@ -16,6 +16,7 @@ puts "Seeding database..."
 
 
 puts "Clearing database..."
+PortfolioComposition.destroy_all
 Transaction.destroy_all
 WalletsCoin.destroy_all
 Wallet.destroy_all
@@ -173,3 +174,6 @@ puts "Rebuilding search index"
 PgSearch::Multisearch.rebuild(Coin)
 PgSearch::Multisearch.rebuild(Wallet)
 puts "Seeding completed!"
+
+
+UpdateAllPortfolioCompositionJob.perform_later

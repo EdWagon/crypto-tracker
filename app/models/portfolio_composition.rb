@@ -41,6 +41,21 @@ class PortfolioComposition < ApplicationRecord
     # Find or initialize portfolio composition record
     portfolio = find_or_initialize_by(user_id: user_id, coin_id: coin_id, date: date)
 
+    audcoin = Coin.find_by(symbol: "AUD")
+
+    audprice = Price.find_or_initialize_by(
+      coin_id: audcoin.id,
+      date: date.to_datetime,
+      price: 1
+    )
+
+    if audprice.new_record?
+      audprice.save
+      puts "Created AUD price for #{audcoin.name} (#{audcoin.symbol}) on #{date.to_datetime.strftime('%Y-%m-%d')}"
+    end
+
+
+
     # Calculate values
     cumulative_amount = calculate_cumulative_amount(user_id, coin_id, date)
     amount_invested = calculate_amount_invested(user_id, coin_id, date)
