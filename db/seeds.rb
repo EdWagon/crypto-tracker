@@ -151,25 +151,6 @@ puts "Seeding price history..."
 end
 
 
-puts "Creating wallets..."
-
-alice_wallet_1 = Wallet.create!(
-  user_id: alice.id,
-  name: "Alice's Exchange Wallet",
-  wallet_address: "1A2B3C4D5E6F7G8H9I0J",
-  wallet_type: "exchange"
-)
-puts "Created wallet for Alice: #{alice_wallet_1.name}"
-
-bob_wallet_1 = Wallet.create!(
-  user_id: bob.id,
-  name: "Bob's Hardware Wallet",
-  wallet_address: "J0K1L2M3N4O5P6Q7R8S9T",
-  wallet_type: "hardware"
-)
-puts "Created wallet for Bob: #{bob_wallet_1.name}"
-
-
 puts "Rebuilding search index"
 PgSearch::Multisearch.rebuild(Coin)
 PgSearch::Multisearch.rebuild(Wallet)
