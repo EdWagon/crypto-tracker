@@ -116,31 +116,31 @@
         </div>
       <% end %>
 
-      <div class="col-lg-4">
 
-        <%= render 'shared/panel', locals: {
-            title: "Portfolio Value",
-            panel_meta: "",
-            divider_top:  false
-          } do %>
+    </div>
+    <div class="col-lg-4">
 
-          <%= @portfolio_total %><br>
-          <%= @portfolio_invested %><br>
-          <%= @total_pnl %><br>
+      <%= render 'shared/panel', locals: {
+          title: "Portfolio Value",
+          panel_meta: "",
+          divider_top:  false
+        } do %>
 
-        <% end %>
+        <%= @portfolio_total %><br>
+        <%= @portfolio_invested %><br>
+        <%= @total_pnl %><br>
 
-        <%= render 'shared/panel', locals: {
-            title: "Portfolio Composition",
-            panel_meta: "",
-            divider_top:  false
-          } do %>
-          <canvas data-controller="portfolio-composition-chart">
-            <p class="text-muted">Price chart would display here</p>
-          </canvas>
-        <% end %>
+      <% end %>
 
-      </div>
+      <%= render 'shared/panel', locals: {
+          title: "Portfolio Composition",
+          panel_meta: "",
+          divider_top:  false
+        } do %>
+        <canvas data-controller="portfolio-composition-chart">
+          <p class="text-muted">Price chart would display here</p>
+        </canvas>
+      <% end %>
 
     </div>
 </div>
