@@ -76,3 +76,40 @@ td.maxwidth {
 .bg-danger-light {
   background-color: rgba(220, 53, 70, 0.497) !important;  /* Light red */
 }
+
+.tr .table-box {
+  background-color: #0046d1; /* Bootstrap's default gray */
+}
+
+
+.portfolio-box-wrapper {
+  margin-block: 16px;
+  padding-block: 12px;
+  padding-inline: 16px;
+  border: 0.5px solid #6EACFE;
+  border-radius: 12px;
+  background-color: #6a6a6a20;
+  min-width: 240px;
+  box-shadow: 0px 0px 8px #37a67d54;
+}
+
+// .portfolio-box-wrapper:hover::after {
+//   background-color: #6a6a6a40;
+//   box-shadow: 0px 0px 12px #6eacfe80;
+//   border: 0.8px solid #6EACFE;
+//   transform: translateY(-1px);
+//   cursor: pointer;
+// }
+
+.portfolio-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #b1b1b1;
+}
+
+.portfolio-amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  ;
+}

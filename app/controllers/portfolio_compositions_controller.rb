@@ -1,5 +1,12 @@
 class PortfolioCompositionsController < ApplicationController
   def index
+
+    # redirect to the pages#home if the user is not logged in
+    if current_user.nil?
+      redirect_to home_path
+      return
+    end
+
     # get the portfolio composition for the user today using the policy scope
     # @portfolio_compositions = PortfolioComposition.where(user: current_user).where(date: Date.current)
     @portfolio_compositions = policy_scope(PortfolioComposition).where(date: Date.current)
