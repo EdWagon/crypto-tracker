@@ -82,6 +82,10 @@ td.maxwidth {
 }
 
 
+.overview-portfolio {
+
+}
+
 .portfolio-box-wrapper {
   margin-block: 16px;
   padding-block: 12px;
@@ -89,7 +93,8 @@ td.maxwidth {
   border: 0.5px solid #6EACFE;
   border-radius: 12px;
   background-color: #6a6a6a20;
-  min-width: 240px;
+  min-width: 180px;
+  width: 30%;
   box-shadow: 0px 0px 8px #37a67d54;
 }
 

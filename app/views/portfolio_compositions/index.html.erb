@@ -38,8 +38,8 @@
           <% end %>
         </div>
 
-        <div class="card-body" >
-          <div class="chart-placeholder" style="height: 300px;"
+        <div class="card-body b" >
+          <div class="chart-placeholder"
               data-controller="portfolio-performance-chart" data-action="resize@window->portfolio-performance-chart#resize"
               data-portfolio-performance-chart-userid-value='"<%= @current_user.id %>"'
               data-portfolio-performance-chart-range-value="1y">
@@ -72,7 +72,7 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-8">
+    <div class="col-12">
       <%= render 'shared/panel', locals: {
           title: "My Portfolio",
           subtitle: "Your portfolio composition",
@@ -138,7 +138,7 @@
                         transaction_type: 'sell'
                       ).sum(:realised_profit) || 0
                     %>
-                    <tr class="datarow m-2">
+                    <tr class="datarow m-2"  onclick="window.location='<%= coin_path(pc.coin_id) %>'" style="cursor: pointer;">
                       <td>
                         <%= image_tag pc.coin.logo_url, class: "img-thumbnail rounded-circle me-1", style: "width: 24px; height: 24px;" %>
                         <%= pc.coin.symbol %>

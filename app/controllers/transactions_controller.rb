@@ -196,6 +196,18 @@ class TransactionsController < ApplicationController
 
     data[:user] = current_user
 
+    # Check if has Price History for both coins
+    # if not sufficient trigger Price History Job
+
+    if !data[:coin_id].nil?
+      GetPriceHistoryJob.perform_later(coin_id: data[:coin_id]) unless Price.daily_history_exists?(data[:coin_id])
+    end
+
+    if !secondary_params[:to_coin_id].nil?
+      GetPriceHistoryJob.perform_later(coin_id: secondary_params[:to_coin_id]) unless Price.daily_history_exists?(secondary_params[:to_coin_id])
+    end
+
+
     {
       primary: data,
       secondary: secondary_params
@@ -224,7 +236,13 @@ class TransactionsController < ApplicationController
   end
 
   def process_buy_transaction(data)
+
+
     ActiveRecord::Base.transaction do
+      # binding.break
+
+
+
       buy_transaction = Transaction.create!(data[:primary].merge(debit: false))
 
       sell_transaction = Transaction.create!(
@@ -244,6 +262,11 @@ class TransactionsController < ApplicationController
         second_transaction: sell_transaction,
         third_transaction: nil
       )
+
+      # coin_final_daily_prices = coin.prices.select("DISTINCT ON (DATE(date)) *").order("DATE(date) DESC, date DESC")
+      # if @final_daily_prices.size <= 365
+      #     GetPriceHistoryJob.perform_later(@coin)
+      #   end
 
       UpdatePortfolioCompositionForTransactionJob.perform_later(buy_transaction.id)
       UpdatePortfolioCompositionForTransactionJob.perform_later(sell_transaction.id)

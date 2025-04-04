@@ -4,8 +4,29 @@ import { Chart } from "chart.js";
 export default class extends Controller {
   connect() {
     console.log("polar-area-chart Controller Connected ");
+    this.resizeObserver = new ResizeObserver(entries => this.handleResize());
+    this.resizeObserver.observe(this.element);
     this.load();
   }
+
+  disconnect() {
+    // Clean up the ResizeObserver when the controller disconnects
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+
+    // Destroy the chart to prevent memory leaks
+    if (this.chart) {
+      this.chart.destroy();
+    }
+  }
+
+  handleResize() {
+    if (this.chart) {
+      this.chart.resize();
+    }
+  }
+
 
   load() {
 
@@ -26,6 +47,7 @@ export default class extends Controller {
     });
 
   }
+
   renderChart(compositionData) {
     if (this.chart) {
       this.chart.destroy();
@@ -39,21 +61,6 @@ export default class extends Controller {
     const coin = compositionData.map(item => item.coin);
     const values = compositionData.map(item => item.total_value);
 
-    // const worldPopulationGrowth = {
-    //   Christianity: 2380000000,
-    //   Islam: 1910000000,
-    //   Hinduism: 1100000000,
-    //   Irreligion: 1100000000,
-    //   Buddhism: 500000000,
-    //   "Folk Religions": 400000000,
-    //   Sikhism: 25000000,
-    //   Judaism: 14000000,
-    //   "Bahai Faith": 7000000,
-    //   Jainism: 4500000,
-    //   // your turn now to fill the rest of the object until 2010
-    // };
-    // const labelValues = Object.keys(worldPopulationGrowth);
-    // const dataValues = Object.values(worldPopulationGrowth);
 
     const data = {
       labels: coin,
@@ -75,7 +82,7 @@ export default class extends Controller {
           '#FF4500',
           '#F20574',
           '#3F6CA6',
-          '#F7921B',
+          '#F7921B'
         ]
       }]
     };
@@ -83,7 +90,10 @@ export default class extends Controller {
     const polarChart = new Chart(this.element, {
       type: 'pie',
       data,
-      options: {}
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     });
   }
 }
