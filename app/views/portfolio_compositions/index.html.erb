@@ -8,49 +8,87 @@
   </div>
 
   <div class="row">
+
     <div class="col-lg-8">
+
       <%= render 'shared/panel', locals: {
-          title: "Portfolio Chart",
+          title: "Performance Overview",
           panel_meta: "",
           divider_top:  false
         } do %>
-          <div class="card-body" >
-            <div class="chart-placeholder" style="height: 300px;"
-                data-controller="portfolio-performance-chart" data-action="resize@window->portfolio-performance-chart#resize"
-                data-portfolio-performance-chart-userid-value='"<%= @current_user.id %>"'
-                data-portfolio-performance-chart-range-value="1y">
-              <div class="d-flex justify-content-center align-items-center h-100 w-100">
-                <div class="text-center chart" data-portfolio-performance-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
-                  <canvas data-portfolio-performance-chart-target="chart">
-                    <p class="text-muted" >Price chart would display here</p>
-                  </canvas>
 
+        <div class="overview-portfolio d-flex gap-3 justify-content-start align-items-center mb-4">
+          <% [
+              { title: "Portfolio Value", value: number_with_precision(@portfolio_total, precision: 2, delimiter: ','), color: "text-green-400", icon: "fa-comments-dollar" },
+              { title: "Invested Amount", value: number_with_precision(@portfolio_invested, precision: 2, delimiter: ','), color: "text-blue-400", icon: "fa-arrow-up-right-dots" },
+              { title: "Total P&L", value: number_with_precision(@total_pnl, precision: 2, delimiter: ','), color: @total_pnl.to_f >= 0 ? "text-green-400" : "text-red-400",
+                icon: @total_pnl.to_f >= 0 ? "fa-chart-simple" : "fa-arrow-down-wide-short" }
+            ].each do |item| %>
+
+              <div class="portfolio-box-wrapper">
+                <div class="flex items-center justify-between">
+                  <i class="fa-solid <%= item[:icon] %> text-lg text-gray-400"></i>
+                  <span class="portfolio-text"><%= item[:title] %></span>
                 </div>
+                <div class="portfolio-amount mt-2 text-5xl font-bold <%= item[:color] %>">
+                  $<%= item[:value] %>
+                </div>
+              </div>
+
+          <% end %>
+        </div>
+
+        <div class="card-body" >
+          <div class="chart-placeholder" style="height: 300px;"
+              data-controller="portfolio-performance-chart" data-action="resize@window->portfolio-performance-chart#resize"
+              data-portfolio-performance-chart-userid-value='"<%= @current_user.id %>"'
+              data-portfolio-performance-chart-range-value="1y">
+            <div class="d-flex justify-content-center align-items-center h-100 w-100">
+              <div class="text-center chart" data-portfolio-performance-chart-target="container" style="position: relative; width: 70vw; height: 300px;">
+                <canvas data-portfolio-performance-chart-target="chart">
+                  <p class="text-muted" >Price chart would display here</p>
+                </canvas>
+
               </div>
             </div>
           </div>
+        </div>
       <% end %>
+    </div>
 
-
-
-
-
+    <div class="col-lg-4 space-y-6">
+      <!-- Portfolio Composition Panel (Chart) -->
       <%= render 'shared/panel', locals: {
-        title: "My Portfolio",
-        subtitle: "Your portfolio composition",
-        header_actions: [],
-        footer: true,
-        objects: { title: "coin", objects: @portfolio_compositions },
-        footer_actions: [
-          { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
-              content_tag(:i, "", class: "fa-solid fa-file-pdf")
-            end }
-          },
-          { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
-              content_tag(:i, "", class: "fa-solid fa-file-csv")
-            end }
-          }
-        ]
+        title: "Portfolio Composition",
+        panel_meta: "",
+        divider_top: false
+      } do %>
+        <canvas data-controller="portfolio-composition-chart" class="w-full h-64">
+          <p class="text-muted text-center">Price chart would display here</p>
+        </canvas>
+      <% end %>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <%= render 'shared/panel', locals: {
+          title: "My Portfolio",
+          subtitle: "Your portfolio composition",
+          header_actions: [],
+          footer: true,
+          objects: { title: "coin", objects: @portfolio_compositions },
+          footer_actions: [
+            { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
+                content_tag(:i, "", class: "fa-solid fa-file-pdf")
+              end }
+            },
+            { html: -> { link_to "#", class: "btn btn-nav me-2 active" do
+                content_tag(:i, "", class: "fa-solid fa-file-csv")
+              end }
+            }
+          ]
         } do %>
 
         <div class="panel-body">
@@ -71,7 +109,6 @@
               <table class="table table-hover align-middle mb-0">
                 <thead>
                   <tr>
-                    <th>Date</th>
                     <th>Coin</th>
                     <th>Price</th>
                     <th>Total Amount</th>
@@ -79,33 +116,40 @@
                     <th>Amount Invested</th>
                     <th>Unrealised Profit</th>
                     <th>Realised Profit</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
 
                 <tbody>
+                  <% @portfolio_compositions.order(cumulative_amount: :desc).each do |pc| %>
+                    <%
+                      # Get current price for this coin
+                      current_price = Price.where(coin_id: pc.coin_id).order(date: :desc).first&.price || 0
 
-                  <% @portfolio_compositions.order(date: :desc).each do |pc| %>
+                      # Calculate current value
+                      current_value = pc.cumulative_amount * current_price
+
+                      # Calculate unrealised profit
+                      unrealised_profit = current_value - pc.amount_invested
+
+                      # Get realised profit from transactions
+                      realised_profit = Transaction.where(
+                        user_id: pc.user_id,
+                        coin_id: pc.coin_id,
+                        transaction_type: 'sell'
+                      ).sum(:realised_profit) || 0
+                    %>
                     <tr class="datarow m-2">
-                      <td><%= pc.date.to_formatted_s(:short) %></td>
                       <td>
                         <%= image_tag pc.coin.logo_url, class: "img-thumbnail rounded-circle me-1", style: "width: 24px; height: 24px;" %>
                         <%= pc.coin.symbol %>
                       </td>
-                      <td></td>
-                      <td><%= number_to_currency(pc.cumulative_amount, unit: "$") %></td>
-                      <td></td>
+                      <td><%= number_to_currency(current_price, unit: "$") %></td>
+                      <td><%= number_with_precision(pc.cumulative_amount, precision: 2) %></td>
+                      <td><%= number_to_currency(current_value, unit: "$") %></td>
                       <td><%= number_to_currency(pc.amount_invested, unit: "$") %></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <div class="btn-group" role="group">
-
-
-                        </div>
-                      </td>
+                      <td><%= number_to_currency(unrealised_profit, unit: "$") %></td>
+                      <td><%= number_to_currency(realised_profit, unit: "$") %></td>
                     </tr>
-
                   <% end %>
                 <tbody>
                 </tbody>
@@ -115,37 +159,5 @@
         </div>
       <% end %>
     </div>
-
-
-    <div class="col-lg-4">
-
-      <%= render 'shared/panel', locals: {
-          title: "Portfolio Value",
-          panel_meta: "",
-          divider_top:  false
-        } do %>
-
-        <%= @portfolio_total %><br>
-        <%= @portfolio_invested %><br>
-        <%= @total_pnl %><br>
-
-      <% end %>
-
-      <%= render 'shared/panel', locals: {
-          title: "Portfolio Composition",
-          panel_meta: "",
-          divider_top:  false
-        } do %>
-          <canvas data-controller="portfolio-composition-chart">
-            <p class="text-muted" >Price chart would display here</p>
-          </canvas>
-      <% end %>
-
-
-
-
-
-    </div>
-
-
+  </div>
 </div>
