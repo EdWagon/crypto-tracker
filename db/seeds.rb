@@ -16,6 +16,7 @@ puts "Seeding database..."
 
 
 puts "Clearing database..."
+PortfolioComposition.destroy_all
 Transaction.destroy_all
 WalletsCoin.destroy_all
 Wallet.destroy_all
@@ -131,7 +132,7 @@ australian_dollar = Coin.create!(
   name: "Australian Dollar",
   symbol: "AUD",
   api_id: nil,
-  logo_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+  logo_url: "https://s2.coinmarketcap.com/static/cloud/img/fiat-flags/AUD.svg",
   website_url: "https://bitcoin.org"
 )
 puts "Created coin: #{australian_dollar.name} (#{australian_dollar.symbol})"
@@ -173,3 +174,6 @@ puts "Rebuilding search index"
 PgSearch::Multisearch.rebuild(Coin)
 PgSearch::Multisearch.rebuild(Wallet)
 puts "Seeding completed!"
+
+
+UpdateAllPortfolioCompositionJob.perform_later
