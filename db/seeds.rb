@@ -132,7 +132,7 @@ australian_dollar = Coin.create!(
   name: "Australian Dollar",
   symbol: "AUD",
   api_id: nil,
-  logo_url: Rails.root.join("app", "assets", "images", "AUD.png").to_s,
+  logo_url: "https://s2.coinmarketcap.com/static/cloud/img/fiat-flags/AUD.svg",
   website_url: "https://bitcoin.org"
 )
 puts "Created coin: #{australian_dollar.name} (#{australian_dollar.symbol})"
