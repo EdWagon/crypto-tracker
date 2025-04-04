@@ -17,7 +17,7 @@
           divider_top:  false
         } do %>
 
-        <div class="overview-portfolio d-flex gap-3 justify-content-start align-items-center mb-4">
+        <div class="overview-portfolio d-flex flex-wrap gap-3 justify-content-center align-items-center mb-4">
           <% [
               { title: "Portfolio Value", value: number_with_precision(@portfolio_total, precision: 2, delimiter: ','), color: "text-green-400", icon: "fa-comments-dollar" },
               { title: "Invested Amount", value: number_with_precision(@portfolio_invested, precision: 2, delimiter: ','), color: "text-blue-400", icon: "fa-arrow-up-right-dots" },
