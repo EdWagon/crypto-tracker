@@ -1,5 +1,5 @@
 .navbar-lewagon {
-  justify-content: space-evenly;
+  justify-content: space-between;
   // background: --body-bg-dark;
 }
 
@@ -9,83 +9,4 @@
 
 .navbar-lewagon .navbar-brand img {
   width: 40px;
-}
-
-/* Navigation styling */
-
-/* Nav links styling */
-.btn-nav {
-
-  font-weight: 500;
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
-  transition: all 0.2s;
-}
-
-.btn-nav:hover {
-  background-color: rgba(0,0,0,0.05);
-}
-
-
-
-/* Search container */
-.search-container {
-  position: relative;
-}
-
-.search-results {
-  position: absolute;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Highlight button */
-.btn-highlight {
-  padding: 0.5rem 1.25rem;
-  border-radius: 4px;
-  transition: all 0.2s;
-}
-
-
-
-/* Avatar */
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* Media queries for responsive behavior */
-@media (max-width: 576px) {
-  .navbar-collapse {
-    padding: 1rem 0;
-  }
-
-  .nav-link {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-  }
-}
-
-/* Medium devices and up */
-@media (min-width: 768px) {
-  .search-container .input-group {
-    min-width: 300px;
-  }
-}
-
-/* Large devices and up */
-@media (min-width: 992px) {
-  .search-container .input-group {
-    min-width: 400px;
-  }
-}
-
-/* Extra large devices */
-@media (min-width: 1200px) {
-  .search-container .input-group {
-    min-width: 500px;
-  }
 }
