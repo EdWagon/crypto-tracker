@@ -118,7 +118,7 @@
                     <% end %>
 
                     <%# Add total row %>
-                    <tr class="table-box table-secondary">
+                    <tr class="table-box">
                       <td colspan="2"><strong>Total</strong></td>
                       <td><strong><%= number_with_precision(total_quantity, precision: 6) %></strong></td>
                       <td><strong>$<%= number_with_precision(total_quantity > 0 ? total_invested / total_quantity : 0, precision: 2) %></strong></td>
@@ -162,26 +162,17 @@
 
 
           <div class="card shadow-sm">
-            <%# <div class="card-header">
-              <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                  <a class="nav-link active" data-bs-toggle="tab" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="tab" href="#history">Price History</a>
-                </li>
-              </ul>
-            </div> %>
             <div class="card-body">
 
-              <div class="table-responsive">
-                <table class="table table-sm ">
+              <!-- Scrollable Container -->
+              <div class="scroll-container table-responsive" style="max-height: 400px; overflow-y: auto;">
+                <table class="table table-sm mb-0">
                   <thead>
                     <tr>
-                      <th>Date</th>
-                      <th>Price</th>
-                      <th>Change (24h)</th>
-                      <th>Market Cap</th>
+                      <th class="sticky-header">Date</th>
+                      <th class="sticky-header">Price</th>
+                      <th class="sticky-header">Change (24h)</th>
+                      <th class="sticky-header">Market Cap</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -204,8 +195,10 @@
 
 
 
+
         <% end %>
     </div>
+
 
     <div class="col-lg-4">
       <%= render 'shared/panel', locals: {
@@ -233,28 +226,37 @@
       <% end %>
 
       <%= render 'shared/panel', locals: {
-        title: "#{@coin.symbol} Chat",
+        title: raw("<i class='fa-solid fa-comments text-white me-2'></i>#{@coin.symbol} Chat"),
         subtitle: "Trade Ideas and Discussion",
         panel: "box-4"
         } do %>
           <%= turbo_stream_from "coin_#{@coin.id}_messages" %>
-          <div id="messages" class="messages">
-            <% @coin.messages.each do |message| %>
-              <%= render partial: "messages/message", locals: { message: message } %>
-            <% end %>
-          </div>
-          <div class="chat-form">
-            <%= simple_form_for [@coin, @message],
-                  html: {class: "d-flex",
-                          data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }} do |f| %>
-              <%= f.input :content,
-                label: false,
-                placeholder: "Your Message",
-                wrapper_html: {class: "flex-grow-1"}
-              %>
-              <%= f.submit "Send", class: "btn btn-highlight mb-3" %>
-            <% end %>
-          </div>
+            <!-- Chat Messages Scrollable -->
+            <div id="messages" class="messages scroll-container-chat">
+              <% @coin.messages.each do |message| %>
+                <%= render partial: "messages/message", locals: { message: message } %>
+              <% end %>
+            </div>
+
+            <!-- Chat Form -->
+            <div class="chat-form mt-3">
+              <%= simple_form_for [@coin, @message],
+                    html: {
+                      class: "d-flex",
+                      data: {
+                        controller: "reset-form",
+                        action: "turbo:submit-end->reset-form#reset"
+                      }
+                    } do |f| %>
+                <%= f.input :content,
+                  label: false,
+                  placeholder: "Your Message",
+                  wrapper_html: { class: "flex-grow-1 me-2" }
+                %>
+                <%= f.submit "Send", class: "btn btn-highlight mb-3" %>
+              <% end %>
+            </div>
+
       <% end %>
     </div>
   </div>
