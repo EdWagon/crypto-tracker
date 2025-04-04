@@ -72,20 +72,34 @@
 /* Medium devices and up */
 @media (min-width: 768px) {
   .search-container .input-group {
-    min-width: 300px;
+    min-width: 200px;
   }
 }
 
 /* Large devices and up */
 @media (min-width: 992px) {
   .search-container .input-group {
-    min-width: 400px;
+    min-width: 250px;
   }
 }
 
 /* Extra large devices */
 @media (min-width: 1200px) {
   .search-container .input-group {
-    min-width: 500px;
+    min-width: 300px;
   }
+}
+
+
+.header-logo {
+  font-family: "Nunito", "Helvetica", "sans-serif";
+  font-size: 20px;
+  font-weight: 600;
+  margin-right: 20px;
+  // margin-bottom: 20px;
+  background: radial-gradient(circle, #FFFFFF, #6EACFE);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  // display: inline-block;
 }

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   root to: "pages#home"
 
+  get "home", to: "pages#home", as: :home
   get "search", to: "search#index", as: :search, defaults: { format: :json }
   get "search-coins", to: "search#coins", as: :search_coins, defaults: { format: :json }
 

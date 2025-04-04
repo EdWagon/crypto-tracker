@@ -16,6 +16,7 @@
               <%= link_to "Portfolio", portfolio_path, class: "btn btn-nav #{request.path == '/dashboard/portfolio' ? 'active' : ''}" %>
               <%= link_to "Coins", coins_path, class: "btn btn-nav #{request.path == coins_path ? 'active' : ''}" %>
               <%= link_to "Wallets", wallets_path, class: "btn btn-nav #{request.path == wallets_path ? 'active' : ''}" %>
+              <%= link_to "Watchlists", watchlists_path, class: "btn btn-nav #{request.path == watchlists_path ? 'active' : ''}" %>
               <%= link_to "Transactions", transactions_path, class: "btn btn-nav #{request.path == transactions_path ? 'active' : ''}" %>
             </div>
           </div>
@@ -58,8 +59,8 @@
             <%= link_to root_path, class: "navbar-brand" do %>
               <%= image_tag image_path("logo.png") %>
             <% end %>
-            <div class="d-flex flex-nowrap ms-1 justify-content-between">
-              <%= link_to "Palantir", root_path, class: "btn btn-nav active" %>
+            <div class="d-flex flex-nowrap ms-1 justify-content-between align-items-center">
+              <div class="header-logo">Palantir</div>
               <%= link_to "Features", "#features", class: "btn btn-nav" %>
               <%= link_to "Pricing", "#pricing", class: "btn btn-nav" %>
             </div>
