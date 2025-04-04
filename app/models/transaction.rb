@@ -18,9 +18,17 @@ class Transaction < ApplicationRecord
   before_create :calculate_price_per_coin
   before_update :calculate_price_per_coin
 
+  after_destroy :update_portfolio_composition
+
   private
 
   def calculate_price_per_coin
     self.price_per_coin = self.total_value / self.quantity
   end
+
+  def update_portfolio_composition
+    # Update portfolio composition for the user and coin
+    UpdatePortfolioCompositionForCoinDateJob.perform_later(user.id, coin.id, date.to_date)
+  end
+
 end
