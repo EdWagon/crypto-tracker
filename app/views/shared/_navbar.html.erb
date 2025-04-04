@@ -56,13 +56,14 @@
           </div>
         <% else %>
           <div class="d-flex flex-nowrap  align-items-center">
-            <%= link_to root_path, class: "navbar-brand" do %>
+            <%= link_to home_path, class: "navbar-brand" do %>
               <%= image_tag image_path("logo.png") %>
             <% end %>
             <div class="d-flex flex-nowrap ms-1 justify-content-between align-items-center">
-              <div class="header-logo">Palantir</div>
-              <%= link_to "Features", "#features", class: "btn btn-nav" %>
-              <%= link_to "Pricing", "#pricing", class: "btn btn-nav" %>
+              <%# <div class="header-logo">Palantir</div> %>
+              <%= link_to "Palantir", home_path, class: "header-logo" %>
+              <%= link_to "Features", "#{home_path}#features", class: "btn btn-nav" %>
+              <%= link_to "Pricing", "#{home_path}#pricing", class: "btn btn-nav" %>
             </div>
           </div>
           <div>

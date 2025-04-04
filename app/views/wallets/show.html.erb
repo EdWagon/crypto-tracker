@@ -24,7 +24,27 @@
     </div>
   </div>
 
+      <%= render 'shared/panel', locals: {
+          title: "Wallet Details",
+          panel: "box-4"
+        } do %>
+         <div class="card-body">
+          <dl class="row mb-0">
+            <dt class="col-sm-3">Type</dt>
+            <dd class="col-sm-9"><%= @wallet.wallet_type.capitalize %></dd>
 
+            <dt class="col-sm-3">Address</dt>
+            <dd class="col-sm-9"><code><%= @wallet.wallet_address %></code></dd>
+
+            <dt class="col-sm-3">Total Holdings</dt>
+            <dd class="col-sm-9"><%= @wallet.wallets_coins.count %> coins</dd>
+
+            <dt class="col-sm-3">Total Transactions</dt>
+            <dd class="col-sm-9"><%= @wallet.transactions.count %></dd>
+          </dl>
+        </div>
+
+      <% end %>
 
   <div class="card shadow-sm mb-4">
     <div class="card-header bg-light-grey">

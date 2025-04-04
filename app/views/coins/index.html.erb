@@ -34,7 +34,8 @@
                   .first
 
               %>
-              <tr>
+
+              <tr onclick="window.location='<%= coin_path(coin) %>'" style="cursor: pointer;">
                 <td class="ps-4 maxwidth">
                   <div class="d-flex align-items-center">
                     <%= image_tag coin.logo_url, alt: coin.name, class: "rounded-circle me-3", style: "width: 32px; height: 32px;" %>
@@ -49,7 +50,7 @@
                     $<%= number_with_precision(latest_price&.price, precision: 2, delimiter: ',') %>
                   </span>
                 </td>
-               <td>
+              <td>
                 <% if latest_price %>
                   <span class="badge <%= latest_price.price_change_percentage_24h.positive? ? 'bg-success-light' : 'bg-danger-light' %>">
                     <%= number_to_percentage(latest_price.price_change_percentage_24h, precision: 2) %>
@@ -75,18 +76,15 @@
                 </td>
                 <td class="pe-4">
                   <div class="d-flex align-items-center gap-3">
-                    <%= link_to coin_path(coin), class: "btn btn-sm btn-outline-primary d-flex align-items-center gap-1 px-3 rounded-pill" do %>
+                    <%= link_to coin_path(coin), class: "btn btn-sm btn-nav d-flex align-items-center gap-1 px-3 rounded-pill" do %>
                       <i class="bi bi-eye"></i> <span>View</span>
-                    <% end %>
-
-                    <%= link_to new_transaction_path(coin_id: coin.id), class: "btn btn-sm btn-outline-success d-flex align-items-center gap-1 px-3 rounded-pill" do %>
-                      <i class="bi bi-arrow-up-circle"></i> <span>Trade</span>
                     <% end %>
                   </div>
                 </td>
 
 
               </tr>
+
             <% end %>
           </tbody>
         </table>

@@ -7,6 +7,13 @@
   </div>
 
   <% if @watchlists.blank? %>
+
+
+   <%= render 'shared/panel', locals: {
+          # title: "Watchlists",
+          panel: "box-4"
+        } do %>
+
     <div class="card shadow-sm text-center py-5">
       <div class="card-body">
         <i class="bi bi-star text-muted" style="font-size: 3rem;"></i>
@@ -17,6 +24,10 @@
         </button>
       </div>
     </div>
+
+        <% end %>
+
+
   <% else %>
     <div class="row">
       <% @watchlists.each do |watchlist| %>
