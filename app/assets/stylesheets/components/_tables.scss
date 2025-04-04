@@ -113,3 +113,69 @@ td.maxwidth {
   color: #ffffff;
   ;
 }
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background: white; /* or match your panel/card color */
+  z-index: 10;
+}
+
+
+.scroll-container {
+  max-height: 400px; /* adjust as needed */
+  overflow-y: auto;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-container {
+  max-height: 400px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+
+.scroll-container tr {
+  scroll-snap-align: start;
+}
+
+
+
+.scroll-container-chat {
+  max-height: 300px; /* Adjust based on your layout */
+  overflow-y: auto;
+  border: 0.5px solid rgb(102, 102, 102);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.scroll-container-chat::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-container-chat::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #cfcece15;
+  border: 0.1px solid rgb(102, 102, 102);
+
+}
+
+.stats-list {
+  font-size: 0.95rem;
+}
+
+.stat-row:hover {
+  background-color: #f8f9fa15; /* soft hover effect */
+}
