@@ -36,7 +36,6 @@
             <th>Type</th>
             <th>Address</th>
             <th>Holdings</th>
-            <th>Coins</th>
             <th>Transactions</th>
           </tr>
         </thead>
@@ -46,7 +45,6 @@
             <td><%= @wallet.wallet_type.capitalize %></td>
             <td><code><%= @wallet.wallet_address %></code></td>
             <td>$<%= number_with_precision(@wallet.total_value, precision: 2) %></td>
-            <td>Coins TODO</td>
             <td><%= @wallet.transactions.count %></td>
           </tr>
         </tbody>
