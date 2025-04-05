@@ -7,6 +7,9 @@ class WalletsController < ApplicationController
 
   def show
     authorize @wallet
+    # @transactions = policy_scope(Transaction)
+    @transactions = policy_scope(Transaction).where(wallet_id: @wallet) #_by_user(user: current_user) # TODO: Check with Ben if this is correct
+
   end
 
   def new

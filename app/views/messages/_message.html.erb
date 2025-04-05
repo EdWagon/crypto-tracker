@@ -1,8 +1,12 @@
 <!-- app/views/messages/_message.html.erb -->
-<div id="message-<%= message.id %>">
-  <small>
+<div
+    id="message-<%= message.id %>"
+    class="message <%= message.user === user ? 'sent' : 'received' %>"
+    data-controller="message"
+    data-message-user-id-value="<%= message.user.id %>" >
+  <small class="message-info">
     <strong><%= message.user.nickname %></strong>
     <i><%= message.created_at.strftime("%a %b %e at %l:%M %p") %></i>
   </small>
-  <p><%= message.content %></p>
+  <p class="message-content"><%= message.content %></p>
 </div>
