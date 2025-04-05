@@ -24,94 +24,38 @@
     </div>
   </div>
 
-      <%= render 'shared/panel', locals: {
-          title: "Wallet Details",
-          panel: "box-4"
-        } do %>
-         <div class="card-body">
-          <dl class="row mb-0">
-            <dt class="col-sm-3">Type</dt>
-            <dd class="col-sm-9"><%= @wallet.wallet_type.capitalize %></dd>
-
-            <dt class="col-sm-3">Address</dt>
-            <dd class="col-sm-9"><code><%= @wallet.wallet_address %></code></dd>
-
-            <dt class="col-sm-3">Total Holdings</dt>
-            <dd class="col-sm-9"><%= @wallet.wallets_coins.count %> coins</dd>
-
-            <dt class="col-sm-3">Total Transactions</dt>
-            <dd class="col-sm-9"><%= @wallet.transactions.count %></dd>
-          </dl>
-        </div>
-
-      <% end %>
-
-  <div class="card shadow-sm mb-4">
-    <div class="card-header bg-light-grey">
-      <h5 class="mb-0">Wallet Details</h5>
+  <%= render 'shared/panel', locals: {
+      title: "Wallet Details",
+      panel: "box-4"
+    } do %>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Address</th>
+            <th>Holdings</th>
+            <th>Coins</th>
+            <th>Transactions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="compact-transactions m-2 py-6 tx-row p-3 rounded-5 mb-1">
+            <td><%= @wallet.name %></td>
+            <td><%= @wallet.wallet_type.capitalize %></td>
+            <td><code><%= @wallet.wallet_address %></code></td>
+            <td>$<%= number_with_precision(@wallet.total_value, precision: 2) %></td>
+            <td>Coins TODO</td>
+            <td><%= @wallet.transactions.count %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="card-body">
-      <dl class="row mb-0">
-        <dt class="col-sm-3">Type</dt>
-        <dd class="col-sm-9"><%= @wallet.wallet_type.capitalize %></dd>
+  <% end %>
 
-        <dt class="col-sm-3">Address</dt>
-        <dd class="col-sm-9"><code><%= @wallet.wallet_address %></code></dd>
+  <%= render 'transactions/transactions_index', transactions: @transactions %>
 
-        <dt class="col-sm-3">Total Holdings</dt>
-        <dd class="col-sm-9"><%= @wallet.wallets_coins.count %> coins</dd>
-
-        <dt class="col-sm-3">Total Transactions</dt>
-        <dd class="col-sm-9"><%= @wallet.transactions.count %></dd>
-      </dl>
-    </div>
-  </div>
-
-  <div class="card shadow-sm">
-    <div class="card-header bg-light-grey">
-      <h5 class="mb-0">Transactions</h5>
-    </div>
-    <div class="card-body">
-      <% if @wallet.transactions.any? %>
-        <div class="table-responsive">
-          <table class="table table-sm">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Coin</th>
-                <th>Type</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @wallet.transactions.order(date: :desc).each do |tx| %>
-                <tr>
-                  <td><%= tx.date.to_formatted_s(:short) %></td>
-                  <td>
-                    <%= image_tag tx.coin.logo_url, class: "img-thumbnail rounded-circle me-1", style: "width: 20px; height: 20px;" %>
-                    <%= tx.coin.symbol %>
-                  </td>
-                  <td>
-                    <span class="badge bg-<%= tx.transaction_type == 'buy' ? 'success' : 'danger' %>">
-                      <%= tx.transaction_type.capitalize %>
-                    </span>
-                  </td>
-                  <td><%= tx.quantity %></td>
-                  <td>$<%= number_with_precision(tx.price_per_coin, precision: 2) %></td>
-                  <td>$<%= number_with_precision(tx.total_value, precision: 2) %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      <% else %>
-        <div class="alert alert-info mb-0">No transactions yet</div>
-      <% end %>
-    </div>
-  </div>
-</div>
 
 <!-- Edit Wallet Modal -->
 <%= render 'edit_modal', wallet: @wallet %>

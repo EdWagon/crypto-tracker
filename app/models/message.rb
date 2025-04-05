@@ -10,6 +10,6 @@ class Message < ApplicationRecord
     broadcast_append_to "coin_#{coin.id}_messages",
       target: "messages",
       partial: "messages/message",
-      locals: { message: self }
+      locals: { message: self, user: user }
   end
 end

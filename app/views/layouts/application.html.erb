@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
- <body data-controller="search">
+ <body data-controller="search" data-current-user-id="<%= current_user ? current_user.id : "" %>">
     <div class="container">
       <div class="background-container">
         <div class="background-shape-topleft background-green">

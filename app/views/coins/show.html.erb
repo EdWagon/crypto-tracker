@@ -232,31 +232,32 @@
         } do %>
           <%= turbo_stream_from "coin_#{@coin.id}_messages" %>
             <!-- Chat Messages Scrollable -->
-            <div id="messages" class="messages scroll-container-chat">
-              <% @coin.messages.each do |message| %>
-                <%= render partial: "messages/message", locals: { message: message } %>
-              <% end %>
-            </div>
+            <div class="chat">
+              <div id="messages" class="messages scroll-container-chat">
+                <% @coin.messages.each do |message| %>
+                  <%= render partial: "messages/message", locals: { message: message, user: current_user } %>
+                <% end %>
+              </div>
 
-            <!-- Chat Form -->
-            <div class="chat-form mt-3">
-              <%= simple_form_for [@coin, @message],
-                    html: {
-                      class: "d-flex",
-                      data: {
-                        controller: "reset-form",
-                        action: "turbo:submit-end->reset-form#reset"
-                      }
-                    } do |f| %>
-                <%= f.input :content,
-                  label: false,
-                  placeholder: "Your Message",
-                  wrapper_html: { class: "flex-grow-1 me-2" }
-                %>
-                <%= f.submit "Send", class: "btn btn-highlight mb-3" %>
-              <% end %>
+              <!-- Chat Form -->
+              <div class="chat-form mt-3">
+                <%= simple_form_for [@coin, @message],
+                      html: {
+                        class: "d-flex",
+                        data: {
+                          controller: "reset-form",
+                          action: "turbo:submit-end->reset-form#reset"
+                        }
+                      } do |f| %>
+                  <%= f.input :content,
+                    label: false,
+                    placeholder: "Your Message",
+                    wrapper_html: { class: "flex-grow-1 me-2" }
+                  %>
+                  <%= f.submit "Send", class: "btn btn-highlight mb-3" %>
+                <% end %>
+              </div>
             </div>
-
       <% end %>
     </div>
   </div>
